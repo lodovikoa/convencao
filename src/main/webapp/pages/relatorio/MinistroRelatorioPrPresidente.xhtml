@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{ministroRelatorioPrPresidente.inicializar}" type="preRenderView" />
+		</f:metadata>
+	
+		<h1 class="aw-page-title">Relatório de Ministros Pastores Presidentes</h1>	
+		
+		<h:form id="frm">
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+							
+			<p:toolbar style="margin-bottom: 30px" >
+				<p:toolbarGroup align="left">
+					<p:commandButton value="Imprimir" 
+							action="#{ministroRelatorioPrPresidente.imprimir}" 
+							update="@form"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+	
+			<div class="ui-fluid">
+			
+				<div class="cv-linha-horizontal" >
+					<div class="cv-linha-horizontal-texto">Filtro</div> 
+				</div>
+			
+				<p:panelGrid columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-1, ui-grid-col-3" >
+					<p:outputLabel value="Região:" for="dsRegiao" />
+					<p:selectOneMenu id="dsRegiao" filter="true" value="#{ministroRelatorioPrPresidente.filtro.regiaoItensFiltro}" >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma região"/>
+						<f:selectItems value="#{ministroRelatorioPrPresidente.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
+					</p:selectOneMenu>
+						
+					<p:outputLabel value="Situação:" for="cdSituacao" />
+					<p:outputPanel>
+						<p:selectOneRadio id="cdSituacao" value="#{ministroRelatorioPrPresidente.filtro.cdSituacaoFiltro}">
+				            <f:selectItem itemLabel="Ministros ATIVOS" itemValue="1"  />
+				            <f:selectItem itemLabel="Ministros INATIVOS" itemValue="2" />
+				        </p:selectOneRadio>
+					</p:outputPanel>
+										
+				</p:panelGrid>
+				
+				<div class="cv-linha-horizontal" />
+			</div>
+
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

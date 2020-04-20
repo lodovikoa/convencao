@@ -1,0 +1,239 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{lancamentoEntradaIgrejaListBean.inicializar}" type="preRenderView" />
+			
+			<o:viewParam name="param_regiaoItens_sqRegiao"  value="#{lancamentoEntradaIgrejaListBean.param_regiaoItens_sqRegiao}"/> 
+			<o:viewParam name="param_igrejaItensFiltro_sqIgreja"  value="#{lancamentoEntradaIgrejaListBean.param_igrejaItensFiltro_sqIgreja}"/> 
+			<o:viewParam name="param_departamentoItensFiltro_sqDepartamento"  value="#{lancamentoEntradaIgrejaListBean.param_departamentoItensFiltro_sqDepartamento}"/> 
+			<o:viewParam name="param_cdRg"  value="#{lancamentoEntradaIgrejaListBean.param_cdRg}"/>
+			<o:viewParam name="param_nmMinistro"  value="#{lancamentoEntradaIgrejaListBean.param_nmMinistro}"/>  
+			<o:viewParam name="param_cargo_sqCargo"  value="#{lancamentoEntradaIgrejaListBean.param_cargo_sqCargo}"/> 
+			<o:viewParam name="param_cdNsu" value="#{lancamentoEntradaIgrejaListBean.param_cdNsu}" />
+			<o:viewParam name="param_dtInicio1"  value="#{lancamentoEntradaIgrejaListBean.param_dtInicio1}"/> 
+			<o:viewParam name="param_dtFim1"  value="#{lancamentoEntradaIgrejaListBean.param_dtFim1}"/> 
+			<o:viewParam name="param_dtInicio2"  value="#{lancamentoEntradaIgrejaListBean.param_dtInicio2}"/> 
+			<o:viewParam name="param_dtFim2"  value="#{lancamentoEntradaIgrejaListBean.param_dtFim2}"/> 
+			<o:viewParam name="param_dsCidade"  value="#{lancamentoEntradaIgrejaListBean.param_dsCidade}"/> 
+			<o:viewParam name="param_estado_sqEstado"  value="#{lancamentoEntradaIgrejaListBean.param_estado_sqEstado}"/> 
+			<o:viewParam name="param_cdSituacao"  value="#{lancamentoEntradaIgrejaListBean.param_cdSituacao}"/> 
+			<o:viewParam name="param_flJubilado"  value="#{lancamentoEntradaIgrejaListBean.param_flJubilado}"/> 
+	
+			<o:viewParam name="param_controle"  value="#{lancamentoEntradaIgrejaListBean.param_controle}"/>
+		
+		</f:metadata>
+
+		<h:form id="frm">
+			<h1 class="aw-page-title">Financeiro Entradas</h1>
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+		
+			<p:toolbar styleClass="cv-toolbar-topo">		
+				<p:toolbarGroup align="right">					
+					<p:link styleClass="cv-botao" 
+							style="margin-left:30px;"
+							value="Incluir Lançamento de Igreja"
+							outcome="/pages/financeiro/entrada/LancamentoEntradaIgrejaCreate" >
+					
+						<f:param name="param_regiaoItens_sqRegiao"  value="#{lancamentoEntradaIgrejaListBean.param_regiaoItens_sqRegiao}"/> 
+						<f:param name="param_igrejaItensFiltro_sqIgreja"  value="#{lancamentoEntradaIgrejaListBean.param_igrejaItensFiltro_sqIgreja}"/> 
+						<f:param name="param_departamentoItensFiltro_sqDepartamento"  value="#{lancamentoEntradaIgrejaListBean.param_departamentoItensFiltro_sqDepartamento}"/> 
+						<f:param name="param_cdRg"  value="#{lancamentoEntradaIgrejaListBean.param_cdRg}"/>
+						<f:param name="param_nmMinistro"  value="#{lancamentoEntradaIgrejaListBean.param_nmMinistro}"/>  
+						<f:param name="param_cargo_sqCargo"  value="#{lancamentoEntradaIgrejaListBean.param_cargo_sqCargo}"/> 
+						<f:param name="param_cdNsu"  value="#{lancamentoEntradaIgrejaListBean.param_cdNsu}"/> 
+						<f:param name="param_dtInicio1"  value="#{lancamentoEntradaIgrejaListBean.param_dtInicio1}"/> 
+						<f:param name="param_dtFim1"  value="#{lancamentoEntradaIgrejaListBean.param_dtFim1}"/> 
+						<f:param name="param_dtInicio2"  value="#{lancamentoEntradaIgrejaListBean.param_dtInicio2}"/> 
+						<f:param name="param_dtFim2"  value="#{lancamentoEntradaIgrejaListBean.param_dtFim2}"/> 
+						<f:param name="param_dsCidade"  value="#{lancamentoEntradaIgrejaListBean.param_dsCidade}"/> 
+						<f:param name="param_estado_sqEstado"  value="#{lancamentoEntradaIgrejaListBean.param_estado_sqEstado}"/> 
+						<f:param name="param_cdSituacao"  value="#{lancamentoEntradaIgrejaListBean.param_cdSituacao}"/> 
+						<f:param name="param_flJubilado"  value="#{lancamentoEntradaIgrejaListBean.param_flJubilado}"/> 
+				
+						<f:param name="param_controle"  value="#{lancamentoEntradaIgrejaListBean.param_controle}"/>
+							
+					</p:link>
+				
+					<p:link styleClass="cv-botao" 
+								value="Listar Pessoas"
+								outcome="/pages/financeiro/entrada/LancamentoEntradaPessoasList" >
+								
+						<f:param name="param_regiaoItens_sqRegiao"  value="#{lancamentoEntradaIgrejaListBean.param_regiaoItens_sqRegiao}"/> 
+						<f:param name="param_igrejaItensFiltro_sqIgreja"  value="#{lancamentoEntradaIgrejaListBean.param_igrejaItensFiltro_sqIgreja}"/> 
+						<f:param name="param_departamentoItensFiltro_sqDepartamento"  value="#{lancamentoEntradaIgrejaListBean.param_departamentoItensFiltro_sqDepartamento}"/> 
+						<f:param name="param_cdRg"  value="#{lancamentoEntradaIgrejaListBean.param_cdRg}"/>
+						<f:param name="param_nmMinistro"  value="#{lancamentoEntradaIgrejaListBean.param_nmMinistro}"/>  
+						<f:param name="param_cargo_sqCargo"  value="#{lancamentoEntradaIgrejaListBean.param_cargo_sqCargo}"/> 
+						<f:param name="param_cdNsu"  value="#{lancamentoEntradaIgrejaListBean.param_cdNsu}"/> 
+						<f:param name="param_dtInicio1"  value="#{lancamentoEntradaIgrejaListBean.param_dtInicio1}"/> 
+						<f:param name="param_dtFim1"  value="#{lancamentoEntradaIgrejaListBean.param_dtFim1}"/> 
+						<f:param name="param_dtInicio2"  value="#{lancamentoEntradaIgrejaListBean.param_dtInicio2}"/> 
+						<f:param name="param_dtFim2"  value="#{lancamentoEntradaIgrejaListBean.param_dtFim2}"/> 
+						<f:param name="param_dsCidade"  value="#{lancamentoEntradaIgrejaListBean.param_dsCidade}"/> 
+						<f:param name="param_estado_sqEstado"  value="#{lancamentoEntradaIgrejaListBean.param_estado_sqEstado}"/> 
+						<f:param name="param_cdSituacao"  value="#{lancamentoEntradaIgrejaListBean.param_cdSituacao}"/> 
+						<f:param name="param_flJubilado"  value="#{lancamentoEntradaIgrejaListBean.param_flJubilado}"/> 
+				
+						<f:param name="param_controle"  value="#{lancamentoEntradaIgrejaListBean.param_controle}"/>		
+						
+					</p:link>
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+			
+				<h:panelGroup id="pnlgrp-cadastro" layout="block">
+					<p:focus context="pnlgrp-cadastro"/>
+					<div class="cv-cadastro">
+					
+						<p:dataTable  
+								var="item" style="margin-top:20px;"
+								value="#{lancamentoEntradaIgrejaListBean.lancamentosEntradaIgrejaList}"
+								id="dtList"
+								emptyMessage="Nenhum registro encontrado" >
+								
+							<p:column headerText="Igreja" style="text-align: left;">
+								<!-- Botão consultar registro de entrada -->
+								<p:commandLink 
+										action="#{lancamentoEntradaIgrejaListBean.buscarEntrada}"
+										styleClass="cv-link-estilo"
+										value="#{item.dsIgreja}"
+										title="Consultar registro de entrada"
+									 	oncomplete="PF('widgEntradaConsultarDialog').show();"
+									 	process="@this"
+									 	update=":frm_entradaConsultar:entradaConsultarDialog" >
+									 	
+									<f:setPropertyActionListener value="#{item}" target="#{lancamentoEntradaIgrejaListBean.selecionado}" />
+								</p:commandLink>
+							</p:column>
+							
+							<p:column headerText="Conta Contábil" style="text-align: left;  ">
+								<h:outputText value="#{item.dsConta}"/>
+							</p:column>
+					
+							<p:column headerText="Data Entrada" style="text-align: left;  ">
+								<h:outputText value="#{item.dtRegistro}">
+									<f:converter converterId="converter_localdatetime"/>
+								</h:outputText>
+							</p:column>
+							
+							<p:column headerText="Recibo" style="text-align: left;  ">
+								<h:outputText value="#{item.cdNsu}"/>
+							</p:column>
+							
+							<p:column headerText="Valor" style="text-align: right;  ">
+								<h:outputText value="#{item.vlPagamento}" styleClass="moeda">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column headerText="Usuário" style="text-align: left;  ">
+								<h:outputText value="#{item.auditoriaUsuario}"/>
+							</p:column>
+							
+						</p:dataTable>
+						
+						<p:outputPanel style="margin-top:20px;">
+							<h:outputText style="color: blue; font-weight: bolder;" value="Exibe somente pagamentos efetuados para Igrejas, cadastrado pelo usuário logado na data atual!" />
+						</p:outputPanel>
+					</div>
+				</h:panelGroup>
+			</div>
+		</h:form>
+		
+		<!-- Diálogo para consultar registro de entrada -->
+		<h:form id="frm_entradaConsultar">
+			<p:dialog
+					widgetVar="widgEntradaConsultarDialog"
+					id="entradaConsultarDialog"
+					header="Financeiro - Entradas - Consultar"
+					resizable="false"
+					responsive="true"
+					width="50%" >
+				<h:panelGroup id="entradaConsultarPanel" layout="block" styleClass="ui-fluid">
+					
+					<p:panelGrid id="entradaConsultarGrid" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-3, ui-grid-col-9">
+						<p:outputLabel value="Recibo:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="#{lancamentoEntradaIgrejaListBean.lancamentoEntrada.recibo.cdNsu}" />
+						
+						<p:outputLabel value="Data pagamento:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="#{lancamentoEntradaIgrejaListBean.lancamentoEntrada.dtPagamento}" >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+						
+						<p:outputLabel value="Contribuinte:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="#{lancamentoEntradaIgrejaListBean.lancamentoEntrada.dsContribuinte}" />
+						
+						<p:outputLabel value="Cta contábil:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="#{lancamentoEntradaIgrejaListBean.lancamentoEntrada.planoConta.dsConta}" />
+						
+						<p:outputLabel value="Valor:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="R$ #{lancamentoEntradaIgrejaListBean.lancamentoEntrada.vlPagamento}" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+						
+						<p:outputPanel style="margin-top:30px;">
+							<p:outputLabel value="Histórico:" styleClass="cv-dialogo-exibe-label" />
+						</p:outputPanel>
+						<p:inputTextarea value="#{lancamentoEntradaIgrejaListBean.lancamentoEntrada.recibo.dsHistorico}" rows="4" readonly="true" autoResize="true" />
+					
+						<p:outputPanel style="margin-top:50px;">
+							<p:outputLabel value="Forma recebimento:" styleClass="cv-dialogo-exibe-label" />
+						</p:outputPanel>
+						
+						
+							<p:dataTable value="#{lancamentoEntradaIgrejaListBean.formaRecebimentoPorReciboCpl}"
+									var="itemRec"
+									id="dtListFormaRecebimento" >
+									
+								<p:column style="text-align:left; width:100px;">
+									<p:outputLabel value="#{itemRec.dsFormaPagamento}" />
+									
+									<f:facet name="footer">
+										<p:outputLabel style="font-weight: bold;" value="Total"  />
+									</f:facet>
+								</p:column>
+								
+								<p:column style="text-align:right; width:150px;">
+									<p:outputLabel value="#{itemRec.vlRecebido}" styleClass="moeda" >
+										<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+									</p:outputLabel>
+									
+									<f:facet name="footer" >
+										<p:outputLabel style="font-weight: bold;" value="R$ "/>
+										<p:outputLabel style="font-weight: bold; moeda" value="#{lancamentoEntradaIgrejaListBean.vlTotal}"  >
+											<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+										</p:outputLabel>
+									</f:facet>
+								</p:column>
+								
+								<p:column style="text-align:left;">
+									<p:outputLabel rendered="true" value="#{itemRec.dsComplemento}" />
+								</p:column>
+								
+							</p:dataTable>			
+					</p:panelGrid>
+					
+					<p:separator />
+		
+					<p:commandButton value="Imprimir recibo" 
+						   	id="botaoImprimirRecibo" 
+						   	style="width: auto; margin-bottom:30px;"
+						   	action="#{lancamentoEntradaIgrejaListBean.imprimirRecibo}" />
+					
+					<p:button value="Fechar" 
+							onclick="PF('widgEntradaConsultarDialog').hide(); return false;"
+							style="width: auto; margin-left:50px;"/>
+							
+				</h:panelGroup>
+			</p:dialog>	
+		</h:form>
+	</ui:define>
+</ui:composition>

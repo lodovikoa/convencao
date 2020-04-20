@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	
+
+<h:head>
+	<f:facet name="first">
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		
+		<h:outputScript target="body" library="primefaces" name="jquery/jquery.js" />
+		<h:outputScript target="body" library="convencao" name="javascripts/app.js" />
+		<h:outputScript target="body" library="convencao" name="javascripts/jquery.maskMoney.js" />
+	</f:facet>
+
+	<title>Convenção</title>
+	
+	<h:outputStylesheet library="convencao" name="styles/layout.css" />
+	<h:outputStylesheet library="convencao" name="styles/components.css" />
+	<h:outputStylesheet library="convencao" name="styles/custom.css" />
+
+</h:head>
+
+<h:body>
+	<h:form id="layout-principal">
+		<p:ajaxStatus id="ajax-principal" styleClass="ajax-status" onsuccess="configurarMoeda" >
+			<f:facet name="start">
+				<h:graphicImage library="convencao" name="images/loading.gif"/>			
+			</f:facet>
+			
+			<f:facet name="complete">
+				<h:outputText value=""/>
+			</f:facet>
+		</p:ajaxStatus>
+		
+		<header class="aw-topbar">
+			<h:link styleClass="aw-topbar-link" outcome="/Home">
+				<h:graphicImage library="convencao" name="images/logo01.png" />
+			</h:link>
+			
+			<a href="#" class="aw-toggle js-toggle"><i class="fa fa-bars"></i></a>
+			<div class="aw-toggle">
+				<p:outputLabel value="#{seguranca.nomeUsuario}" style="font-weight: bold;" />
+			</div>
+			
+			
+		</header>
+	</h:form>
+	<aside class="aw-sidebar js-sidebar">
+		<ui:include src="MenuLateralEsquerda.xhtml"></ui:include>
+	</aside>
+	
+	<section class="aw-content js-content">
+		<ui:insert name="content" />
+	</section>
+
+</h:body>
+
+</html>

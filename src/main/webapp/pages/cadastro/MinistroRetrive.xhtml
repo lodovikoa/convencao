@@ -1,0 +1,460 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{ministroRetriveBean.inicializar}" type="preRenderView" />
+			<o:viewParam name="ministro" value="#{ministroRetriveBean.ministro}" />
+			
+			<o:viewParam name="param_regiaoItensFiltro_sqRegiao" value="#{ministroRetriveBean.param_regiaoItensFiltro_sqRegiao}" />
+			<o:viewParam name="param_igrejaFiltro_sqIgreja"  value="#{ministroRetriveBean.param_igrejaFiltro_sqIgreja}" />	
+			<o:viewParam name="param_cdCodigoFiltro"  value="#{ministroRetriveBean.param_cdCodigoFiltro}" />
+			<o:viewParam name="param_nmMinistro"  value="#{ministroRetriveBean.param_nmMinistro}" />
+			<o:viewParam name="param_dsCpf" value="#{ministroRetriveBean.param_dsCpf}" />
+			<o:viewParam name="param_departamentoFiltro_sqDepartamento"  value="#{ministroRetriveBean.param_departamentoFiltro_sqDepartamento}" />
+			<o:viewParam name="param_cargoFiltro_sqCargo"  value="#{ministroRetriveBean.param_cargoFiltro_sqCargo}" />
+			<o:viewParam name="param_dsCidadeFiltro"  value="#{ministroRetriveBean.param_dsCidadeFiltro}" />
+			<o:viewParam name="param_dtIngressoInicioFiltro"  value="#{ministroRetriveBean.param_dtIngressoInicioFiltro}" />
+			<o:viewParam name="param_dtIngressoFimFiltro"  value="#{ministroRetriveBean.param_dtIngressoFimFiltro}" />
+			<o:viewParam name="param_cdSituacaoFiltro"  value="#{ministroRetriveBean.param_cdSituacaoFiltro}" />
+			<o:viewParam name="param_flJubiladoFiltro"  value="#{ministroRetriveBean.param_flJubiladoFiltro}" />
+			<o:viewParam name="param_controle"  value="#{ministroRetriveBean.param_controle}" />
+			
+			
+		</f:metadata>
+
+		<h:form id="frm">
+			<h1 class="aw-page-title">Exibir Ministro</h1>
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+		
+			<p:toolbar styleClass="cv-toolbar-topo" id="toolbar_focus">		
+				<p:toolbarGroup align="right">
+					<p:link styleClass="cv-botao" 
+								value="Pesquisar Ministro"
+								outcome="/pages/cadastro/MinistroPesquisa" >
+				
+						<f:param name="param_regiaoItensFiltro_sqRegiao" value="#{ministroRetriveBean.param_regiaoItensFiltro_sqRegiao}"/> 
+						<f:param name="param_igrejaFiltro_sqIgreja"  value="#{ministroRetriveBean.param_igrejaFiltro_sqIgreja}"/>
+						<f:param name="param_cdCodigoFiltro"  value="#{ministroRetriveBean.param_cdCodigoFiltro}"/>
+						<f:param name="param_nmMinistro"  value="#{ministroRetriveBean.param_nmMinistro}"/>
+						<f:param name="param_dsCpf" value="#{ministroRetriveBean.param_dsCpf}" />
+						<f:param name="param_departamentoFiltro_sqDepartamento"  value="#{ministroRetriveBean.param_departamentoFiltro_sqDepartamento}"/>
+						<f:param name="param_cargoFiltro_sqCargo"  value="#{ministroRetriveBean.param_cargoFiltro_sqCargo}"/>
+						<f:param name="param_dsCidadeFiltro"  value="#{ministroRetriveBean.param_dsCidadeFiltro}"/>
+						<f:param name="param_dtIngressoInicioFiltro"  value="#{ministroRetriveBean.param_dtIngressoInicioFiltro}"/>
+						<f:param name="param_dtIngressoFimFiltro"  value="#{ministroRetriveBean.param_dtIngressoFimFiltro}"/>
+						<f:param name="param_cdSituacaoFiltro"  value="#{ministroRetriveBean.param_cdSituacaoFiltro}"/>
+						<f:param name="param_flJubiladoFiltro"  value="#{ministroRetriveBean.param_flJubiladoFiltro}"/>
+						<f:param name="param_controle"  value="#{ministroRetriveBean.param_controle}"/>
+					</p:link>
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+			
+				<h:panelGroup id="pnlgrp-cadastro" layout="block">
+					<p:focus context="pnlgrp-cadastro"/>
+					<div class="cv-cadastro">
+					
+						<div class="cv-linha-horizontal" >
+							<div class="cv-linha-horizontal-texto">Convenção</div> 
+						</div>
+						
+						<p:panelGrid columns="6"
+								layout="grid"
+								id="panelGrid1" 
+								columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-4">
+							
+							<p:outputLabel value="Região:" />
+							<h:inputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.igreja.regiao.dsRegiao}" readonly="true" style="border:0;" />
+							
+							<p:outputLabel value="Departamento:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.departamento.dsReduzido}"/>
+							
+							<p:outputLabel value="CADB:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.cdCgadb}"/>
+							
+							<p:outputLabel value="Data Ingresso:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dtIngresso}">
+								<f:converter converterId="converter_localdate"/>
+							</h:outputText>
+							
+							<p:outputLabel value="CM Validade:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dtCmvalidade}">
+								<f:converter converterId="converter_localdate"/>
+							</h:outputText>
+							
+							<p:outputLabel value="CM Atualizada em:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dtCmatualizada}">
+								<f:converter converterId="converter_localdate"/>
+							</h:outputText>
+							
+						</p:panelGrid>
+						
+						<div class="cv-linha-horizontal" >
+							<div class="cv-linha-horizontal-texto">Ministro</div> 
+						</div>
+						
+						
+						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-10, ui-grid-col-2" >
+						
+							<p:panelGrid columns="1" layout="grid" styleClass="panelgrid-noborder" >
+							
+								<p:panelGrid columns="2"
+										layout="grid"
+										id="panelGrid2" 
+										columnClasses="ui-grid-col-2, ui-grid-col-10">
+									
+									<p:outputLabel value="Nome ministro:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.nmNome}" rendered="#{ministroRetriveBean.ministro.flAtivo}"/>
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.nmNome} (Inativo)" style="color:red" rendered="#{ministroRetriveBean.ministro.flInativo}"/>
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.nmNome}" rendered="#{!ministroRetriveBean.ministro.flMinistro}"/>
+								</p:panelGrid>
+								
+								<p:panelGrid columns="4"
+										layout="grid"
+										id="panelGrid4" 
+										columnClasses="ui-grid-col-2, ui-grid-col-3, ui-grid-col-2, ui-grid-col-2">
+									
+									<p:outputLabel value="Rg:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.cdCodigo}"/>
+									
+									<p:outputLabel value="Jubilado:" />
+									<h:outputText styleClass="cv-texto-negrito" value="Sim" style="color:red" rendered="#{ministroRetriveBean.ministro.flJubilado}"/>
+									<h:outputText styleClass="cv-texto-negrito" value="Não" rendered="#{!ministroRetriveBean.ministro.flJubilado}"/>
+									
+									<p:outputLabel value="Cargo:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.cargo.dsCargo}"/>
+									
+									<p:outputLabel value="Data batismo:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dtBatismo}">
+										<f:converter converterId="converter_localdate"/>
+									</h:outputText>
+									
+									<p:outputLabel value="Data ordenação:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dtOrdenado}">
+										<f:converter converterId="converter_localdate"/>
+									</h:outputText>
+									
+									<p:outputLabel value="Estado civil:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.estadoCivel.dsEstadoCivel}"/>
+									
+									<p:outputLabel value="Conjuge:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.conjuge.nmNome}"/>
+									
+									<p:outputLabel value="Data nasc. conjuge:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.conjuge.dtNascimento}">
+										<f:converter converterId="converter_localdate"/>
+									</h:outputText>
+									
+									<p:outputLabel value="Pai:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.nmPai}"/>
+									
+									<p:outputLabel value="Mãe:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.nmMae}"/>
+									
+									<p:outputLabel value="Identidade:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dsIdentidade}"/>
+									
+									<p:outputLabel value="CPF:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dsCpf}" >
+										<f:converter converterId="converter_cpf"/>
+									</h:outputText>
+									
+									<p:outputLabel value="Data nascimento:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dtNascimento}">
+										<f:converter converterId="converter_localdate"/>
+									</h:outputText>
+									
+									<p:outputLabel value="Local nascimento:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dsLocalNascimento}"/>
+									
+									<p:outputLabel value="Escolaridade:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.escolaridade.dsDescricao}"/>
+									
+									<p:outputLabel value="Profissão:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.profissao.dsDescricao}"/>
+									
+									<p:outputLabel value="Endereço:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dsEndereco}"/>
+									
+									<p:outputLabel value="Bairro:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dsBairro}"/>
+									
+									<p:outputLabel value="Cidade/UF:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dsCidade}/#{ministroRetriveBean.ministro.estado.dsUf}"/>
+									
+									<p:outputLabel value="CEP:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dsCep}" >
+										<f:converter converterId="converter_cep"/>
+									</h:outputText>
+									
+									<p:outputLabel value="Telefone 1:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dsTelefone01}" >
+										<f:converter converterId="converter_telefone"/>
+									</h:outputText>
+									
+									<p:outputLabel value="Telefone 2:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dsTelefone02}" >
+										<f:converter converterId="converter_telefone"/>
+									</h:outputText>
+									
+									<p:outputLabel value="Telefone 3:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dsTelefone03}" >
+										<f:converter converterId="converter_telefone"/>
+									</h:outputText>
+									
+									<p:outputLabel value="Email:" />
+									<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.dsEmail}"/>
+								</p:panelGrid>
+								
+							</p:panelGrid>
+							
+							<p:panelGrid columns="1" layout="grid" >
+															
+								<p:graphicImage value="/ministro-foto?nome=#{ministroRetriveBean.ministro.dsFoto}" rendered="#{ministroRetriveBean.ministro.dsFoto ne null}" style="max-width:150px; width: auto; display: block; margin-left: auto; margin-right: auto; border: 1px solid black;  margin-top: 5px;margin-bottom: 5px;" />
+
+							</p:panelGrid>	
+						
+						</p:panelGrid>
+						
+						<div class="cv-linha-horizontal" >
+							<div class="cv-linha-horizontal-texto">Igreja sede</div> 
+						</div>
+						
+						<p:panelGrid columns="4"
+								layout="grid"
+								id="panelGrid5" 
+								columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-2">
+								
+							<p:outputLabel value="Igreja:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.igreja.dsIgreja}"/>
+							
+							<p:outputLabel value="Membro Igr. sede:" />
+							<h:outputText styleClass="cv-texto-negrito" value="Sim" rendered="#{ministroRetriveBean.ministro.flIgrejasede}"/>
+							<h:outputText styleClass="cv-texto-negrito" value="Não" rendered="#{!ministroRetriveBean.ministro.flIgrejasede}"/>
+							
+							<p:outputLabel value="CNPJ:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.igreja.dsCnpj}"/>
+							
+							<p:outputLabel value="Aniversário igreja:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.igreja.dtAniversario}">
+								<f:converter converterId="converter_localdate"/>
+							</h:outputText>
+								
+							<p:outputLabel value="Endereço:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.igreja.dsEndereco}"/>
+								
+							<p:outputLabel value="Bairro:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.igreja.dsBairro}"/>
+							
+							<p:outputLabel value="Cidade/UF:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.igreja.dsCidade}/#{ministroRetriveBean.ministro.igreja.estado.dsUf}"/>
+							
+							<p:outputLabel value="CEP:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.igreja.dsCep}">
+								<f:converter converterId="converter_cep"/>
+							</h:outputText>
+							
+							<p:outputLabel value="Pastor presidente:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{ministroRetriveBean.ministro.igreja.ministro.nmNome}"/>
+						</p:panelGrid>
+						
+						<div class="cv-linha-horizontal" >
+							<div class="cv-linha-horizontal-texto">Histórico</div> 
+						</div>
+						
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12"  >							
+							<p:dataTable value="#{ministroRetriveBean.ministro.ministroParecer}"
+									var="itemParecer"
+									style="margin-top:20px; margin-bottom:20px"
+									id="dtListParecer"
+									paginator="true"
+									rows="5"
+									rowsPerPageTemplate="5,10,20"
+									emptyMessage="Não há registros para exibir"
+									multiViewState="true" 
+									paginatorPosition="bottom" >
+									
+								<p:column headerText="Data" style="text-align:left; width:60px;" sortBy="#{itemParecer.dtRegistro}" >
+									<p:outputLabel value="#{itemParecer.dtRegistro}">
+										<f:converter converterId="converter_localdate"/>
+									</p:outputLabel>
+								</p:column>
+								
+								<p:column headerText="Responsável" style="text-align:left; width:100px;" sortBy="#{itemParecer.dsResponsavel}" >
+									<p:outputLabel value="#{itemParecer.dsResponsavel}"/>
+								</p:column>
+								
+								<p:column headerText="Parecer" style="text-align:left;"  >
+									<p:outputLabel value="#{itemParecer.dsParecer}" escape="false" />
+								</p:column>
+								
+							</p:dataTable>
+						</p:panelGrid>
+						
+						<div class="cv-linha-horizontal"  >
+							<div class="cv-linha-horizontal-texto" >Anexos</div> 
+						</div>
+						
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" style="border: black solid 1px !important;" >
+
+							<p:dataTable value="#{ministroRetriveBean.ministro.ministroAnexo}"
+									var="itemAnexo"
+									id="dtListAnexo"
+									style="margin-top:20px; margin-bottom:20px"
+									emptyMessage=""
+									scrollable="false"
+									styleClass="noHeader" >
+									
+								<p:column style="text-align: center; width: 60px;" >
+									<p:outputLabel value="#{itemAnexo.dtAnexoRegistro}">
+										<f:converter converterId="converter_localdate"/>
+									</p:outputLabel>
+								</p:column>
+								
+								<p:column style="text-align: center; width: 100px;" >
+									<p:outputLabel value="#{itemAnexo.dsAnexoResponsavel}"/>
+								</p:column>
+								
+								<p:column>
+									<p:commandLink styleClass="cv-link-estilo" 
+													value="#{itemAnexo.dsAnexoOriginal}" 
+													actionListener="#{ministroRetriveBean.downloadArquivo(itemAnexo)}"
+													ajax="false" 
+													title="Download" >
+													
+										<p:fileDownload value="#{ministroRetriveBean.streamedContent}"  />
+									</p:commandLink>
+								</p:column>
+							
+							</p:dataTable>
+									
+						</p:panelGrid>
+						
+						<p />
+						
+						<div class="cv-linha-horizontal" >
+							<div class="cv-linha-horizontal-texto">Situação financeira</div> 
+						</div>
+							
+							<p:panelGrid columns="1" layout="grid" id="panelGrid7" columnClasses="ui-grid-col-12"  >
+								
+			 					<p:dataTable value="#{ministroRetriveBean.regLancamentosCpl}"
+											var="item"
+											style="margin-top:10px"
+											id="dtList"
+											paginator="true"
+											rows="60"
+											rowsPerPageTemplate="60,70,80"
+											emptyMessage="Não há registros para exibir"
+											multiViewState="true" >
+									
+									<p:column headerText="Vencimento" style="text-align:center; width:90px;" sortBy="#{item.dtVencimento}" >
+										<p:outputLabel style="#{item.corLancamentoRepetido}" value="#{item.dtVencimento}" >
+											<f:converter converterId="converter_localdate"/>
+										</p:outputLabel>
+									</p:column>
+									
+									<p:column headerText="Tipo Lanç" style="text-align:left; width:250px;" sortBy="#{item.tpLancamento}" >
+										<p:outputLabel style="#{item.corLancamentoRepetido}" value="#{item.tpLancamento}" />
+										
+										<f:facet name="footer">
+											<p:outputLabel style="text-align:right; font-weight: bold; font-size: large;" value="Totais " />
+										</f:facet>
+									</p:column>
+									
+									<p:column headerText="Valor Lanç" style="text-align:right; width:100px;" >
+										<h:outputText style="#{item.corLancamentoRepetido}" value="#{item.vlLancamento}" styleClass="moeda">
+											<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+										</h:outputText>
+										
+										<f:facet name="footer">
+											<p:outputLabel style="text-align:right; font-weight: bold; font-size: large;" value="R$ " />
+											<p:outputLabel style="text-align:right; font-weight: bold; font-size: large;" value="#{ministroRetriveBean.vlTotalLancamento}" styleClass="moeda" >
+												<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+											</p:outputLabel>
+										</f:facet>
+									</p:column>
+									
+									<p:column headerText="Pagamento" style="text-align:center; width:90px;" sortBy="#{item.dtPagamento}" >
+										<p:outputLabel value="#{item.dtPagamento}" >
+											<f:converter converterId="converter_localdate"/>
+										</p:outputLabel>
+									</p:column>
+									
+									<p:column headerText="Valor Pgto" style="text-align:right; width:100px;"  >
+										<h:outputText value="#{item.vlPagamento}" styleClass="moeda">
+											<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+										</h:outputText>
+										
+										<f:facet name="footer">
+											<p:outputLabel style="text-align:right; font-weight: bold; font-size: large;" value="R$ " />
+											<p:outputLabel style="text-align:right; font-weight: bold; font-size: large;"  value="#{ministroRetriveBean.vlTotalPagamento}" styleClass="moeda" >
+												<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+											</p:outputLabel>
+										</f:facet>
+										
+									</p:column>
+									
+									<p:column headerText="Recibo" style="text-align:center; width:80px;" sortBy="#{item.cdNsuRecibo}" >
+										<p:outputLabel value="#{item.cdNsuRecibo}" />
+									</p:column>
+									
+									<p:column headerText="Saldo Devedor:" style="text-align:right; color:red;"  >
+										<h:outputText style="#{item.corSaldoDevedor}" value="#{item.sdDevedor}" styleClass="moeda">
+											<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+										</h:outputText>
+										
+										<f:facet name="footer">
+											<p:outputLabel style="#{ministroRetriveBean.corVlTotalSaldoDevedor} font-size: large;" value="R$ " />
+											<p:outputLabel style="#{ministroRetriveBean.corVlTotalSaldoDevedor} font-size: large;"  value="#{ministroRetriveBean.vlTotalSaldoDevedor}" styleClass="moeda" >
+												<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+											</p:outputLabel>
+										</f:facet>
+										
+									</p:column>
+									
+								</p:dataTable>
+		 					</p:panelGrid>
+		 					
+		 					<div class="cv-linha-horizontal" >
+								<div class="cv-linha-horizontal-texto">Resumo</div> 
+							</div>
+							
+							<p:panelGrid columns="2"
+								layout="grid"
+								id="panelGrid8" 
+								columnClasses="ui-grid-col-10, ui-grid-col-2"
+								style="margin-bottom:20px; text-align:right">
+								
+								<p:outputLabel style="text-align:right; font-weight: bold; font-size: large;" value="Total:" />
+								<h:outputText style="text-align:right; font-weight: bold; font-size: large;" styleClass="moeda" value="#{ministroRetriveBean.vlTotalLancamento}">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</h:outputText>
+								
+								<p:outputLabel style="text-align:right; font-weight: bold; font-size: large;" value="Pagamentos:" />
+								<h:outputText style="text-align:right; font-weight: bold; font-size: large;" styleClass="moeda" value="#{ministroRetriveBean.vlTotalPagamento}">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</h:outputText>
+								
+								<p:outputLabel style="text-align:right; font-weight: bold; font-size: large; color:red;" value="Em aberto:" />
+								<h:outputText styleClass="moeda" style="#{ministroRetriveBean.corVlTotalSaldoDevedor} font-size: large;" value="#{ministroRetriveBean.vlTotalSaldoDevedor}">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</h:outputText>
+															
+							</p:panelGrid>
+						</div>
+
+				</h:panelGroup>		
+			</div>
+			
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

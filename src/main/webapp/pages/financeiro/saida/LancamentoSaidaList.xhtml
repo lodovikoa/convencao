@@ -1,0 +1,441 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{lancamentoSaidaList.inicializar}" type="preRenderView" />
+			<o:viewParam name="lancamentoResumo" value="#{lancamentoSaidaList.lancamentoResumo}" />
+			
+			<o:viewParam name="param_regiaoItens_sqRegiao" value="#{lancamentoSaidaList.param_regiaoItens_sqRegiao}" />
+			<o:viewParam name="param_controle" value="#{lancamentoSaidaList.param_controle}" />
+		</f:metadata>
+
+		<h:form id="frm">
+			<h1 class="aw-page-title">Financeiro Saídas</h1>
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+		
+			<p:toolbar styleClass="cv-toolbar-topo">		
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Incluir Lançamento de Saída"
+							action="#{lancamentoSaidaList.inicializarIncluirSaida}"
+							styleClass="cv-link-estilo"
+							style="margin-right:30px;"
+							title="Registrar nova saída para Igreja ou Outros"
+							oncomplete="PF('widgSaidaIncluirDialog').show(); "
+							process="@this" 
+							update=":frm_saidaIncluir:saidaIncluirDialog">	
+
+					</p:commandButton>
+				
+					<p:link styleClass="cv-botao" 
+								value="Resumo"
+								outcome="/pages/financeiro/resumo/LancamentoResumoList" >
+						<f:param name="param_regiaoItens_sqRegiao" value="#{lancamentoSaidaList.param_regiaoItens_sqRegiao}"/> 
+						<f:param name="param_controle"  value="#{lancamentoSaidaList.param_controle}"/>
+					</p:link>
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+			
+				<h:panelGroup id="pnlgrp-cadastro" layout="block">
+					<p:focus context="pnlgrp-cadastro"/>
+					<div class="cv-cadastro">
+					
+						<div class="cv-linha-horizontal" >
+							<div class="cv-linha-horizontal-texto">Período</div> 
+						</div>
+						
+						<p:panelGrid columns="8"
+								layout="grid"
+								id="panelGrid1" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-2">
+							
+							<p:outputLabel value="Região:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{lancamentoSaidaList.lancamentoResumo.regiao.dsRegiao}"/>
+							
+							<p:outputLabel value="Período Inicio:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{lancamentoSaidaList.lancamentoResumo.dtPeriodoInicio}" >
+								<f:converter converterId="converter_localdate"/>
+							</h:outputText>
+							
+							<p:outputLabel value="Período Fim:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{lancamentoSaidaList.lancamentoResumo.dtPeriodoFim}" >
+								<f:converter converterId="converter_localdate"/>
+							</h:outputText>
+							
+							<p:outputLabel value="Fechado em:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{lancamentoSaidaList.lancamentoResumo.dtFechado}" >
+								<f:converter converterId="converter_localdate"/>
+							</h:outputText>
+							
+							<p:outputLabel value="Saldo Anterior:" />
+							<h:outputText styleClass="cv-texto-negrito moeda" value="#{lancamentoSaidaList.lancamentoResumo.vlSaldoAnterior}" >
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+							
+							<p:outputLabel value="Entradas:" />
+							<h:outputText styleClass="cv-texto-negrito moeda" value="#{lancamentoSaidaList.lancamentoResumo.vlEntradas}" >
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+							
+							<p:outputLabel value="Saídas:" />
+							<h:outputText styleClass="cv-texto-negrito moeda" value="#{lancamentoSaidaList.lancamentoResumo.vlSaidas}" >
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+								
+							
+							<p:outputLabel value="Saldo Atual:" />
+							<h:outputText styleClass="cv-texto-negrito moeda" value="#{lancamentoSaidaList.lancamentoResumo.vlSaldoAtual}" >
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+							
+						</p:panelGrid>
+						
+						<div class="cv-linha-horizontal" />	
+					</div>
+				</h:panelGroup>		
+				
+				<p:dataTable value="#{lancamentoSaidaList.listar}"
+							var="item"
+							style="margin-top:20px;"
+							id="dtList"
+							paginator="true"
+							rows="60"
+							rowsPerPageTemplate="10,20,30,40,50,60,70,80"
+							emptyMessage="Não há registros para exibir" 
+							paginatorPosition="bottom" >
+							
+					<p:column headerText="Saída" sortBy="#{item.dtSaida}" style="text-align:left; width:100px;" >
+						<p:outputLabel value="#{item.dtSaida}" >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+					</p:column>
+					
+					<p:column headerText="Recibo" sortBy="#{item.cdNsu}" style="text-align:left; width:100px;">
+						<p:outputLabel value="#{item.cdNsu}" />
+					</p:column>
+					
+					<p:column headerText="Valor" sortBy="#{item.vlSaida}" style="text-align:right; width:200px;">
+						<p:outputLabel value="#{item.vlSaida}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+						
+						<f:facet name="footer">
+							<p:outputLabel  style="font-weight: bold;" value="Total: R$ " />
+							<p:outputLabel  style="font-weight: bold; moeda"  value="#{lancamentoSaidaList.vlTotalSaidas}" >
+	    				 		<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+	    				 	</p:outputLabel>
+						</f:facet>
+					</p:column>
+					
+					<p:column headerText="Conta contabil" sortBy="#{item.planoConta.dsConta}" style="text-align:left;">
+						<p:outputLabel value="#{item.planoConta.dsConta}" />
+					</p:column>
+					
+					<p:column headerText="Documento" sortBy="#{item.cdDocumento}" style="text-align:left;">
+						<p:outputLabel value="#{item.cdDocumento}" />
+					</p:column>
+					
+					<!-- Consultar registro de saida -->
+					<p:column headerText="Favorecido" sortBy="#{item.nmFaforecido}" style="text-align:left;">
+						<p:commandLink rendered="true"
+								action="#{lancamentoSaidaList.inicializarConsultarSaida}"
+								styleClass="cv-link-estilo"
+								value="#{item.nmFaforecido}"
+								title="Consultar registro de saida"
+							 	oncomplete="PF('widgSaidaConsultarDialog').show();"
+							 	process="@this"
+							 	update=":frm_saidaConsultar:saidaConsultarDialog" >
+							 	
+							<f:setPropertyActionListener value="#{item}" target="#{lancamentoSaidaList.selecionado}" />
+						
+						</p:commandLink>
+					</p:column>
+					
+					<!-- Botão alterar registro de saida -->
+					<p:column style="text-align: left; width: 8px;">
+						<p:commandButton rendered="true"
+								action="#{lancamentoSaidaList.inicializarAlterarSaida}"
+								style="width: 20px; margin-left: -5px; "
+								icon="fa fa-fw fa-edit" 
+								title="Alterar registro de saída"
+								oncomplete="PF('widgSaidaAlterarDialog').show();"
+								process="@this" 
+								update=":frm_saidaAlterar:saidaAlterarDialog" >
+					
+		    				<f:setPropertyActionListener value="#{item}" target="#{lancamentoSaidaList.selecionado}" />
+		    			</p:commandButton>
+		    		</p:column>
+		    		
+		    		<!-- Botão Excluir registro de saida -->
+		    		<p:column style="text-align: left; width: 8px;">
+						<p:commandButton rendered="true"
+								style="width: 20px; margin-left: -5px; "
+								icon="ui-icon-trash"
+								title="Excluir registro de entrada"
+								oncomplete="PF('confirmacaoExclusao').show();"
+								process="@this"
+								update=":frm_exclusao:confirmacaoExclusaoDialog" >
+					
+		    				<f:setPropertyActionListener value="#{item}" target="#{lancamentoSaidaList.selecionado}" />
+		    			</p:commandButton>
+		    		</p:column>
+							
+				</p:dataTable>
+			
+			</div>
+			
+		</h:form>
+		
+		<!-- Diálogo para exluir um registro -->
+		<h:form id="frm_exclusao">
+			<p:confirmDialog header="Exclusão do recibo #{lancamentoSaidaList.selecionado.cdNsu}" 
+					message="Confirma exclusão? O recibo número  #{lancamentoSaidaList.selecionado.cdNsu}  se já emitido deverá ser INUTILIZADO."
+					widgetVar="confirmacaoExclusao"
+					id="confirmacaoExclusaoDialog">
+				<p:button value="Não" 
+						onclick="PF('confirmacaoExclusao').hide(); return false;"
+						style="width: auto"/>
+				<p:commandButton value="Sim" 
+						oncomplete="PF('confirmacaoExclusao').hide();" 
+						action="#{lancamentoSaidaList.salvarExcluir}"
+						update=":frm"
+						style="width: auto"/>
+			</p:confirmDialog>
+		</h:form>
+		
+		<!-- Diálogo para consultar registro de entrada -->
+		<h:form id="frm_saidaConsultar">
+			<p:dialog
+					widgetVar="widgSaidaConsultarDialog"
+					id="saidaConsultarDialog"
+					header="Financeiro - Saidas - Consultar"
+					resizable="false"
+					responsive="true"
+					width="50%" >
+				<h:panelGroup id="saidaConsultarPanel" layout="block" styleClass="ui-fluid">
+				
+					<p:panelGrid id="saidaConsultarGrid1" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-10">
+						<p:outputLabel value="Recibo:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="#{lancamentoSaidaList.selecionado.cdNsu}" />
+						
+						<p:outputLabel value="Departamento:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="#{lancamentoSaidaList.selecionado.departamento.dsReduzido}" />
+						
+						<p:outputLabel value="Conta contábil:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="#{lancamentoSaidaList.selecionado.planoConta.dsConta}" />
+						
+						<p:outputLabel value="Favorecido:" styleClass="cv-dialogo-exibe-label"/>
+						<p:outputLabel value="#{lancamentoSaidaList.selecionado.nmFaforecido}" />
+						
+						<p:outputLabel value="Número documento:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="#{lancamentoSaidaList.selecionado.cdDocumento}" />
+						
+						<p:outputLabel value="Data lançamento:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="#{lancamentoSaidaList.selecionado.dtSaida}" >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+						
+						<p:outputLabel value="Valor:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="#{lancamentoSaidaList.selecionado.vlSaida}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+						
+						<p:outputLabel value="Forma Pagamento:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="#{lancamentoSaidaList.selecionado.dsFormaPagamento}" />
+						
+						<p:outputLabel value="Histórico:" styleClass="cv-dialogo-exibe-label" />
+						<p:inputTextarea id="incluirHistorico" value="#{lancamentoSaidaList.selecionado.dsHistorico}" rows="6" cols="40" readonly="true" autoResize="true" />
+					
+					</p:panelGrid>
+				
+					<p:separator />
+					<p:button value="Imprimir" 
+							onclick="#"
+							style="width: auto"/>
+					
+					<p:button value="Fechar" 
+							onclick="PF('widgSaidaConsultarDialog').hide(); return false;"
+							style="width: auto; margin-left:50px;"/>
+				</h:panelGroup>
+			</p:dialog>
+		</h:form>
+		
+		<!-- Diálogo para INCLUIR novo registro de saida -->
+		<h:form id="frm_saidaIncluir">
+			<p:dialog
+					widgetVar="widgSaidaIncluirDialog"
+					id="saidaIncluirDialog"
+					header="Financeiro - Saídas - Incluir recebimentos de Igrejas e Outros"
+					resizable="false"
+					responsive="true"
+					width="50%" >
+				<h:panelGroup id="saidaIncluirPanel" layout="block" styleClass="ui-fluid">
+					
+					<p:panelGrid id="saidaIncluirGrid1" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-10">
+						<p:outputLabel value="Recibo:" styleClass="cv-dialogo-exibe-label" for="incluirNsu"/>
+						<p:inputText id="incluirNsu" disabled="true" value="#{lancamentoSaidaList.lancamentoSaida.cdNsu}" />
+						
+						<p:outputLabel value="Departamento:" styleClass="cv-dialogo-exibe-label" for="incluirContaDepartamento" />
+						<p:selectOneMenu id="incluirContaDepartamento" filter="true" value="#{lancamentoSaidaList.lancamentoSaida.departamento}" >
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione um departamento"/>
+							<f:selectItems value="#{lancamentoSaidaList.departamentos}" var="item" itemValue="#{item}" itemLabel="#{item.dsReduzido}" />
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Conta contábil:" styleClass="cv-dialogo-exibe-label" for="incluirContaContabil" />
+						<p:selectOneMenu id="incluirContaContabil" filter="true" value="#{lancamentoSaidaList.lancamentoSaida.planoConta}">
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma conta"/>
+							<f:selectItems value="#{lancamentoSaidaList.planoContaList}" var="item" itemValue="#{item}" itemLabel="#{item.dsConta}" />
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Favorecido:" styleClass="cv-dialogo-exibe-label" for="incluirFavorecido"/>
+						<p:inputText id="incluirFavorecido"  value="#{lancamentoSaidaList.lancamentoSaida.nmFaforecido}" />
+						
+						<p:outputLabel value="Número documento:" styleClass="cv-dialogo-exibe-label" for="incluirNumDoc"/>
+						<p:inputText id="incluirNumDoc" value="#{lancamentoSaidaList.lancamentoSaida.cdDocumento}" />
+					</p:panelGrid>
+					
+					<p:panelGrid id="saidaIncluirGrid2" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-2">
+						<p:outputLabel value="Data lançamento:" styleClass="cv-dialogo-exibe-label" for="incluirDtPagamento" />
+						<p:calendar id="incluirDtPagamento" 
+									style="color: red"
+									pattern="dd/MM/yyyy" 
+									mask="true" 
+									locale="pt" 
+									showButtonPanel="true" 
+									navigator="true"
+									value="#{lancamentoSaidaList.lancamentoSaida.dtSaida}"
+									onfocus="false" >
+							<p:ajax event="dateSelect" process="@this" update="@this"/>
+							<f:converter converterId="converter_localdate"/>
+						</p:calendar>
+						
+						<p:outputLabel value="Valor:" styleClass="cv-dialogo-exibe-label" for="incluirValor"/>
+						<p:inputText id="incluirValor" onfocus="configurarMoeda()" styleClass="moeda" value="#{lancamentoSaidaList.lancamentoSaida.vlSaida}" style="text-align:right;" >
+					    	<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+					    </p:inputText>
+					</p:panelGrid>
+					
+					<p:panelGrid id="saidaIncluirGrid3" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-10">
+						<p:outputLabel value="Forma Pagamento:" styleClass="cv-dialogo-exibe-label" for="incluirFormaPgto" />
+						<p:selectOneMenu id="incluirFormaPgto" value="#{lancamentoSaidaList.cdFormaPagamento}" >
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma forma de pagamento"/>
+							<f:selectItems value="#{lancamentoSaidaList.tipoPagamentos}"  var="item" itemValue="#{item.label}" itemLabel="#{item}"/>
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Histórico:" styleClass="cv-dialogo-exibe-label" for="incluirHistorico" />
+						<p:inputTextarea id="incluirHistorico" value="#{lancamentoSaidaList.lancamentoSaida.dsHistorico}" rows="6" cols="40" autoResize="false" />
+
+					</p:panelGrid>
+					
+					<p:separator />
+							
+					<p:commandButton value="Confirmar" 
+    					id="botaoSalvarInluirSaida" 
+    					action="#{lancamentoSaidaList.salvarIncluirSaida}"
+    					style="width: auto; margin-left:30px;"
+    					process="@form"
+    					oncomplete="jsFecharDialogo(xhr, status, args, 'widgSaidaIncluirDialog', 'shake')" 
+    					update=":frm"/>
+					
+					<p:button value="Fechar" 
+							onclick="PF('widgSaidaIncluirDialog').hide(); return false;"
+							style="width: auto; margin-left:50px;"/>
+							
+				</h:panelGroup>
+			</p:dialog>	
+		</h:form>
+		
+		<!-- Diálogo para ALTERAR registro de saida -->
+		<h:form id="frm_saidaAlterar">
+			<p:dialog
+					widgetVar="widgSaidaAlterarDialog"
+					id="saidaAlterarDialog"
+					header="Financeiro - Saidas - Alterar"
+					resizable="false"
+					responsive="true"
+					width="50%" >
+				<h:panelGroup id="saidaAlterarPanel" layout="block" styleClass="ui-fluid">
+					<p:panelGrid id="saidaIncluirGrid1" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-10">
+						<p:outputLabel value="Recibo:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="#{lancamentoSaidaList.selecionado.cdNsu}" />
+						
+						<p:outputLabel value="Departamento:" styleClass="cv-dialogo-exibe-label" for="alterarContaDepartamento" />
+						<p:selectOneMenu id="alterarContaDepartamento" filter="true" value="#{lancamentoSaidaList.selecionado.departamento}" >
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione um departamento"/>
+							<f:selectItems value="#{lancamentoSaidaList.departamentos}" var="item" itemValue="#{item}" itemLabel="#{item.dsReduzido}" />
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Conta contábil:" styleClass="cv-dialogo-exibe-label" for="alterarContaContabil" />
+						<p:selectOneMenu id="alterarContaContabil" filter="true" value="#{lancamentoSaidaList.selecionado.planoConta}">
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma conta"/>
+							<f:selectItems value="#{lancamentoSaidaList.planoContaList}" var="item" itemValue="#{item}" itemLabel="#{item.dsConta}" />
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Favorecido:" styleClass="cv-dialogo-exibe-label" for="alterarFavorecido"/>
+						<p:inputText id="alterarFavorecido"  value="#{lancamentoSaidaList.selecionado.nmFaforecido}" />
+						
+						<p:outputLabel value="Número documento:" styleClass="cv-dialogo-exibe-label" for="alterarNumDoc"/>
+						<p:inputText id="alterarNumDoc" value="#{lancamentoSaidaList.selecionado.cdDocumento}" />
+					</p:panelGrid>
+					
+					<p:panelGrid id="saidaIncluirGrid2" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-2">
+						<p:outputLabel value="Data lançamento:" styleClass="cv-dialogo-exibe-label" for="alterarDtPagamento" />
+						<p:calendar id="alterarDtPagamento" 
+									style="color: red"
+									pattern="dd/MM/yyyy" 
+									mask="true" 
+									locale="pt" 
+									showButtonPanel="true" 
+									navigator="true"
+									value="#{lancamentoSaidaList.selecionado.dtSaida}"
+									onfocus="false" >
+							<p:ajax event="dateSelect" process="@this" update="@this"/>
+							<f:converter converterId="converter_localdate"/>
+						</p:calendar>
+						
+						<p:outputLabel value="Valor:" styleClass="cv-dialogo-exibe-label" for="alterarValor"/>
+						<p:inputText id="alterarValor" onfocus="configurarMoeda()" styleClass="moeda" value="#{lancamentoSaidaList.selecionado.vlSaida}" style="text-align:right;" >
+					    	<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+					    </p:inputText>
+					</p:panelGrid>
+					
+					<p:panelGrid id="saidaIncluirGrid3" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-10">
+						<p:outputLabel value="Forma Pagamento:" styleClass="cv-dialogo-exibe-label" for="alterarFormaPgto" />
+						<p:selectOneMenu id="alterarFormaPgto" value="#{lancamentoSaidaList.cdFormaPagamento}" >
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma forma de pagamento"/>
+							<f:selectItems value="#{lancamentoSaidaList.tipoPagamentos}"  var="item" itemValue="#{item.label}" itemLabel="#{item}"/>
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Histórico:" styleClass="cv-dialogo-exibe-label" for="alterarHistorico" />
+						<p:inputTextarea id="alterarHistorico" value="#{lancamentoSaidaList.selecionado.dsHistorico}" rows="6" cols="40" autoResize="false" />
+
+					</p:panelGrid>
+				
+				
+					<p:separator />
+		
+					<p:commandButton value="Confirmar" 
+    					id="botaoSalvarAlterarSaida" 
+    					action="#{lancamentoSaidaList.salvarAlterarSaida}"
+    					style="width: auto; margin-left:30px;"
+    					process="@form"
+    					oncomplete="jsFecharDialogo(xhr, status, args, 'widgSaidaAlterarDialog', 'shake')" 
+    					update=":frm"/>
+					
+					<p:button value="Fechar" 
+							onclick="PF('widgSaidaAlterarDialog').hide(); return false;"
+							style="width: auto; margin-left:50px;"/>
+				</h:panelGroup>
+			</p:dialog>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

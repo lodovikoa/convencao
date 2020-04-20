@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ministroGeral" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fafb96f4-54ea-4c44-a29d-82d9ddda0ccf">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="204"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="790"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="635"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="365"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="confrater00"/>
+	<parameter name="urlLogo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SqConvencao" class="java.lang.Long">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[1L]]></defaultValueExpression>
+	</parameter>
+	<parameter name="param_sqlComplemento" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="param_regiao" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="param_departamento" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="param_igreja" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="param_cargo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="param_situacao" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="param_ordemExibicao" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA["/home/lodoviko/JaspersoftWorkspace/confrateres/"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT IFNULL(min.min_nm_nome, "") AS minNmMinistro, 	
+	min.min_cd_codigo AS minCdMinistro, 	
+	IFNULL(min.min_cd_cgadb, "") AS minCdCgadb, 	
+	IFNULL(cgo.cgo_ds_cargo, "") AS cgoDsCargo, 	
+	min.min_dt_ordenado AS minDtOrdenado,  
+	min.min_dt_ingresso AS minDtIngresso,	
+	min.min_dt_nascimento AS minDtNascimento, 
+	CASE WHEN min.min_dt_excluido IS NOT NULL THEN 'Inativado em: ' ELSE '' END AS dsExcluido,
+    min.min_dt_excluido AS minDtExcluido,
+	IFNULL(min.min_ds_cidade, "") AS minDsCidade, 	
+	IFNULL(est.est_ds_uf, "") AS estDsUf, 	
+	IFNULL(min.min_ds_telefone01,"") AS minDsTel01, 	
+	IFNULL(min.min_ds_telefone02,"") AS minDsTel02, 	
+	IFNULL(min.min_ds_telefone03,"") AS minDsTel03,	
+	IFNULL(igr.igr_ds_igreja,"") AS igrDsIgreja, 
+    rgn.rgn_ds_regiao AS rgnDsRegiao
+FROM tb_min_ministro min 	
+	LEFT JOIN  tb_cgo_cargo cgo ON cgo.cgo_sq_cargo = min.cgo_sq_cargo 	
+	LEFT JOIN  tb_est_estado est ON est.est_sq_estado = min.est_sq_estado 	
+	LEFT JOIN  tb_igr_igreja igr ON igr.igr_sq_igreja  = min.igr_sq_igreja 
+    LEFT JOIN  tb_rgn_regiao rgn ON rgn.rgn_sq_regiao = igr.rgn_sq_regiao
+ $P!{param_sqlComplemento}]]>
+	</queryString>
+	<field name="minNmMinistro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="minNmMinistro"/>
+	</field>
+	<field name="minCdMinistro" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="minCdMinistro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_min_ministro"/>
+	</field>
+	<field name="minCdCgadb" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="minCdCgadb"/>
+	</field>
+	<field name="cgoDsCargo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cgoDsCargo"/>
+	</field>
+	<field name="minDtOrdenado" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="minDtOrdenado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_min_ministro"/>
+	</field>
+	<field name="minDtIngresso" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="minDtIngresso"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_min_ministro"/>
+	</field>
+	<field name="minDtNascimento" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="minDtNascimento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_min_ministro"/>
+	</field>
+	<field name="dsExcluido" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="dsExcluido"/>
+	</field>
+	<field name="minDtExcluido" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="minDtExcluido"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_min_ministro"/>
+	</field>
+	<field name="minDsCidade" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="minDsCidade"/>
+	</field>
+	<field name="estDsUf" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="estDsUf"/>
+	</field>
+	<field name="minDsTel01" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="minDsTel01"/>
+	</field>
+	<field name="minDsTel02" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="minDsTel02"/>
+	</field>
+	<field name="minDsTel03" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="minDsTel03"/>
+	</field>
+	<field name="igrDsIgreja" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="igrDsIgreja"/>
+	</field>
+	<field name="rgnDsRegiao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="rgnDsRegiao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_rgn_regiao"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="93">
+			<frame>
+				<reportElement x="0" y="0" width="811" height="87" uuid="baa28f39-3cd3-4ed7-8968-9bc91e07c710"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<rectangle>
+					<reportElement mode="Opaque" x="79" y="69" width="730" height="20" backcolor="#F7F7F7" uuid="dafff6ec-04b2-4f55-992a-6a631f8cddaa"/>
+					<graphicElement>
+						<pen lineWidth="0.0"/>
+					</graphicElement>
+				</rectangle>
+				<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
+					<reportElement x="1" y="2" width="75" height="59" uuid="39f2bd42-6d5d-4a8e-ade9-98f6618dc7a9"/>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Solid"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<imageExpression><![CDATA[$P{urlLogo}]]></imageExpression>
+				</image>
+				<textField>
+					<reportElement x="595" y="51" width="210" height="17" uuid="8e00d4aa-5bb6-4387-a786-86c748ae1c56"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$P{param_regiao}]]></textFieldExpression>
+				</textField>
+				<subreport>
+					<reportElement x="83" y="3" width="87" height="48" uuid="6b5d4ac5-7054-4d1b-9b15-85a6e9ba9af5"/>
+					<subreportParameter name="sqConvencaoParam">
+						<subreportParameterExpression><![CDATA[$P{SqConvencao}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR}
++
+"subRetratoPageHeader.jasper"]]></subreportExpression>
+				</subreport>
+				<textField>
+					<reportElement x="82" y="74" width="148" height="12" uuid="037b8b32-c984-42d4-b78f-a04e643d00e8"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{param_departamento}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="231" y="74" width="299" height="12" uuid="bae21d6c-a3c7-41a5-a708-31a4934972b1"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{param_igreja}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="532" y="74" width="118" height="12" uuid="21b0c111-5174-4901-b395-df17c4bdcd72"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{param_cargo}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="652" y="74" width="157" height="12" uuid="768a04ef-689a-42d6-9d97-71e82c480bba"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{param_ordemExibicao}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="81" y="51" width="262" height="17" uuid="f956d7d3-5cc7-4427-be98-6f1b9bef1b7b"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{param_situacao}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15">
+			<frame>
+				<reportElement mode="Transparent" x="0" y="-1" width="810" height="13" backcolor="#CCCACA" uuid="2fadbc18-e55c-45bc-8fb9-4d1860186029"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<staticText>
+					<reportElement x="611" y="0" width="16" height="13" uuid="b6819cce-ed33-4936-ade6-a4d99443c59b"/>
+					<textElement>
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[UF]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="627" y="0" width="182" height="13" uuid="96e48892-5c79-40a8-b7e4-804c2eefee52"/>
+					<textElement>
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Telefones]]></text>
+				</staticText>
+			</frame>
+			<staticText>
+				<reportElement x="182" y="0" width="20" height="13" uuid="640214aa-2ec7-4c5f-a8e9-cee70299b367"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cd
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="0" width="50" height="13" uuid="ef21e5f2-daaf-4cd9-bcb2-638cfef3c314"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="251" y="0" width="92" height="13" uuid="99d07357-7288-42d5-87e9-48f38c40e89d"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cargo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="344" y="0" width="48" height="13" uuid="2bb61495-021b-4a0b-b152-fcde82707808"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ordenação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="213" y="0" width="37" height="13" uuid="3047d0f9-9905-46ca-ac53-55b226f14992"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CADB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="395" y="0" width="44" height="13" uuid="36f04c6a-4d3f-4ca6-8771-d31753a4d4fe"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ingresso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="443" y="0" width="45" height="13" uuid="ef976b2c-7bb0-4973-bd44-295bacbc20dc"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nasc.:
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="490" y="0" width="121" height="13" uuid="d54bc6fa-eae2-4d78-94fc-a4bdb2e877cb"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cidade]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="28">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<rectangle radius="0">
+				<reportElement mode="Opaque" x="0" y="-1" width="810" height="28" forecolor="#030000" backcolor="#E8E8E8" uuid="d0b2c8e8-b123-4544-8cfe-1e10747a79fc">
+					<printWhenExpression><![CDATA[$V{REPORT_COUNT}%2 == 1 ]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement key="" isPrintRepeatedValues="false" mode="Transparent" x="182" y="0" width="30" height="13" backcolor="rgba(226, 226, 226, 0.34509805)" uuid="fe7005a2-109c-477a-9676-c4dbd9c2ada0"/>
+				<textElement>
+					<font size="7"/>
+					<paragraph lineSpacing="Proportional"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minCdMinistro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" isPrintRepeatedValues="false" mode="Transparent" x="6" y="0" width="174" height="13" backcolor="rgba(226, 226, 226, 0.34509805)" uuid="099ec4c9-4265-414a-87ef-be2794cf488e"/>
+				<textElement>
+					<font size="7"/>
+					<paragraph lineSpacing="Proportional"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minNmMinistro}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement key="" isPrintRepeatedValues="false" mode="Transparent" x="344" y="0" width="48" height="13" backcolor="rgba(226, 226, 226, 0.34509805)" uuid="67a5cede-f88b-46dc-a51e-404ac3f1c80c">
+					<printWhenExpression><![CDATA[$F{minDtOrdenado} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="7"/>
+					<paragraph lineSpacing="Proportional"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minDtOrdenado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" isPrintRepeatedValues="false" mode="Transparent" x="213" y="0" width="37" height="13" backcolor="rgba(226, 226, 226, 0.34509805)" uuid="425e8188-3862-4cf5-b6ad-8d6099bef7b9"/>
+				<textElement>
+					<font size="7"/>
+					<paragraph lineSpacing="Proportional"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minCdCgadb}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement key="" isPrintRepeatedValues="false" mode="Transparent" x="395" y="0" width="44" height="13" backcolor="rgba(226, 226, 226, 0.34509805)" uuid="21e42a09-6bf2-49a8-8d2b-18ee80e49fa8">
+					<printWhenExpression><![CDATA[$F{minDtIngresso} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="7"/>
+					<paragraph lineSpacing="Proportional"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minDtIngresso}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement key="" isPrintRepeatedValues="false" mode="Transparent" x="443" y="0" width="45" height="13" backcolor="rgba(226, 226, 226, 0.34509805)" uuid="e9db350e-3998-4767-b1a9-5ce0da049e44">
+					<printWhenExpression><![CDATA[$F{minDtNascimento} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="7"/>
+					<paragraph lineSpacing="Proportional"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minDtNascimento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" isPrintRepeatedValues="false" mode="Transparent" x="490" y="0" width="121" height="13" backcolor="rgba(226, 226, 226, 0.34509805)" uuid="63d71c7c-a66f-43b9-a7bd-02da6294e332"/>
+				<textElement>
+					<font size="7"/>
+					<paragraph lineSpacing="Proportional"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minDsCidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" mode="Transparent" x="611" y="0" width="17" height="13" backcolor="rgba(226, 226, 226, 0.34509805)" uuid="78e070ff-4b89-4657-bf99-7635ab704335"/>
+				<textElement>
+					<font size="7"/>
+					<paragraph lineSpacing="Proportional"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estDsUf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" isPrintRepeatedValues="false" mode="Transparent" x="627" y="0" width="182" height="13" backcolor="rgba(226, 226, 226, 0.34509805)" uuid="919fb16b-628a-4d5c-bdc3-f4618996e8f8"/>
+				<textElement>
+					<font size="7"/>
+					<paragraph lineSpacing="Proportional"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minDsTel01} + " " + $F{minDsTel02} + " " + $F{minDsTel03}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="343" y="12" width="28" height="10" uuid="56302c9a-9535-4b4f-ac4d-ee0e9064b4e4"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Igreja:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="373" y="13" width="238" height="10" uuid="4bb09ca1-80f2-43c8-8abf-f150c4d37c5d"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{igrDsIgreja}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="251" y="0" width="92" height="13" uuid="4137ba19-9ad5-4210-9f42-1decd5049b10"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cgoDsCargo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="618" y="13" width="32" height="10" uuid="63a34c2b-8852-49bf-91cf-614903922e1c"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Região:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="653" y="13" width="144" height="10" uuid="78158ffb-aff7-472b-8108-f2b2ba4f384c"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rgnDsRegiao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="143" y="13" width="98" height="10" uuid="79ee89f1-3bf3-40d4-8128-6bb646ab2661">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eafb0694-1365-4501-a368-309a0a477f68"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dsExcluido}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="244" y="13" width="98" height="10" uuid="a1e893fb-956f-4b33-b5fb-d44d321121fd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ceaa922b-7c49-4b34-884b-dd4b45e133a6"/>
+				</reportElement>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minDtExcluido}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="36">
+			<frame>
+				<reportElement x="-10" y="14" width="811" height="19" uuid="37da3012-f86c-4d75-a217-f92bf5be0421"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<subreport>
+					<reportElement x="11" y="1" width="55" height="17" uuid="9ae638be-951e-43b4-a237-5f0f51b4e58c"/>
+					<subreportParameter name="sqConvencaoRodape">
+						<subreportParameterExpression><![CDATA[$P{SqConvencao}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR}
++
+"subRetratoPageFooter.jasper"]]></subreportExpression>
+				</subreport>
+				<textField>
+					<reportElement x="700" y="1" width="66" height="14" uuid="7d74d956-2ffb-4725-828c-13a2279197f3"/>
+					<textElement textAlignment="Right">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Pagina: " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement x="766" y="1" width="43" height="14" uuid="0b2f5020-9152-41c2-ac6b-0fb00cacf1b1"/>
+					<textElement textAlignment="Left">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="32">
+			<frame>
+				<reportElement x="-10" y="5" width="808" height="22" uuid="9b465a99-efa5-44fb-a8d5-0f6d97aa7e12"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<staticText>
+				<reportElement x="697" y="8" width="100" height="18" uuid="cca88c4e-40a7-427a-88f5-300754492e8e"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Fim realtório]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

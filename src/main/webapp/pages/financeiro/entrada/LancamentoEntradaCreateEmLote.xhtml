@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{lancamentoEntradaCreateEmLoteBean.inicializar}" type="preRenderView" />
+
+		</f:metadata>
+
+		<h:form id="frm">
+			<h1 class="aw-page-title">Financeiro Lançamentos em lote</h1>
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+		
+			<p:toolbar styleClass="cv-toolbar-topo">		
+				<p:toolbarGroup align="right">					
+
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+			
+				<h:panelGroup id="pnlgrp-cadastro" layout="block">
+					<p:focus context="pnlgrp-cadastro"/>
+					<div class="cv-cadastro">
+						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" >
+							<p:dataTable  
+									var="item" 
+									style="margin-top:20px;"
+									value="#{lancamentoEntradaCreateEmLoteBean.regioes}"
+									id="dtList"
+									emptyMessage="Nenhum registro encontrado"
+									rowKey="#{item.sqRegiao}"
+									selection="#{lancamentoEntradaCreateEmLoteBean.regiaoSelecionados}" >
+									
+								<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+								
+								<p:column headerText="Região" style="text-align: left;  ">
+									<h:outputText value="#{item.dsRegiao}"/>
+								</p:column>
+						
+	
+							</p:dataTable>
+							
+							<p:panelGrid columns="2" layout="grid" style="margin-top:20px;" columnClasses="ui-grid-col-3, ui-grid-col-9" >
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Departamento:"  /> 
+								<p:outputLabel value="#{lancamentoEntradaCreateEmLoteBean.regLancamentoTemp.ministro.departamento.dsReduzido}" />
+								
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Tipo Lançamento:" />
+								<p:selectOneMenu id="tpLancamento" filter="true" style="width:50%" value="#{lancamentoEntradaCreateEmLoteBean.regLancamentoTemp.tipoLancamento}">
+									<f:selectItem noSelectionOption="true" itemLabel="Selecione uma conta"/>
+									<f:selectItems value="#{lancamentoEntradaCreateEmLoteBean.tipoLancamentoList}" var="item" itemValue="#{item}" itemLabel="#{item.dsTipoLancamento}" />
+									<p:ajax listener="#{lancamentoEntradaCreateEmLoteBean.atualizarValorLancamento}" update="frm:vlLancamento" />
+								</p:selectOneMenu>
+								
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Data Vencimento:" />
+								<p:outputPanel style="width:50%;">
+									<p:calendar id="dtVencimento" 
+												style="color: red" 
+												pattern="dd/MM/yyyy" 
+												mask="true" 
+												locale="pt" 
+												showButtonPanel="true" 
+												navigator="true"
+												onfocus="false"
+												value="#{lancamentoEntradaCreateEmLoteBean.regLancamentoTemp.dtVencimento}">	
+										<p:ajax event="dateSelect" process="@this" update="@this"/>									
+										<f:converter converterId="converter_localdate"/>
+									</p:calendar>
+								</p:outputPanel>
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Valor:" /> 
+								<p:inputText 
+										id="vlLancamento" 
+										onfocus="configurarMoeda()" 
+										styleClass="moeda" style="text-align:right; width:50%"
+										value="#{lancamentoEntradaCreateEmLoteBean.regLancamentoTemp.vlLancamento}" >
+							    	<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							    </p:inputText>
+								
+								<p:outputLabel  />
+								<p:commandButton value="Confirmar"
+									style="width: auto; margin-top:20px;" 
+	    							id="botaoSalvar"
+	    							action="#{lancamentoEntradaCreateEmLoteBean.salvarRecebimentosEmLote}"
+	    							onclick="javascript:if (!confirm('Ao confirmar será gerado um lançamento para cada ministro em situação ativo. Esta operação demora alguns minutos. Confirma?')) return false;" />
+								
+							</p:panelGrid>	
+						</p:panelGrid>
+					</div>
+				</h:panelGroup>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

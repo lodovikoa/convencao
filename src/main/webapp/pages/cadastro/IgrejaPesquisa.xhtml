@@ -1,0 +1,189 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>			
+			<f:event listener="#{igrejaPesquisaBean.inicializarEstados}" type="preRenderView" />
+			<f:event listener="#{igrejaPesquisaBean.inicializar}" type="preRenderView" />
+			
+			<o:viewParam name="param_regiaoItens_sqRegiao" value="#{igrejaPesquisaBean.param_regiaoItens_sqRegiao}" />
+			<o:viewParam name="param_dsIgrejaFiltro"  value="#{igrejaPesquisaBean.param_dsIgrejaFiltro}" />	
+			<o:viewParam name="param_dsBairroFiltro"  value="#{igrejaPesquisaBean.param_dsBairroFiltro}" />
+			<o:viewParam name="param_dsCidadeFiltro"  value="#{igrejaPesquisaBean.param_dsCidadeFiltro}" />
+			<o:viewParam name="param_dsCnpjFiltro"  value="#{igrejaPesquisaBean.param_dsCnpjFiltro}" />
+			<o:viewParam name="param_estado_sqEstado"  value="#{igrejaPesquisaBean.param_estado_sqEstado}" />
+			<o:viewParam name="param_ministro_sqMinistro"  value="#{igrejaPesquisaBean.param_ministro_sqMinistro}" />
+			<o:viewParam name="param_controle"  value="#{igrejaPesquisaBean.param_controle}" />
+			
+			<f:event listener="#{igrejaPesquisaBean.recuperarParametros}" type="preRenderView" />
+		</f:metadata>
+	
+		<h1 class="aw-page-title">Igreja pesquisa</h1>	
+		
+		<h:form id="frm">
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+			
+			<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-11" >
+				<f:facet name="header"  >
+					<p:toolbar style="margin: -3px">
+						<p:toolbarGroup align="left">
+							<p:commandButton value="Pesquisar" action="#{igrejaPesquisaBean.pesquisar}" update="@form" />
+						</p:toolbarGroup>
+						<p:toolbarGroup align="right">
+							<p:button value="Cadastrar Igreja" outcome="/pages/cadastro/IgrejaCadastro" rendered="#{igrejaPesquisaBean.exibirBotaoCadastrarIgreja}"/>
+						</p:toolbarGroup>
+					</p:toolbar>
+				</f:facet>
+				
+				<p:outputLabel value="Região:" for="dsRegiao"/>
+				<p:outputPanel>
+					<p:selectOneMenu id="dsRegiao" filter="true" value="#{igrejaPesquisaBean.igrejaFiltro.regiaoItens}" >
+						<f:selectItem itemLabel="Selecione uma região"/>
+						<f:selectItems value="#{igrejaPesquisaBean.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
+						<p:ajax listener="#{igrejaPesquisaBean.buscarPresidentes}"  update=":frm:dsPresidente"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Presidente:" for="dsPresidente" style="margin-left: 50px; margin-right: 10px"/>
+					<p:selectOneMenu id="dsPresidente" value="#{igrejaPesquisaBean.igrejaFiltro.ministro}" filter="true" filterMatchMode="startsWith" >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione o presidente" />
+						<f:selectItems value="#{igrejaPesquisaBean.igrejaMinistrosPresidente}" var="item" itemValue="#{item}" itemLabel="#{item.nmNome}  (#{item.cdCodigo})" />
+					</p:selectOneMenu>											
+				</p:outputPanel>
+				
+				<p:outputLabel value="Igreja:" for="dsIgreja" />
+				<p:outputPanel>
+					<p:inputText id="dsIgreja" value="#{igrejaPesquisaBean.igrejaFiltro.dsIgrejaFiltro}" size="100"/>	
+				
+					<p:outputLabel value="CNPJ:" for="dsCnpj" style="margin-left: 10px; margin-right: 10px"/>
+					<p:inputMask id="dsCnpj" value="#{igrejaPesquisaBean.igrejaFiltro.dsCnpjFiltro}" mask="99.999.999/9999-99" size="20">
+						<f:converter converterId="converter_cnpj"  />
+						<f:validator validatorId="validator_cnpj" />
+					</p:inputMask>
+				</p:outputPanel>
+				
+				<p:outputLabel value="Bairro:" for="dsBairro" />
+				<p:outputPanel>
+					<p:inputText id="dsBairro" value="#{igrejaPesquisaBean.igrejaFiltro.dsBairroFiltro}" size="30"/>
+					
+					<p:outputLabel value="Cidade:" for="dsCidade" style="margin-left: 10px; margin-right: 10px" />
+					<p:inputText id="dsCidade" value="#{igrejaPesquisaBean.igrejaFiltro.dsCidadeFiltro}" size="50"/>
+				
+					<p:outputLabel value="Estado:" for="dsEstado" style="margin-left: 10px; margin-right: 10px"/>
+					<p:selectOneMenu id="dsEstado" value="#{igrejaPesquisaBean.igrejaFiltro.estado}" filter="true" filterMatchMode="startsWith"  >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione o estado" />
+						<f:selectItems value="#{igrejaPesquisaBean.estados}" var="item" itemValue="#{item}" itemLabel="#{item.dsNome}" />
+					</p:selectOneMenu>
+				</p:outputPanel>
+				
+			</p:panelGrid>	
+				<p:dataTable value="#{igrejaPesquisaBean.lista}"
+							var="item"
+							style="margin-top:20px;"
+							id="dtList"
+							paginator="true"
+							rows="10"
+							rowsPerPageTemplate="10,20,30,40,50,60,70,80"
+							emptyMessage="Não há registros para exibir" 
+							paginatorPosition="bottom" >
+					
+					<p:column headerText="Igreja" style="text-align:left;" sortBy="#{item.dsIgreja}" filterBy="#{item.dsIgreja}">
+						<p:link styleClass="cv-link-estilo" 
+								value="#{item.dsIgreja}"
+								outcome="/pages/cadastro/IgrejaRetrive">
+							<f:param name="igreja" value="#{item.sqIgreja}"/>
+							<f:param name="param_regiaoItens_sqRegiao"  value="#{igrejaPesquisaBean.igrejaFiltro.regiaoItens.sqRegiao}"/> 
+							<f:param name="param_dsIgrejaFiltro"  value="#{igrejaPesquisaBean.igrejaFiltro.dsIgrejaFiltro}"/>  
+							<f:param name="param_dsBairroFiltro"  value="#{igrejaPesquisaBean.igrejaFiltro.dsBairroFiltro}"/>  
+							<f:param name="param_dsCidadeFiltro"  value="#{igrejaPesquisaBean.igrejaFiltro.dsCidadeFiltro}"/>
+							<f:param name="param_dsCnpjFiltro"  value="#{igrejaPesquisaBean.igrejaFiltro.dsCnpjFiltro}"/>
+							<f:param name="param_estado_sqEstado"  value="#{igrejaPesquisaBean.igrejaFiltro.estado.sqEstado}"/>
+							<f:param name="param_ministro_sqMinistro"  value="#{igrejaPesquisaBean.igrejaFiltro.ministro.sqMinistro}"/>
+							<f:param name="param_controle"  value="1"/>
+						</p:link>
+					</p:column>
+					
+					<p:column headerText="Região" style="text-align:left; width:100px;" sortBy="#{item.regiao.dsRegiao}">
+						<p:outputLabel value="#{item.regiao.dsRegiao}"/>
+					</p:column>
+				
+					<p:column headerText="CNPJ" style="text-align:left; width:120px;" sortBy="#{item.dsCnpj}">
+						<p:outputLabel value="#{item.dsCnpj}"/>
+					</p:column>
+					
+					<p:column headerText="Pr. Presidente" style="text-align:left; width:150px;" sortBy="#{item.ministro.nmNome}" >
+						<p:outputLabel value="#{item.ministro.nmNome}"/>
+					</p:column>
+					
+					<p:column headerText="Bairro" style="text-align:left; width:100px;" sortBy="#{item.dsBairro}">
+						<p:outputLabel value="#{item.dsBairro}"/>
+					</p:column>
+					
+					<p:column headerText="Cidade" style="text-align:left; width:100px;" sortBy="#{item.dsCidade}">
+						<p:outputLabel value="#{item.dsCidade}"/>
+					</p:column>
+					
+					<p:column headerText="UF" style="text-align:left; width:20px;" sortBy="#{item.estado.dsUf}">
+						<p:outputLabel value="#{item.estado.dsUf}"/>
+					</p:column>
+					
+					<p:column style="text-align: center; width: 60px;">
+					
+						<p:button icon="ui-icon-pencil" 
+								 style="width: 25px;"  
+								 title="Editar" 
+								 rendered="#{igrejaPesquisaBean.exibirBotaoAlterarIgreja}"
+								 outcome="/pages/cadastro/IgrejaCadastro">
+							<f:param name="igreja" value="#{item.sqIgreja}"/>
+							<f:param name="param_regiaoItens_sqRegiao"  value="#{igrejaPesquisaBean.igrejaFiltro.regiaoItens.sqRegiao}"/> 
+							<f:param name="param_dsIgrejaFiltro"  value="#{igrejaPesquisaBean.igrejaFiltro.dsIgrejaFiltro}"/>  
+							<f:param name="param_dsBairroFiltro"  value="#{igrejaPesquisaBean.igrejaFiltro.dsBairroFiltro}"/>  
+							<f:param name="param_dsCidadeFiltro"  value="#{igrejaPesquisaBean.igrejaFiltro.dsCidadeFiltro}"/>
+							<f:param name="param_dsCnpjFiltro"  value="#{igrejaPesquisaBean.igrejaFiltro.dsCnpjFiltro}"/>
+							<f:param name="param_estado_sqEstado"  value="#{igrejaPesquisaBean.igrejaFiltro.estado.sqEstado}"/>
+							<f:param name="param_ministro_sqMinistro"  value="#{igrejaPesquisaBean.igrejaFiltro.ministro.sqMinistro}"/>
+							<f:param name="param_controle"  value="1"/>
+						</p:button>
+						
+						<p:commandButton icon="ui-icon-trash" 
+								style="width: 25px; margin-left: 5px;"
+								title="Excluir" 
+								rendered="#{igrejaPesquisaBean.exibirBotaoExcluirIgreja}"
+								oncomplete="PF('confirmacaoExclusao').show();"
+								process="@this"
+								update=":frm:confirmacaoExclusaoDialog" >
+								
+		    				<f:setPropertyActionListener value="#{item}" target="#{igrejaPesquisaBean.selecionada}" />
+		    			</p:commandButton>
+					</p:column>
+    				
+    				 <f:facet name="footer">
+				        #{igrejaPesquisaBean.mensagemRodape}
+				    </f:facet>
+				</p:dataTable>
+				
+				<p:confirmDialog header="Exclusão de Igreja" 
+						message="Confirma excluir Igreja: (#{igrejaPesquisaBean.selecionada.dsIgreja})?"
+						widgetVar="confirmacaoExclusao"
+						id="confirmacaoExclusaoDialog">
+					<p:button value="Não" 
+							onclick="PF('confirmacaoExclusao').hide(); return false;"
+							style="width: auto"/>
+					<p:commandButton value="Sim" 
+							oncomplete="PF('confirmacaoExclusao').hide();" 
+							action="#{igrejaPesquisaBean.excluir}"
+							update=":frm:dtList"
+							style="width: auto"/>
+				</p:confirmDialog>
+				
+			<div class="ui-fluid">
+			
+			
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

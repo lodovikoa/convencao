@@ -1,0 +1,145 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+	
+		<h1 class="aw-page-title">Convenção pesquisa</h1>	
+		
+		<h:form id="frm">
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+			<p:toolbar>
+				<p:toolbarGroup align="right">
+					<p:button value="Cadastrar Convenção" outcome="/pages/configuracao/ConvencaoCadastro"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+				<p:dataTable value="#{convencaoPesquisaBean.lista}" 
+						var="item" style="margin-top:20px;"
+						id="dtConvencaoList">
+					<p:column headerText="Nome reduzido" style="text-align: left; width: 150px;">
+						<p:commandLink 
+								styleClass="cv-link-estilo"
+								value="#{item.dsReduzido}"
+								oncomplete="PF('exibirConvencaoDialog').show()"
+								process="@this"
+								action="#{convencaoPesquisaBean.buscar}"
+								update=":frm:exibirConvencaoDialog" >
+			
+							<f:param name="convencao" value="#{item.sqConvencao}"/>
+						</p:commandLink>
+					</p:column>
+					
+					<p:column headerText="Convenção" style="text-align: left;" priority="6">
+						<h:outputText value="#{item.dsConvencao}"/>
+					</p:column>
+					
+					<p:column headerText="Cidade" style="text-align: left; width: 180px;" priority="3">
+						<h:outputText value="#{item.dsCidade}"/>
+					</p:column>
+					
+					<p:column headerText="Estado" style="text-align: left; width: 50px;" priority="3">
+						<h:outputText value="#{item.estado.dsUf}"/>
+					</p:column>
+					
+					<p:column style="text-align: center; width: 65px;">
+					
+						<p:button icon="ui-icon-pencil" 
+								style="width: 25px;"  
+								 title="Editar"
+								outcome="/pages/configuracao/ConvencaoCadastro" >
+							<f:param name="convencao" value="#{item.sqConvencao}"/>
+						</p:button>
+						
+						<p:commandButton icon="ui-icon-trash" 
+								style="width: 25px; margin-left: 5px;"
+								title="Excluir" 
+								oncomplete="PF('confirmacaoExclusao').show();"
+								process="@this"
+								update=":frm:confirmacaoExclusaoDialog" >
+								
+		    				<f:setPropertyActionListener value="#{item}" target="#{convencaoPesquisaBean.convencaoSelecionada}" />
+		    			</p:commandButton>
+					</p:column>
+					
+					<f:facet name="footer">
+       						 #{convencaoPesquisaBean.mensagemRodape}
+    				</f:facet>
+				
+				</p:dataTable>
+				
+				<p:confirmDialog header="Exclusão de convenção" 
+						message="Confirma excluir convenção (#{convencaoPesquisaBean.convencaoSelecionada.dsReduzido})?"
+						widgetVar="confirmacaoExclusao"
+						id="confirmacaoExclusaoDialog">
+					<p:button value="Não" 
+							onclick="PF('confirmacaoExclusao').hide(); return false;"
+							style="width: auto"/>
+					<p:commandButton value="Sim" 
+							oncomplete="PF('confirmacaoExclusao').hide();" 
+							action="#{convencaoPesquisaBean.excluir}"
+							update=":frm:dtConvencaoList"
+							style="width: auto"/>
+				</p:confirmDialog>
+					
+				<p:dialog
+						widgetVar="exibirConvencaoDialog"
+						id="exibirConvencaoDialog"
+						header="Exibir convenção"
+						resizable="false"
+						responsive="true"
+						width="50%" >
+					<h:panelGroup id="exibirConvencaoPanel" layout="block" styleClass="ui-fluid">
+						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-8, ui-grid-col-4" >
+							<p:panelGrid columns="1" layout="grid" styleClass="panelgrid-noborder" >
+					
+								<p:panelGrid columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-3, ui-grid-col-9">
+									<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Nome reduzido"/>
+									<p:outputLabel id="dsConvencaoReduzido" value="#{convencaoPesquisaBean.convencaoSelecionada.dsReduzido}"/>
+									
+									<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Convenção"/>
+									<p:outputLabel id="dsConvencao" value="#{convencaoPesquisaBean.convencaoSelecionada.dsConvencao}"/>
+									
+									<p:outputLabel styleClass="cv-dialogo-exibe-label" value="CNPJ"/>
+									<p:outputLabel readonly="true"  id="dsCnpj" value="#{convencaoPesquisaBean.convencaoSelecionada.dsCnpj}" />				
+									
+									<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Endereço"/>
+									<p:outputLabel id="dsEndereco" value="#{convencaoPesquisaBean.convencaoSelecionada.dsEndereco}"/>
+									
+									<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Bairro"/>
+									<p:outputLabel id="dsBairro" value="#{convencaoPesquisaBean.convencaoSelecionada.dsBairro}"/>
+									
+									<p:outputLabel styleClass="cv-dialogo-exibe-label" value="CEP" />
+									<p:outputLabel id="dsCep" value="#{convencaoPesquisaBean.convencaoSelecionada.dsCep}"/>
+										
+									<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Cidade" />
+									<p:outputLabel id="dsCidade" value="#{convencaoPesquisaBean.convencaoSelecionada.dsCidade}"/>
+									
+									<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Estado" />
+									<p:outputLabel id="dsEstado" value="#{convencaoPesquisaBean.convencaoSelecionada.estado.dsUf}"/>
+										
+									<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Pais"/>
+									<p:outputLabel id="dsPais" value="#{convencaoPesquisaBean.convencaoSelecionada.dsPais}"/>
+											
+								</p:panelGrid>
+							</p:panelGrid>	
+							<p:panelGrid columns="1" layout="grid" >
+								<p:graphicImage library="convencao" name="images/logo02.jpg" style="max-width:150px; width: auto; display: block; margin-left: auto; margin-right: auto; border: 1px solid black;  margin-top: 5px;margin-bottom: 5px;" />							
+							</p:panelGrid>
+						</p:panelGrid>	
+						
+						<p:separator />
+						<p:button value="Fechar" 
+								onclick="PF('exibirConvencaoDialog').hide(); return false;"
+								style="width: auto"/>
+					</h:panelGroup>
+				</p:dialog>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

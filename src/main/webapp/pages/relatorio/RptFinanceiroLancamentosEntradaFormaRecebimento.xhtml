@@ -1,0 +1,122 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.inicializar}" type="preRenderView" />
+		</f:metadata>
+	
+		<h1 class="aw-page-title">Relatório Forma Recebimento (Dinheiro, Cheque, Banco, Cartão, Boleto, etc)</h1>	
+		
+		<h:form id="frm">
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+							
+			<p:toolbar style="margin-bottom: 30px" >
+				<p:toolbarGroup align="left">
+					<p:commandButton value="Imprimir" 
+							action="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.imprimir}" 
+							update="@form"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+	
+			<div class="ui-fluid">
+			
+				<div class="cv-linha-horizontal" >
+					<div class="cv-linha-horizontal-texto">Filtro</div> 
+				</div>
+			
+				<p:panelGrid columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-3" >
+					<p:outputLabel value="Departamento:" for="dsDepartamento" />
+					<p:selectOneMenu id="dsDepartamento" filter="true" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.departamento}" >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione o Departamento"/>
+						<f:selectItems value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.departamentos}" var="item" itemValue="#{item}" itemLabel="#{item.dsReduzido}" />
+						<p:ajax listener="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.buscarMinistros}"  update=":frm:dsMinistro"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Região Financeiro" for="dsRegiaoRecebimento" />
+					<p:selectOneMenu id="dsRegiaoRecebimento" filter="true" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.regiaoRecebimentoItensFiltro}" >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma região"/>
+						<f:selectItems value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.regiaoRecebimentoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Região Ministro:" for="dsRegiao" />
+					<p:selectOneMenu id="dsRegiao" filter="true" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.regiaoItensFiltro}" >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma região"/>
+						<f:selectItems value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
+						<p:ajax listener="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.buscarIgrejasEministros}"  update=":frm:dsIgreja :frm:dsMinistro"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Igreja:" for="dsIgreja" />
+					<p:selectOneMenu id="dsIgreja" filter="true" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.igreja}" style="width:100%;" >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma igreja"/>
+						<f:selectItems value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})" />
+						<p:ajax listener="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.buscarMinistros}"  update=":frm:dsMinistro"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Cargo:" for="dsCargo" />
+					<p:selectOneMenu id="dsCargo" filter="true" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.cargo}" >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione o Cargo"/>
+						<f:selectItems value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.cargos}" var="item" itemValue="#{item}" itemLabel="#{item.dsCargo}" />
+						<p:ajax listener="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.buscarMinistros}"  update=":frm:dsMinistro"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Ministro:" for="dsMinistro" />
+					<p:selectOneMenu id="dsMinistro" filter="true" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.ministro}"  >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione o Ministro"/>
+						<f:selectItems value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.ministros}" var="item" itemValue="#{item}" itemLabel="#{item.nmNome}" />
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Data pagamento:" for="dtPgtoInicio" />
+					<p:outputPanel >
+						<p:calendar id="dtPgtoInicio"
+								pattern="dd/MM/yyyy" 
+								mask="true" 
+								locale="pt" 
+								showButtonPanel="true" 
+								navigator="true"
+								value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.dtInicio}" 
+								size="10" >
+							<p:ajax event="dateSelect" process="@this" update="@this"/>
+							<f:converter converterId="converter_localdate"/>
+						</p:calendar>
+						<p:outputLabel value="a" style="margin-left: 5px; margin-right: 5px"/>
+						<p:calendar pattern="dd/MM/yyyy" 
+								mask="true" 
+								locale="pt" 
+								showButtonPanel="true" 
+								navigator="true" 
+								value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.dtFim}"
+								size="10" >
+							<p:ajax event="dateSelect" process="@this" update="@this"/>
+							<f:converter converterId="converter_localdate"/>
+						</p:calendar>
+					</p:outputPanel>
+					
+					<p:outputLabel value="Ordem:" for="cdOrdem" />
+					<p:selectOneMenu id="cdOrdem" filter="true" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.cdOrdem}"  >
+						<f:selectItem itemValue="1" itemLabel="Recibo"/>
+						<f:selectItem itemValue="2" itemLabel="Rg"/>
+						<f:selectItem itemValue="3" itemLabel="Contribuinte"/>
+						<f:selectItem itemValue="4" itemLabel="Data pagamento"/>
+						<f:selectItem itemValue="5" itemLabel="Forma Pagamento (Dinheiro, Cheque, Banco, etc...)"/>
+					</p:selectOneMenu>									
+				
+					<p:outputLabel value="Impressão:" for="tpRelatorio" />
+					<p:selectOneRadio id="tpRelatorio" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.tpRelatorio}">
+					  	<f:selectItem itemLabel="PDF" itemValue="pdf"  />
+					   	<f:selectItem itemLabel="Excel" itemValue="xlsx" />
+					</p:selectOneRadio>
+				 </p:panelGrid>
+				 
+				<div class="cv-linha-horizontal" />
+			</div>
+
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

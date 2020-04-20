@@ -1,0 +1,110 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+	
+		<h1 class="aw-page-title">Departamento pesquisa</h1>	
+		
+		<h:form id="frm">
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+			<p:toolbar>
+				<p:toolbarGroup align="right">
+					<p:button value="Cadastrar Departamento" outcome="/pages/configuracao/DepartamentoCadastro"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+				<p:dataTable value="#{departamentoPesquisaBean.lista}" 
+						var="item" style="margin-top:20px;"
+						id="dtDepartamentoList">
+						
+					<p:column headerText="Nome reduzido" style="text-align: left;  width: 150px;">
+						<p:commandLink 
+								styleClass="cv-link-estilo"
+								value="#{item.dsReduzido}"
+								oncomplete="PF('exibirDepartamentoDialog').show()"
+								process="@this"
+								action="#{departamentoPesquisaBean.buscar}"
+								update=":frm:exibirDepartamentoDialog" >
+			
+							<f:param name="departamento" value="#{item.sqDepartamento}"/>
+						</p:commandLink>
+					</p:column>
+					
+					<p:column headerText="Nome" style="text-align: left;">
+						<h:outputText value="#{item.dsDepartamento}"/>
+					</p:column>
+				
+					<p:column style="text-align: center; width: 65px;">
+					
+						<p:button icon="ui-icon-pencil" 
+								style="width: 25px;"  
+								 title="Editar"
+								outcome="/pages/configuracao/DepartamentoCadastro" >
+							<f:param name="departamento" value="#{item.sqDepartamento}"/>
+						</p:button>
+						
+						<p:commandButton icon="ui-icon-trash" 
+								style="width: 25px; margin-left: 5px;"
+								title="Excluir" 
+								oncomplete="PF('confirmacaoExclusao').show();"
+								process="@this"
+								update=":frm:confirmacaoExclusaoDialog" >
+								
+		    				<f:setPropertyActionListener value="#{item}" target="#{departamentoPesquisaBean.selecionado}" />
+		    			</p:commandButton>
+					</p:column>
+					
+					<f:facet name="footer">
+       						 #{departamentoPesquisaBean.mensagemRodape}
+    				</f:facet>
+				
+				</p:dataTable>
+				
+				<p:confirmDialog header="Exclusão de " 
+						message="Confirma excluir  (#{departamentoPesquisaBean.selecionado.dsReduzido})?"
+						widgetVar="confirmacaoExclusao"
+						id="confirmacaoExclusaoDialog">
+					<p:button value="Não" 
+							onclick="PF('confirmacaoExclusao').hide(); return false;"
+							style="width: auto"/>
+					<p:commandButton value="Sim" 
+							oncomplete="PF('confirmacaoExclusao').hide();" 
+							action="#{departamentoPesquisaBean.excluir}"
+							update=":frm:dtDepartamentoList"
+							style="width: auto"/>
+				</p:confirmDialog>
+					
+				<p:dialog
+						widgetVar="exibirDepartamentoDialog"
+						id="exibirDepartamentoDialog"
+						header="Exibir "
+						resizable="false"
+						responsive="true"
+						width="50%" >
+					<h:panelGroup id="exibirDepartamentoPanel" layout="block" styleClass="ui-fluid">
+						<p:panelGrid columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-3, ui-grid-col-9">
+							
+							<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Nome reduzido"/>
+							<p:outputLabel id="dsReduzido" value="#{departamentoPesquisaBean.selecionado.dsReduzido}"/>
+							
+							<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Nome"/>
+							<p:outputLabel id="dsDepartamento" value="#{departamentoPesquisaBean.selecionado.dsDepartamento}"/>
+									
+						</p:panelGrid>
+						
+						<p:separator />
+						<p:button value="Fechar" 
+								onclick="PF('exibirDepartamentoDialog').hide(); return false;"
+								style="width: auto"/>
+					</h:panelGroup>
+				</p:dialog>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

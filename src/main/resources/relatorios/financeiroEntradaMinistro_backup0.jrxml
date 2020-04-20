@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="financeiroEntradaMinistro" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8e5b4700-fd15-4e77-9e1b-9233556ca0af">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="164"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="823"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Confrater00"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="671"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="315"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="url-logo" class="java.lang.String"/>
+	<parameter name="sqConvencao" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[1L]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sqDepartamento" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[0L]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sqRegiaoFin" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[0L]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sqRegiaoMin" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[0L]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sqIgreja" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[0L]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sqCargo" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[0L]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sqMinistro" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[0L]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sqContaContabil" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[0L]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dtPagamentoInicio" class="java.sql.Date"/>
+	<parameter name="dtPagamentoFim" class="java.sql.Date"/>
+	<parameter name="nome-relatorio" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Entradas por Ministro"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ds-parametros1" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Depto:"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ds-parametros2" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Contrib."]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select min.min_sq_ministro as sqMinistro, min.min_cd_codigo as cdMinistroCodigo, min.min_nm_nome as nmMinistroNome, 
+	dpt.dpt_ds_reduzido as dsMinistroDepartamento, cgo.cgo_ds_cargo as dsMinistroCargo, 
+	igr.igr_ds_igreja as dsMinistroIgreja, lan.lan_dt_pagamento as dtLancamentoPagamento, 
+	lan.lan_vl_pagamento as vlLancamentoPagamento, tpl.tpl_ds_tipolancamento as dsLancamentoTipo, lan.lan_cd_origem as cdOrigem
+from tb_lan_lancamento lan 
+    left join tb_rgl_reglancamento rgl on rgl.rgl_sq_reglancamento = lan.rgl_sq_reglancamento 
+	left join tb_min_ministro min on rgl.min_sq_ministro = min.min_sq_ministro
+	left join tb_cgo_cargo cgo on min.cgo_sq_cargo = cgo.cgo_sq_cargo
+	left join tb_igr_igreja igr on min.igr_sq_igreja = igr.igr_sq_igreja
+	left join tb_tpl_tipolancamento tpl on rgl.tpl_sq_tipolancamento = tpl.tpl_sq_tipolancamento
+	left join tb_dpt_departamento dpt on min.dpt_sq_departamento = dpt.dpt_sq_departamento
+	left join tb_rcb_recibo rcb on rcb.rcb_sq_recibo = lan.rcb_sq_recibo
+where rcb.rcb_dt_cancelado is null and 
+	lan.lan_cd_origem = 1 and
+	rcb.rgn_sq_regiao = $P{sqRegiaoFin}   and
+	if( $P{sqDepartamento}  = 0, 0=0, min.dpt_sq_departamento = $P{sqDepartamento}  ) and
+	if( $P{dtPagamentoInicio}  is null, 0=0, lan.lan_dt_pagamento >= $P{dtPagamentoInicio}  ) and
+	if( $P{dtPagamentoFim}  is null, 0=0, lan.lan_dt_pagamento <=  $P{dtPagamentoFim} ) and
+	if($P{sqRegiaoMin} = 0, 0=0, igr.rgn_sq_regiao = $P{sqRegiaoMin}) and
+	if( $P{sqIgreja}  = 0, 0=0, igr.igr_sq_igreja =  $P{sqIgreja} ) and
+	if( $P{sqMinistro}  = 0, 0=0, min.min_sq_ministro = $P{sqMinistro}  ) and
+	if( $P{sqCargo}  = 0, 0=0, cgo.cgo_sq_cargo = $P{sqCargo}  ) and
+	if( $P{sqContaContabil} = 0, 0=0, lan.plc_sq_plano_contas =  $P{sqContaContabil} )
+order by min.min_nm_nome, lan.lan_dt_pagamento]]>
+	</queryString>
+	<field name="cdMinistroCodigo" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="cdMinistroCodigo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_min_ministro"/>
+	</field>
+	<field name="nmMinistroNome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nmMinistroNome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_min_ministro"/>
+	</field>
+	<field name="dsMinistroDepartamento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="dsMinistroDepartamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_dpt_departamento"/>
+	</field>
+	<field name="dsMinistroCargo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="dsMinistroCargo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_cgo_cargo"/>
+	</field>
+	<field name="dsMinistroIgreja" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="dsMinistroIgreja"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_igr_igreja"/>
+	</field>
+	<field name="dtLancamentoPagamento" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="dtLancamentoPagamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_lan_lancamento"/>
+	</field>
+	<field name="vlLancamentoPagamento" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="vlLancamentoPagamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_lan_lancamento"/>
+	</field>
+	<field name="dsLancamentoTipo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="dsLancamentoTipo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_tpl_tipolancamento"/>
+	</field>
+	<field name="cdOrigem" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="cdOrigem"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_lan_lancamento"/>
+	</field>
+	<variable name="total_contribuinte" class="java.math.BigDecimal" resetType="Group" resetGroup="group_contribuinte" calculation="Sum">
+		<variableExpression><![CDATA[$F{vlLancamentoPagamento}]]></variableExpression>
+	</variable>
+	<variable name="total_geral" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{vlLancamentoPagamento}]]></variableExpression>
+	</variable>
+	<group name="group_contribuinte">
+		<groupExpression><![CDATA[$F{nmMinistroNome}]]></groupExpression>
+		<groupHeader>
+			<band height="16">
+				<textField>
+					<reportElement x="35" y="0" width="181" height="13" uuid="01feb600-97ad-4fbd-addb-f36dd1f2febe"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nmMinistroNome}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="3" y="0" width="29" height="13" uuid="bb5a75d1-0082-4f43-af79-9f7b79ad140c"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cdMinistroCodigo}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="221" y="0" width="75" height="13" uuid="5e2604f5-5bb9-4cd4-8145-0b389dc593b7"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{dsMinistroDepartamento}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="300" y="0" width="54" height="13" uuid="4b71e9f2-5a57-447a-99ae-4ca2141cd399"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{dsMinistroCargo}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight">
+					<reportElement x="356" y="0" width="198" height="13" uuid="99abc129-5570-4633-9a9c-9e9c29f3a7c2"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{dsMinistroIgreja}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<frame>
+					<reportElement x="0" y="2" width="560" height="15" uuid="5607e12d-312b-4ab6-9a19-19843adc0b5b"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted"/>
+					</box>
+				</frame>
+				<textField pattern="¤ #,##0.00;¤ -#,##0.00">
+					<reportElement x="455" y="2" width="100" height="13" uuid="6c061791-d264-4f69-9577-656677c47c38"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{total_contribuinte}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="86" splitType="Stretch">
+			<subreport>
+				<reportElement x="80" y="0" width="200" height="33" uuid="99f1805a-6ffe-42e1-a262-60c69a946106"/>
+				<subreportParameter name="sqConvencaoParam">
+					<subreportParameterExpression><![CDATA[$P{sqConvencao}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subRetratoPageHeader.jasper"]]></subreportExpression>
+			</subreport>
+			<image>
+				<reportElement x="6" y="0" width="70" height="70" uuid="3b7b6554-5b38-4d83-8c7b-b12168e33e8f"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<imageExpression><![CDATA[$P{url-logo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="86" y="45" width="466" height="17" uuid="a577603e-076b-4267-a87a-d716a3337c2f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nome-relatorio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="86" y="62" width="466" height="10" backcolor="#F5F0F0" uuid="ff2f105f-f46b-4c09-9c97-9188c967a70c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ds-parametros1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="86" y="76" width="466" height="10" backcolor="#F5F0F0" uuid="0af4af67-bc0b-4c6a-9f50-f98a6cca0cac"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ds-parametros2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="555" height="15" uuid="56e563e9-23d8-4729-afc8-2e2b8e6f9d92"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<staticText>
+					<reportElement x="221" y="0" width="75" height="13" uuid="eda8f941-2d21-4a20-bd87-bbb52ffbd515"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Departamento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="300" y="0" width="49" height="13" uuid="1932eb15-85d5-401a-9f9e-78a6f61115b9"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cargo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="356" y="0" width="35" height="13" uuid="38b60a83-a4ba-43e7-89c0-b9e421678dd0"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Igreja]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="35" y="0" width="100" height="13" uuid="25b4648b-037d-441e-93c5-c63e368ad7a5"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Contribuinte]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="0" width="26" height="13" uuid="8ad1f85e-a53e-405e-8787-a85febd7b57c"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Rg]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="403" y="0" width="53" height="13" uuid="174d1179-fc15-428a-95da-227cbf707e2c"/>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data pgto]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="525" y="0" width="30" height="13" uuid="734818da-ab08-4787-b3f6-8b7c28541d76"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Valor]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField>
+				<reportElement x="80" y="2" width="315" height="12" uuid="6ba969f2-6ac2-46df-a22e-bbab9e019031">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6f64dd1f-822d-4954-b3a6-84ef5158bd9d"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dsLancamentoTipo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="400" y="2" width="56" height="12" uuid="0182ee5c-fd73-4fdf-935d-4a1a6c9f6360">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="418b8660-e863-487c-af6b-e186069da3ad"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dtLancamentoPagamento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00;¤ -#,##0.00">
+				<reportElement x="466" y="2" width="89" height="12" uuid="22aff8fc-b480-4c6b-b085-8880f6bb157f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ee973935-cdc6-4bf4-b488-12ea6685cfcd"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vlLancamentoPagamento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="31" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="7" width="552" height="21" uuid="d47ad04b-7efc-4781-96a0-6a73d2114c8d"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<subreport>
+				<reportElement x="4" y="8" width="200" height="19" uuid="81fd1ddc-f4a4-490e-bf2a-e89ede06c14b"/>
+				<subreportParameter name="sqConvencaoRodape">
+					<subreportParameterExpression><![CDATA[$P{sqConvencao}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subRetratoPageFooter.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement x="443" y="9" width="66" height="10" uuid="fdb01ffc-a306-494c-952d-a7eb3814d5a9"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina: " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="509" y="9" width="43" height="10" uuid="a4ecc9ed-b75d-4670-bdfe-c44822e6f1a6"/>
+				<textElement textAlignment="Left">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="57" splitType="Stretch">
+			<staticText>
+				<reportElement x="460" y="29" width="100" height="18" uuid="168b0618-fa22-406d-971f-37116d3c657a"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Fim realtório]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00;¤ -#,##0.00">
+				<reportElement x="450" y="5" width="105" height="13" uuid="db964e7d-44d4-45ba-be40-463b997fc77d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_geral}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="345" y="5" width="100" height="13" uuid="edd13798-ea25-48bb-a0ae-dc6c36db0c98"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total geral:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

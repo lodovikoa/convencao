@@ -1,0 +1,189 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{lancamentoEntradaIgrejaCreateBean.inicializar}" type="preRenderView" />
+			
+			<o:viewParam name="param_regiaoItens_sqRegiao"  value="#{lancamentoEntradaIgrejaCreateBean.param_regiaoItens_sqRegiao}"/> 
+			<o:viewParam name="param_igrejaItensFiltro_sqIgreja"  value="#{lancamentoEntradaIgrejaCreateBean.param_igrejaItensFiltro_sqIgreja}"/> 
+			<o:viewParam name="param_departamentoItensFiltro_sqDepartamento"  value="#{lancamentoEntradaIgrejaCreateBean.param_departamentoItensFiltro_sqDepartamento}"/> 
+			<o:viewParam name="param_cdRg"  value="#{lancamentoEntradaIgrejaCreateBean.param_cdRg}"/>
+			<o:viewParam name="param_nmMinistro"  value="#{lancamentoEntradaIgrejaCreateBean.param_nmMinistro}"/>  
+			<o:viewParam name="param_cargo_sqCargo"  value="#{lancamentoEntradaIgrejaCreateBean.param_cargo_sqCargo}"/> 
+			<o:viewParam name="param_cdNsu" value="#{lancamentoEntradaIgrejaCreateBean.param_cdNsu}" />
+			<o:viewParam name="param_dtInicio1"  value="#{lancamentoEntradaIgrejaCreateBean.param_dtInicio1}"/> 
+			<o:viewParam name="param_dtFim1"  value="#{lancamentoEntradaIgrejaCreateBean.param_dtFim1}"/> 
+			<o:viewParam name="param_dtInicio2"  value="#{lancamentoEntradaIgrejaCreateBean.param_dtInicio2}"/> 
+			<o:viewParam name="param_dtFim2"  value="#{lancamentoEntradaIgrejaCreateBean.param_dtFim2}"/> 
+			<o:viewParam name="param_dsCidade"  value="#{lancamentoEntradaIgrejaCreateBean.param_dsCidade}"/> 
+			<o:viewParam name="param_estado_sqEstado"  value="#{lancamentoEntradaIgrejaCreateBean.param_estado_sqEstado}"/> 
+			<o:viewParam name="param_cdSituacao"  value="#{lancamentoEntradaIgrejaCreateBean.param_cdSituacao}"/> 
+			<o:viewParam name="param_flJubilado"  value="#{lancamentoEntradaIgrejaCreateBean.param_flJubilado}"/> 
+	
+			<o:viewParam name="param_controle"  value="#{lancamentoEntradaIgrejaCreateBean.param_controle}"/>
+		</f:metadata>
+
+		<h:form id="frm">
+			<h1 class="aw-page-title">Financeiro Entradas - Recebimento de Igrejas</h1>
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+		
+			<p:toolbar styleClass="cv-toolbar-topo">		
+				<p:toolbarGroup align="right">
+					<p:link styleClass="cv-botao" 
+								value="Limpar formulário"
+								outcome="/pages/financeiro/entrada/LancamentoEntradaIgrejaCreate" >
+								
+						<f:param name="param_regiaoItens_sqRegiao"  value="#{lancamentoEntradaIgrejaCreateBean.param_regiaoItens_sqRegiao}"/> 
+						<f:param name="param_igrejaItensFiltro_sqIgreja"  value="#{lancamentoEntradaIgrejaCreateBean.param_igrejaItensFiltro_sqIgreja}"/> 
+						<f:param name="param_departamentoItensFiltro_sqDepartamento"  value="#{lancamentoEntradaIgrejaCreateBean.param_departamentoItensFiltro_sqDepartamento}"/> 
+						<f:param name="param_cdRg"  value="#{lancamentoEntradaIgrejaCreateBean.param_cdRg}"/>
+						<f:param name="param_nmMinistro"  value="#{lancamentoEntradaIgrejaCreateBean.param_nmMinistro}"/>  
+						<f:param name="param_cargo_sqCargo"  value="#{lancamentoEntradaIgrejaCreateBean.param_cargo_sqCargo}"/> 
+						<f:param name="param_cdNsu"  value="#{lancamentoEntradaIgrejaCreateBean.param_cdNsu}"/> 
+						<f:param name="param_dtInicio1"  value="#{lancamentoEntradaIgrejaCreateBean.param_dtInicio1}"/> 
+						<f:param name="param_dtFim1"  value="#{lancamentoEntradaIgrejaCreateBean.param_dtFim1}"/> 
+						<f:param name="param_dtInicio2"  value="#{lancamentoEntradaIgrejaCreateBean.param_dtInicio2}"/> 
+						<f:param name="param_dtFim2"  value="#{lancamentoEntradaIgrejaCreateBean.param_dtFim2}"/> 
+						<f:param name="param_dsCidade"  value="#{lancamentoEntradaIgrejaCreateBean.param_dsCidade}"/> 
+						<f:param name="param_estado_sqEstado"  value="#{lancamentoEntradaIgrejaCreateBean.param_estado_sqEstado}"/> 
+						<f:param name="param_cdSituacao"  value="#{lancamentoEntradaIgrejaCreateBean.param_cdSituacao}"/> 
+						<f:param name="param_flJubilado"  value="#{lancamentoEntradaIgrejaCreateBean.param_flJubilado}"/> 
+				
+						<f:param name="param_controle"  value="#{lancamentoEntradaIgrejaCreateBean.param_controle}"/>	
+					</p:link>
+				
+					<p:link styleClass="cv-botao" 
+								value="Voltar ao Lançamento de Igrejas"
+								outcome="/pages/financeiro/entrada/LancamentoEntradaIgrejaList" >
+								
+						<f:param name="param_regiaoItens_sqRegiao"  value="#{lancamentoEntradaIgrejaCreateBean.param_regiaoItens_sqRegiao}"/> 
+						<f:param name="param_igrejaItensFiltro_sqIgreja"  value="#{lancamentoEntradaIgrejaCreateBean.param_igrejaItensFiltro_sqIgreja}"/> 
+						<f:param name="param_departamentoItensFiltro_sqDepartamento"  value="#{lancamentoEntradaIgrejaCreateBean.param_departamentoItensFiltro_sqDepartamento}"/> 
+						<f:param name="param_cdRg"  value="#{lancamentoEntradaIgrejaCreateBean.param_cdRg}"/>
+						<f:param name="param_nmMinistro"  value="#{lancamentoEntradaIgrejaCreateBean.param_nmMinistro}"/>  
+						<f:param name="param_cargo_sqCargo"  value="#{lancamentoEntradaIgrejaCreateBean.param_cargo_sqCargo}"/> 
+						<f:param name="param_cdNsu"  value="#{lancamentoEntradaIgrejaCreateBean.param_cdNsu}"/> 
+						<f:param name="param_dtInicio1"  value="#{lancamentoEntradaIgrejaCreateBean.param_dtInicio1}"/> 
+						<f:param name="param_dtFim1"  value="#{lancamentoEntradaIgrejaCreateBean.param_dtFim1}"/> 
+						<f:param name="param_dtInicio2"  value="#{lancamentoEntradaIgrejaCreateBean.param_dtInicio2}"/> 
+						<f:param name="param_dtFim2"  value="#{lancamentoEntradaIgrejaCreateBean.param_dtFim2}"/> 
+						<f:param name="param_dsCidade"  value="#{lancamentoEntradaIgrejaCreateBean.param_dsCidade}"/> 
+						<f:param name="param_estado_sqEstado"  value="#{lancamentoEntradaIgrejaCreateBean.param_estado_sqEstado}"/> 
+						<f:param name="param_cdSituacao"  value="#{lancamentoEntradaIgrejaCreateBean.param_cdSituacao}"/> 
+						<f:param name="param_flJubilado"  value="#{lancamentoEntradaIgrejaCreateBean.param_flJubilado}"/> 
+				
+						<f:param name="param_controle"  value="#{lancamentoEntradaIgrejaCreateBean.param_controle}"/>	
+					</p:link>
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+			
+				<h:panelGroup id="pnlgrp-cadastro" layout="block">
+					<p:focus context="pnlgrp-cadastro"/>
+					<div class="cv-cadastro">
+
+						<p:panelGrid id="entradaIncluirGrid" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-6">
+							
+							<p:outputLabel value="Região de pagamento:" styleClass="cv-dialogo-exibe-label" for="dsRegiao" />
+							<p:selectOneMenu id="dsRegiao" filter="true" value="#{lancamentoEntradaIgrejaCreateBean.regiaoItemFiltro}" disabled="#{lancamentoEntradaIgrejaCreateBean.registroSalvo}" >
+								<f:selectItem itemLabel="Selecione uma região"/>
+								<f:selectItems value="#{lancamentoEntradaIgrejaCreateBean.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
+							</p:selectOneMenu>
+								
+							<p:outputLabel value="Igreja:" styleClass="cv-dialogo-exibe-label" for="incluirDsIgreja" />
+							<p:selectOneMenu id="incluirDsIgreja" filter="true" value="#{lancamentoEntradaIgrejaCreateBean.lancamentoEntrada.igreja}" style="width:100%;" disabled="#{lancamentoEntradaIgrejaCreateBean.registroSalvo}" >
+								<f:selectItem noSelectionOption="true" itemLabel="Selecione uma igreja"/>
+								<f:selectItems value="#{lancamentoEntradaIgrejaCreateBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})" />
+							</p:selectOneMenu>
+							
+							<p:outputLabel value="Conta contábil:" styleClass="cv-dialogo-exibe-label" for="incluirContaContabil" />
+							<p:selectOneMenu id="incluirContaContabil" filter="true" value="#{lancamentoEntradaIgrejaCreateBean.lancamentoEntrada.planoConta}" disabled="#{lancamentoEntradaIgrejaCreateBean.registroSalvo}" >
+								<f:selectItem noSelectionOption="true" itemLabel="Selecione uma conta"/>
+								<f:selectItems value="#{lancamentoEntradaIgrejaCreateBean.planoContaList}" var="item" itemValue="#{item}" itemLabel="#{item.dsConta}" />
+							</p:selectOneMenu>
+							
+							<p:outputLabel value="Data pagamento" styleClass="cv-dialogo-exibe-label" for="incluirDtPagamento" />
+							<p:calendar id="incluirDtPagamento" 
+										style="color: red"
+										pattern="dd/MM/yyyy" 
+										mask="true" 
+										locale="pt" 
+										showButtonPanel="true" 
+										navigator="true"
+										value="#{lancamentoEntradaIgrejaCreateBean.lancamentoEntrada.dtPagamento}"
+										onfocus="false" 
+										disabled="#{lancamentoEntradaIgrejaCreateBean.registroSalvo}">
+								<p:ajax event="dateSelect" process="@this" update="@this"/>
+								<f:converter converterId="converter_localdate"/>
+							</p:calendar>
+							
+							<p:outputPanel style="margin-top:50px;">
+								<p:outputLabel value="Histórico:" styleClass="cv-dialogo-exibe-label" for="incluirHistorico"  />
+							</p:outputPanel>
+							<p:inputTextarea id="incluirHistorico" value="#{lancamentoEntradaIgrejaCreateBean.lancamentoEntrada.recibo.dsHistorico}" rows="6" cols="40" autoResize="false" disabled="#{lancamentoEntradaIgrejaCreateBean.registroSalvo}" />
+	
+							<p:outputPanel style="margin-top:70px;">
+								<p:outputLabel value="Forma pagamento:" styleClass="cv-dialogo-exibe-label" />
+							</p:outputPanel>
+							<p:dataTable value="#{lancamentoEntradaIgrejaCreateBean.formaRecebimento}"
+										var="itemRecebimento"
+										id="dtListFormaPagamento" >
+										
+								<p:column style="text-align:left; width:100px;">
+									<p:outputLabel value="#{itemRecebimento.formaPagamento.dsFormaPagamento}" />
+									<f:facet name="footer">
+										<p:outputLabel style="font-weight: bold;" value="Total"  />
+									</f:facet>
+								</p:column>
+								
+								<p:column style="text-align:right; width:150px;" >
+									<p:inputText id="vlRecebimento" onfocus="configurarMoeda()" styleClass="moeda" value="#{itemRecebimento.vlRecebido}" style="text-align:right;" disabled="#{lancamentoEntradaIgrejaCreateBean.registroSalvo}" >
+						    			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						    			<p:ajax event="change" update="dtListFormaPagamento" listener="#{lancamentoEntradaIgrejaCreateBean.calcularTotalRecebido('I')}" />
+						    		</p:inputText>
+						    		
+									<f:facet name="footer">
+										<p:outputLabel id="vlTotal" styleClass="moeda cv-dialogo-exibe-label"  value="#{lancamentoEntradaIgrejaCreateBean.vlTotal}" >
+											<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+										</p:outputLabel>
+									</f:facet>
+								</p:column>
+								
+								<p:column style="text-align:left;">
+									<p:inputText rendered="#{itemRecebimento.formaPagamento.flExibirComplemento}" value="#{itemRecebimento.dsComplemento}" disabled="#{lancamentoEntradaIgrejaCreateBean.registroSalvo}" >
+										<p:ajax event="change" process="@form" update="dtListFormaPagamento"  />
+									</p:inputText>
+								</p:column>
+								
+							</p:dataTable>
+	
+							<p:outputLabel value="" />
+							<p:outputPanel>
+								<p:selectBooleanCheckbox id="flImprimirRecibo" value="#{lancamentoEntradaIgrejaCreateBean.flImprimirRecibo}" disabled="#{lancamentoEntradaIgrejaCreateBean.registroSalvo}" />
+								<p:outputLabel value="Imprimir recibo" styleClass="cv-dialogo-exibe-label" style="margin-left:10px;"/>
+							</p:outputPanel>
+							
+						</p:panelGrid>
+						
+						<p:separator />
+								
+						<p:commandButton value="Confirmar" 
+	    					id="botaoSalvarInluirEntrada" 
+	    					action="#{lancamentoEntradaIgrejaCreateBean.salvarIncluirEntrada}"
+	    					style="width: auto; margin-left:30px; margin-botton: 30px"
+	    					disabled="#{lancamentoEntradaIgrejaCreateBean.registroSalvo}"
+	    					update="@form"/>
+		
+					</div>
+				</h:panelGroup>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

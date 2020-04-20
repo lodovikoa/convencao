@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+		<f:event listener="#{escolaridadeCadastroBean.inicializar}" type="preRenderView" />
+			<o:viewParam name="escolaridade" value="#{escolaridadeCadastroBean.escolaridade}" />
+		</f:metadata>
+
+		<h:form id="frm">
+			<h1 class="aw-page-title">#{escolaridadeCadastroBean.editando ? 'Escolaridade - Alteração' : 'Escolaridade - Cadastro'}</h1>
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+		
+			<p:toolbar styleClass="cv-toolbar-topo">
+				<p:toolbarGroup>
+	    			<p:button value="Novo" />
+	    			<p:commandButton value="Salvar" id="botaoSalvar" action="#{escolaridadeCadastroBean.salvar}" update="@form" />
+	    		</p:toolbarGroup>
+			
+				<p:toolbarGroup align="right">
+					<p:button value="Pesquisar escolaridade" outcome="/pages/configuracao/EscolaridadePesquisa"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+	 				
+				<h:panelGroup id="pnlgrp-cadastro" layout="block" >		
+						<p:focus context="pnlgrp-cadastro"/>
+						<div class="cv-cadastro">
+							<p:panelGrid columns="2"
+									layout="grid"
+									id="panelGrid1" 
+								columnClasses="ui-grid-col-2, ui-grid-col-6">
+								
+								<p:outputLabel value="Escolaridade" for="dsDescricao"/>
+								<p:inputText id="dsDescricao" value="#{escolaridadeCadastroBean.escolaridade.dsDescricao}"/>
+	
+							</p:panelGrid>
+		
+						</div>
+	 	
+					</h:panelGroup>
+				</div>
+		
+		</h:form>
+	</ui:define>
+</ui:composition>

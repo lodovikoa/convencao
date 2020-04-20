@@ -1,0 +1,615 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{lancamentoEntradaRecebimentosListBean.inicializar}" type="preRenderView" />
+			
+			<o:viewParam name="param_sqMinistro" value="#{lancamentoEntradaRecebimentosListBean.param_sqMinistro}" />
+			
+			<o:viewParam name="param_regiaoItens_sqRegiao"  value="#{lancamentoEntradaRecebimentosListBean.param_regiaoItens_sqRegiao}"/> 
+			<o:viewParam name="param_igrejaItensFiltro_sqIgreja"  value="#{lancamentoEntradaRecebimentosListBean.param_igrejaItensFiltro_sqIgreja}"/> 
+			<o:viewParam name="param_departamentoItensFiltro_sqDepartamento"  value="#{lancamentoEntradaRecebimentosListBean.param_departamentoItensFiltro_sqDepartamento}"/> 
+			<o:viewParam name="param_cdRg"  value="#{lancamentoEntradaRecebimentosListBean.param_cdRg}"/>
+			<o:viewParam name="param_nmMinistro"  value="#{lancamentoEntradaRecebimentosListBean.param_nmMinistro}"/>  
+			<o:viewParam name="param_cargo_sqCargo"  value="#{lancamentoEntradaRecebimentosListBean.param_cargo_sqCargo}"/> 
+			<o:viewParam name="param_cdNsu"  value="#{lancamentoEntradaRecebimentosListBean.param_cdNsu}"/> 
+			<o:viewParam name="param_dtInicio1"  value="#{lancamentoEntradaRecebimentosListBean.param_dtInicio1}"/> 
+			<o:viewParam name="param_dtFim1"  value="#{lancamentoEntradaRecebimentosListBean.param_dtFim1}"/> 
+			<o:viewParam name="param_dtInicio2"  value="#{lancamentoEntradaRecebimentosListBean.param_dtInicio2}"/> 
+			<o:viewParam name="param_dtFim2"  value="#{lancamentoEntradaRecebimentosListBean.param_dtFim2}"/> 
+			<o:viewParam name="param_dsCidade"  value="#{lancamentoEntradaRecebimentosListBean.param_dsCidade}"/> 
+			<o:viewParam name="param_estado_sqEstado"  value="#{lancamentoEntradaRecebimentosListBean.param_estado_sqEstado}"/> 
+			<o:viewParam name="param_cdSituacao"  value="#{lancamentoEntradaRecebimentosListBean.param_cdSituacao}"/> 
+			<o:viewParam name="param_flJubilado"  value="#{lancamentoEntradaRecebimentosListBean.param_flJubilado}"/> 		
+			<o:viewParam name="param_flLancamentosEmAberto"  value="#{lancamentoEntradaRecebimentosListBean.param_flLancamentosEmAberto}"/>
+			<o:viewParam name="param_flLancamentosPagos"  value="#{lancamentoEntradaRecebimentosListBean.param_flLancamentosPagos}"/>
+			
+			<o:viewParam name="param_controle"  value="#{lancamentoEntradaRecebimentosListBean.param_controle}"/>
+			<o:viewParam name="param_controleAtualizarDados"  value="#{lancamentoEntradaRecebimentosListBean.param_controleAtualizarDados}"/>
+			
+		</f:metadata>
+
+		<h:form id="frm">
+			<h1 class="aw-page-title">Financeiro - Recebimentos</h1>
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+			<p:toolbar>
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Novo Lançamento" 
+							action="#{lancamentoEntradaRecebimentosListBean.inicializarIncluirEntradaMinistro}" 
+							styleClass="cv-botao"
+							style="margin-right:30px;"
+							title="Registrar novo lançamento de entrada"
+							oncomplete="PF('widgEntradaIncluirDialog').show();"
+							process="@this"
+							update=":frm_entradaIncluir:entradaIncluirDialog"  />
+			
+					<p:link styleClass="cv-botao" 
+								style="margin-left:30px;"
+								value="Listar pessoas"
+								outcome="/pages/financeiro/entrada/LancamentoEntradaPessoasList" >
+						<f:param name="param_regiaoItens_sqRegiao"  value="#{lancamentoEntradaRecebimentosListBean.param_regiaoItens_sqRegiao}"/> 
+						<f:param name="param_igrejaItensFiltro_sqIgreja"  value="#{lancamentoEntradaRecebimentosListBean.param_igrejaItensFiltro_sqIgreja}"/> 
+						<f:param name="param_departamentoItensFiltro_sqDepartamento"  value="#{lancamentoEntradaRecebimentosListBean.param_departamentoItensFiltro_sqDepartamento}"/> 
+						<f:param name="param_cdRg"  value="#{lancamentoEntradaRecebimentosListBean.param_cdRg}"/>
+						<f:param name="param_nmMinistro"  value="#{lancamentoEntradaRecebimentosListBean.param_nmMinistro}"/>  
+						<f:param name="param_cargo_sqCargo"  value="#{lancamentoEntradaRecebimentosListBean.param_cargo_sqCargo}"/> 
+						<f:param name="param_cdNsu"  value="#{lancamentoEntradaRecebimentosListBean.param_cdNsu}"/> 
+						<f:param name="param_dtInicio1"  value="#{lancamentoEntradaRecebimentosListBean.param_dtInicio1}"/> 
+						<f:param name="param_dtFim1"  value="#{lancamentoEntradaRecebimentosListBean.param_dtFim1}"/> 
+						<f:param name="param_dtInicio2"  value="#{lancamentoEntradaRecebimentosListBean.param_dtInicio2}"/> 
+						<f:param name="param_dtFim2"  value="#{lancamentoEntradaRecebimentosListBean.param_dtFim2}"/> 
+						<f:param name="param_dsCidade"  value="#{lancamentoEntradaRecebimentosListBean.param_dsCidade}"/> 
+						<f:param name="param_estado_sqEstado"  value="#{lancamentoEntradaRecebimentosListBean.param_estado_sqEstado}"/> 
+						<f:param name="param_cdSituacao"  value="#{lancamentoEntradaRecebimentosListBean.param_cdSituacao}"/> 
+						<f:param name="param_flJubilado"  value="#{lancamentoEntradaRecebimentosListBean.param_flJubilado}"/>
+							
+						<f:param name="param_controle"  value="#{lancamentoEntradaRecebimentosListBean.param_controle}"/>
+					</p:link>
+				</p:toolbarGroup>
+			</p:toolbar>
+	
+			<div class="ui-fluid">
+				<h:panelGroup id="pnlgrp-cadastro" layout="block">
+					<p:focus context="pnlgrp-cadastro"/>
+					<div class="cv-cadastro">
+						<div class="cv-linha-horizontal" >
+							<div class="cv-linha-horizontal-texto">
+								<p:outputLabel rendered="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.flMinistro}" style="color:#0000CD;"  value="Ministro: #{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsDepartamento}" />
+								<p:outputLabel rendered="#{!lancamentoEntradaRecebimentosListBean.ministroRecebimento.flMinistro}" style="color:red;" value="Membro: #{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsDepartamento}" />
+							</div> 
+							<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-10, ui-grid-col-2" >
+								<p:panelGrid columns="1" layout="grid" >
+									<p:panelGrid columns="4"
+											layout="grid"
+											id="panelGrid1" 
+											style="margin-top: 5px;"
+											columnClasses="ui-grid-col-1, ui-grid-col-5, ui-grid-col-1, ui-grid-col-5" >
+										
+										<p:outputLabel rendered="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.flMinistro}" value="Ministro:" />
+										<p:outputLabel rendered="#{!lancamentoEntradaRecebimentosListBean.ministroRecebimento.flMinistro}" value="Membro:" />
+										<p:outputPanel>
+											<h:outputText styleClass="cv-texto-negrito" style="color:#0000CD;" value="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsCodigoNomeMinistro}"/>
+											<h:outputText styleClass="cv-texto-negrito" style="color:red;" rendered="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.flJubilado}" value=" (Jubilado)" />
+											<h:outputText styleClass="cv-texto-negrito" style="color:red;" rendered="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.flInativo}" value=" (Inativo)" />
+										</p:outputPanel>
+										
+										<p:outputLabel value="CPF:" />
+										<h:outputText styleClass="cv-texto-negrito" value="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsCpf}" >
+											<f:converter converterId="converter_cpf"/>
+										</h:outputText>
+										
+										<p:outputLabel value="Região:" />
+										<h:outputText styleClass="cv-texto-negrito" value="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsRegiao}"/>
+										
+										<p:outputLabel value="Depto:" />
+										<h:outputText styleClass="cv-texto-negrito" value="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsDepartamento}"/>		
+										
+										<p:outputLabel value="Cargo:" />
+										<h:outputText styleClass="cv-texto-negrito" value="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsCargo}"/>
+										
+										<p:outputLabel value="Igreja:" />
+										<h:outputText styleClass="cv-texto-negrito" value="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsIgreja}"/>
+										
+										<p:outputLabel value="Local:" />
+										<h:outputText styleClass="cv-texto-negrito" value="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsCidEst}"/>
+										
+										<p:outputLabel value="Pr.Pres:" />
+										<h:outputText styleClass="cv-texto-negrito" value="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.prPresidente}"/>
+									</p:panelGrid>
+									
+									<p:panelGrid columns="3"
+											layout="grid"
+											id="panelGrid2" 
+											style="margin-top: 10px;"
+											columnClasses="ui-grid-col-4, ui-grid-col-3, ui-grid-col-3, ui-grid-col-2 ">
+											
+										<p:outputLabel styleClass="cv-texto-negrito" value="Exibir registros de lançamentos:" />
+										
+										<p:outputPanel>
+											<p:outputLabel value="Em aberto" />
+											<p:selectBooleanCheckbox id="flLancamentosEmAberto" value="#{lancamentoEntradaRecebimentosListBean.flLancamentosEmAberto}" style="margin-left: 50px; margin-right: 10px" >
+												<p:ajax update="frm:dtList" process="@this" listener="#{lancamentoEntradaRecebimentosListBean.inicializarLancamentosMinistro}" />
+											</p:selectBooleanCheckbox>
+										</p:outputPanel>
+										
+										<p:outputPanel>
+											<p:outputLabel value="Pagos" />
+											<p:selectBooleanCheckbox id="flLancamentosPagos" value="#{lancamentoEntradaRecebimentosListBean.flLancamentosPagos}" style="margin-left: 50px; margin-right: 10px" >
+												<p:ajax update="frm:dtList" process="@this" listener="#{lancamentoEntradaRecebimentosListBean.inicializarLancamentosMinistro}" />
+											</p:selectBooleanCheckbox>
+										</p:outputPanel>
+										
+									</p:panelGrid>
+								</p:panelGrid>
+								<p:panelGrid columns="1" layout="grid" styleClass="panelgrid-noborder" >						
+									<p:graphicImage value="/ministro-foto?nome=#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsFoto}" rendered="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsFoto ne null}" style="max-width:110px; width: auto; display: block; margin-left: auto; margin-right: auto; border: 1px solid black;  margin-top: 5px;margin-bottom: 5px;" />
+								</p:panelGrid>
+							</p:panelGrid>
+									
+							<p:panelGrid columns="1" layout="grid"	id="panelGrid_listarLancamentos" columnClasses="ui-grid-col-12" styleClass="panelgrid-noborder"  > 
+								<p:dataTable value="#{lancamentoEntradaRecebimentosListBean.regLancamentosCpl}"
+										var="item"
+										style="margin-top:10px; width:100%"
+										id="dtList"
+										paginator="true"
+										rows="60"
+										rowsPerPageTemplate="60,70,80"
+										emptyMessage="Não há registros para exibir"
+										multiViewState="true"
+										paginatorPosition="top" >
+										
+									<p:column headerText="Vencimento" style="text-align:center; width:70px;" >
+										<p:outputLabel style="#{item.corLancamentoRepetido}" value="#{item.dtVencimento}" >
+											<f:converter converterId="converter_localdate"/>
+										</p:outputLabel>
+									</p:column>
+											
+									<p:column headerText="Tipo Lançamento" style="text-align:left; width:250px;" >
+										<p:outputLabel style="#{item.corLancamentoRepetido}" value="#{item.tpLancamento}" />
+									</p:column>
+											
+									<p:column style="text-align: left; width: 4px;">
+				
+										<p:commandButton
+													icon="fa fa-fw fa-edit" 
+													action="#{lancamentoEntradaRecebimentosListBean.inializarAlterarEntradaMinistro}"
+													rendered="#{item.flExibirAlterarLancamento}"
+													style="width: 20px; margin-left: -8px;"
+													title="Alterar lançamento" 
+													oncomplete="PF('widgEntradaAlterarDialog').show();"
+													process="@this"
+													update=":frm_entradaAlterar:entradaAlterarDialog" >
+															
+											<f:setPropertyActionListener value="#{item}" target="#{lancamentoEntradaRecebimentosListBean.selecionado}" />			
+											<f:param name="param_flLancamentosEmAberto"  value="#{lancamentoEntradaRecebimentosListBean.flLancamentosEmAberto}"/>
+											<f:param name="param_flLancamentosPagos"  value="#{lancamentoEntradaRecebimentosListBean.flLancamentosPagos}"/> 
+										</p:commandButton>
+									</p:column>
+											
+									<p:column style="text-align: left; width: 4px;">
+											
+										<p:commandButton rendered="#{item.flExibirExcluirLancamento}"
+												icon="ui-icon-trash" 
+												action="#{lancamentoEntradaRecebimentosListBean.inicializarExcluirLancamento}"
+												style="width: 20px; margin-left: -8px;"
+												title="Excluir lançamento" 
+												oncomplete="PF('confirmacaoExclusao').show();"
+												process="@this"
+												update=":frm_entradaExcluir:confirmacaoExclusaoDialog" >
+														
+						    				<f:setPropertyActionListener value="#{item}" target="#{lancamentoEntradaRecebimentosListBean.selecionado}" />
+						    				<f:param name="param_flLancamentosEmAberto"  value="#{lancamentoEntradaRecebimentosListBean.flLancamentosEmAberto}"/>
+											<f:param name="param_flLancamentosPagos"  value="#{lancamentoEntradaRecebimentosListBean.flLancamentosPagos}"/>
+						    			</p:commandButton>
+						    		</p:column>
+											
+									<p:column headerText="Valor Lanç" style="text-align:right; width:70px;" >
+										<h:outputText style="#{item.corLancamentoRepetido}" value="#{item.vlLancamento}" styleClass="moeda">
+											<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+										</h:outputText>
+									</p:column>
+											
+									<p:column headerText="Pagamento" style="text-align:center; width:70px;" >
+										<p:outputLabel value="#{item.dtPagamento}" >
+											<f:converter converterId="converter_localdate"/>
+										</p:outputLabel>
+									</p:column>
+										
+									<p:column style="text-align: left; width: 4px;">				
+										<p:button rendered="#{item.flExibirCancelarPagamento}"
+												icon="cancelar_imagem" 
+												style="width: 20px; margin-left: -8px;"
+												title="Cancelar pagamento" 
+												outcome="/pages/financeiro/entrada/LancamentoEntradaRecebimentoCancelar">
+													
+											<f:param name="param_sqMinistro" value="#{lancamentoEntradaRecebimentosListBean.param_sqMinistro}"/> 
+											<f:param name="param_cdNsuAtual" value="#{item.cdNsuRecibo}"/>
+													
+											<f:param name="param_regiaoItens_sqRegiao"  value="#{lancamentoEntradaRecebimentosListBean.param_regiaoItens_sqRegiao}"/> 
+											<f:param name="param_igrejaItensFiltro_sqIgreja"  value="#{lancamentoEntradaRecebimentosListBean.param_igrejaItensFiltro_sqIgreja}"/> 
+											<f:param name="param_departamentoItensFiltro_sqDepartamento"  value="#{lancamentoEntradaRecebimentosListBean.param_departamentoItensFiltro_sqDepartamento}"/> 
+											<f:param name="param_cdRg"  value="#{lancamentoEntradaRecebimentosListBean.param_cdRg}"/>
+											<f:param name="param_nmMinistro"  value="#{lancamentoEntradaRecebimentosListBean.param_nmMinistro}"/>  
+											<f:param name="param_cargo_sqCargo"  value="#{lancamentoEntradaRecebimentosListBean.param_cargo_sqCargo}"/> 
+											<f:param name="param_cdNsu"  value="#{lancamentoEntradaRecebimentosListBean.param_cdNsu}"/>
+											<f:param name="param_dtInicio1"  value="#{lancamentoEntradaRecebimentosListBean.param_dtInicio1}"/> 
+											<f:param name="param_dtFim1"  value="#{lancamentoEntradaRecebimentosListBean.param_dtFim1}"/> 
+											<f:param name="param_dtInicio2"  value="#{lancamentoEntradaRecebimentosListBean.param_dtInicio2}"/> 
+											<f:param name="param_dtFim2"  value="#{lancamentoEntradaRecebimentosListBean.param_dtFim2}"/> 
+											<f:param name="param_dsCidade"  value="#{lancamentoEntradaRecebimentosListBean.param_dsCidade}"/> 
+											<f:param name="param_estado_sqEstado"  value="#{lancamentoEntradaRecebimentosListBean.param_estado_sqEstado}"/> 
+											<f:param name="param_cdSituacao"  value="#{lancamentoEntradaRecebimentosListBean.param_cdSituacao}"/> 
+											<f:param name="param_flJubilado"  value="#{lancamentoEntradaRecebimentosListBean.param_flJubilado}"/> 
+											<f:param name="param_flLancamentosEmAberto"  value="#{lancamentoEntradaRecebimentosListBean.flLancamentosEmAberto}"/>
+											<f:param name="param_flLancamentosPagos"  value="#{lancamentoEntradaRecebimentosListBean.flLancamentosPagos}"/> 
+												
+											<f:param name="param_controle"  value="#{lancamentoEntradaRecebimentosListBean.param_controle}"/>
+													
+										</p:button>
+									</p:column>
+											
+									<p:column headerText="Valor Pago" style="text-align:right; width:70px;"  >
+										<h:outputText value="#{item.vlPagamento}" styleClass="moeda">
+											<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+										</h:outputText>
+									</p:column>
+											
+									<p:column headerText="Saldo Devedor" style="text-align:right; color:red; width:90px;"  >
+										<h:outputText style="#{item.corSaldoDevedor}" value="#{item.sdDevedor}" styleClass="moeda">
+											<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+										</h:outputText>
+											
+										<f:facet name="footer">
+											<p:outputLabel style="#{lancamentoEntradaRecebimentosListBean.corVlTotalSaldoDevedor}font-size: large;"  value="#{lancamentoEntradaRecebimentosListBean.vlTotalSaldoDevedor}" styleClass="moeda" >
+												<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+											</p:outputLabel>
+										</f:facet>
+												
+									</p:column>
+																					
+									<p:column  headerText="" style="width:16px; text-align:center;" >
+										<p:selectBooleanCheckbox id="cmbFlRealizarPagamento" rendered="#{item.flExibirConfirmarPagamento}" value="#{item.flRealizarPagamento}" >
+											<p:ajax update="frm:dtList frm:dtListFormaPagamento:vlTroco frm:dtListFormaPagamento:mensagemTroco1 frm:dtListFormaPagamento:mensagemTroco2 frm:dtListFormaPagamento:headerVlTotalRecebimento" process="@this" listener="#{lancamentoEntradaRecebimentosListBean.calcularTotalRecebido}" />
+										</p:selectBooleanCheckbox>
+									</p:column>
+											
+									<p:column headerText="Valor pgto" style="text-align: right; width:70px;" >
+										<p:inputText rendered="#{item.flExibirConfirmarPagamento}" value="#{item.vlPagamentoRecebido}" onfocus="configurarMoeda()" styleClass="moeda" style="text-align:right;" >
+											<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+											<p:ajax event="blur" process="@this" update="frm:dtList frm:dtListFormaPagamento:vlTroco frm:dtListFormaPagamento:mensagemTroco1 frm:dtListFormaPagamento:mensagemTroco2 frm:dtListFormaPagamento:headerVlTotalRecebimento" listener="#{lancamentoEntradaRecebimentosListBean.calcularTotalRecebido}" />
+										</p:inputText>
+												
+										<f:facet name="footer" >
+											<p:outputLabel style="font-weight: bold; font-size: large; color: blue;"  value="#{lancamentoEntradaRecebimentosListBean.vlTotalRecebimento}" styleClass="moeda" >
+												<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+											</p:outputLabel>
+										</f:facet>
+												
+									</p:column>
+											
+									<p:column headerText="Recibo" style="text-align:center; width:40px;" >
+										<p:link styleClass="cv-link-estilo" 
+												value="#{item.cdNsuRecibo}"
+												title="Consultar recibo"
+												outcome="/pages/financeiro/entrada/LancamentoEntradaRecebimentoRetrive">
+											
+											<f:param name="param_sqMinistro" value="#{lancamentoEntradaRecebimentosListBean.param_sqMinistro}"/> 
+											<f:param name="param_cdNsuAtual" value="#{item.cdNsuRecibo}"/>
+													
+											<f:param name="param_regiaoItens_sqRegiao"  value="#{lancamentoEntradaRecebimentosListBean.param_regiaoItens_sqRegiao}"/> 
+											<f:param name="param_igrejaItensFiltro_sqIgreja"  value="#{lancamentoEntradaRecebimentosListBean.param_igrejaItensFiltro_sqIgreja}"/> 
+											<f:param name="param_departamentoItensFiltro_sqDepartamento"  value="#{lancamentoEntradaRecebimentosListBean.param_departamentoItensFiltro_sqDepartamento}"/> 
+											<f:param name="param_cdRg"  value="#{lancamentoEntradaRecebimentosListBean.param_cdRg}"/>
+											<f:param name="param_nmMinistro"  value="#{lancamentoEntradaRecebimentosListBean.param_nmMinistro}"/>  
+											<f:param name="param_cargo_sqCargo"  value="#{lancamentoEntradaRecebimentosListBean.param_cargo_sqCargo}"/> 
+											<f:param name="param_cdNsu"  value="#{lancamentoEntradaRecebimentosListBean.param_cdNsu}"/>
+											<f:param name="param_dtInicio1"  value="#{lancamentoEntradaRecebimentosListBean.param_dtInicio1}"/> 
+											<f:param name="param_dtFim1"  value="#{lancamentoEntradaRecebimentosListBean.param_dtFim1}"/> 
+											<f:param name="param_dtInicio2"  value="#{lancamentoEntradaRecebimentosListBean.param_dtInicio2}"/> 
+											<f:param name="param_dtFim2"  value="#{lancamentoEntradaRecebimentosListBean.param_dtFim2}"/> 
+											<f:param name="param_dsCidade"  value="#{lancamentoEntradaRecebimentosListBean.param_dsCidade}"/> 
+											<f:param name="param_estado_sqEstado"  value="#{lancamentoEntradaRecebimentosListBean.param_estado_sqEstado}"/> 
+											<f:param name="param_cdSituacao"  value="#{lancamentoEntradaRecebimentosListBean.param_cdSituacao}"/> 
+											<f:param name="param_flJubilado"  value="#{lancamentoEntradaRecebimentosListBean.param_flJubilado}"/> 
+											<f:param name="param_flLancamentosEmAberto"  value="#{lancamentoEntradaRecebimentosListBean.flLancamentosEmAberto}"/>
+											<f:param name="param_flLancamentosPagos"  value="#{lancamentoEntradaRecebimentosListBean.flLancamentosPagos}"/> 
+												
+											<f:param name="param_controle"  value="#{lancamentoEntradaRecebimentosListBean.param_controle}"/>
+
+										</p:link>		
+									</p:column>
+											
+								</p:dataTable>
+							</p:panelGrid>
+									
+							<!-- Inicio registro de recebimentos -->
+									
+							<p:panelGrid style="margin-top:10px;" columns="2" layout="grid"	id="panelGrid_recebimentos01" columnClasses="ui-grid-col-2, ui-grid-col-6" styleClass="panelgrid-noborder" > 
+								
+								<p:outputLabel value="" />
+								<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+										
+								<p:outputLabel value="Região de pagamento:" styleClass="cv-dialogo-exibe-label" for="dsRegiao" />
+								<p:selectOneMenu id="dsRegiao" filter="true" value="#{lancamentoEntradaRecebimentosListBean.regiaoItensFiltro}" >
+									<f:selectItem itemLabel="Selecione uma região"/>
+									<f:selectItems value="#{lancamentoEntradaRecebimentosListBean.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
+								</p:selectOneMenu>
+										
+								<p:outputLabel value="Data pagamento:" styleClass="cv-dialogo-exibe-label" for="incluirDtPagamento" />
+								<p:calendar id="incluirDtPagamento" 
+											style="color: red"
+											pattern="dd/MM/yyyy" 
+											mask="true" 
+											locale="pt" 
+											showButtonPanel="true" 
+											navigator="true"
+											value="#{lancamentoEntradaRecebimentosListBean.recibo.dtRecibo}"
+											onfocus="false" >
+									<p:ajax event="dateSelect" process="@this" update="@this"/>
+									<f:converter converterId="converter_localdate"/>
+								</p:calendar>
+										
+								<p:outputLabel value="Histórico:" styleClass="cv-dialogo-exibe-label" for="dsHistorico" />
+								<p:inputTextarea id="dsHistorico" value="#{lancamentoEntradaRecebimentosListBean.recibo.dsHistorico}" rows="6" cols="40" autoResize="false" />
+										
+								<p:outputPanel style="margin-top:70px;">
+									<p:outputLabel value="Forma pagamento:" styleClass="cv-dialogo-exibe-label" />
+								</p:outputPanel>
+									
+								<p:dataTable value="#{lancamentoEntradaRecebimentosListBean.formaRecebimento}"
+											var="itemRecebimento"
+											id="dtListFormaPagamento" >
+												
+									<p:column style="text-align:left; width:100px;">
+										<p:outputLabel value="#{itemRecebimento.formaPagamento.dsFormaPagamento}" />
+											
+										<f:facet name="footer">
+											<p:outputLabel style="font-weight: bold;" value="Total"  />
+										</f:facet>
+									</p:column>
+											
+									<p:column style="text-align:right; width:70px;" >
+										<p:inputText id="vlRecebimento" onfocus="configurarMoeda()" styleClass="moeda" value="#{itemRecebimento.vlRecebido}" style="text-align:right;" >
+							    			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+											<p:ajax event="change" process="@this" update="dtListFormaPagamento vlTroco mensagemTroco1 mensagemTroco2" listener="#{lancamentoEntradaRecebimentosListBean.calcularTotalRecebido('I')}" />
+							    		</p:inputText>
+									    		
+										<f:facet name="footer">
+											<p:outputLabel id="vlTotal" styleClass="moeda cv-dialogo-exibe-label"  value="#{lancamentoEntradaRecebimentosListBean.vlTotal}" >
+												<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+											</p:outputLabel>
+										</f:facet>
+									</p:column>
+										
+									<p:column style="text-align:left;">
+										<p:inputText rendered="#{itemRecebimento.formaPagamento.flExibirComplemento}" value="#{itemRecebimento.dsComplemento}" placeholder="Banco/Agência/Conta/Numero cheque" >
+										<p:ajax event="change" process="@this" update="dtListFormaPagamento"  /> 
+										</p:inputText>
+												
+										<f:facet name="header">
+											<p:outputLabel style="color:blue; font-weight: bold; font-size: large" value="R$ "  />
+							    		 	<p:outputLabel id="headerVlTotalRecebimento" style="font-weight: bold; font-size: large; color: blue;"  value="#{lancamentoEntradaRecebimentosListBean.vlTotalRecebimento}" styleClass="moeda" >
+												<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+											</p:outputLabel>
+											<p:outputLabel style="color:blue; font-weight: bold; font-size: large" value=" - A RECEBER"  />
+							    		</f:facet> 
+												
+										<f:facet name="footer">
+											<p:outputLabel id="mensagemTroco1" style="#{lancamentoEntradaRecebimentosListBean.corMensagemTroco}" value="R$ "  />
+											<p:outputLabel id="vlTroco" style="#{lancamentoEntradaRecebimentosListBean.corMensagemTroco}" value="#{lancamentoEntradaRecebimentosListBean.vlTroco}"  >
+												<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+											</p:outputLabel>
+											<p:outputLabel id="mensagemTroco2" style="#{lancamentoEntradaRecebimentosListBean.corMensagemTroco}" value="#{lancamentoEntradaRecebimentosListBean.mensagemTroco}"  />
+										</f:facet>
+									</p:column>
+											
+								</p:dataTable>
+										
+								<p:outputLabel value="" />
+								<p:outputPanel>
+									<p:selectBooleanCheckbox id="flImprimirRecibo" value="#{lancamentoEntradaRecebimentosListBean.flImprimirRecibo}" />
+									<p:outputLabel value="Imprimir recibo" styleClass="cv-dialogo-exibe-label" style="margin-left:10px;"/>
+								</p:outputPanel>
+										
+								<p:outputLabel value="" />
+								<p:separator />
+										
+								<p:outputLabel value="" />
+										
+								<p:commandButton value="Confirmar pagamento" 
+				    					id="botaoSalvarPagamento" 
+				    					action="#{lancamentoEntradaRecebimentosListBean.salvarPagamentos}"
+				    					style="width: auto; margin-bottom:30px;"
+				    					process="@form"
+				    					update=":frm" />
+										
+							</p:panelGrid>
+														
+						</div>
+						
+						
+					</div>
+				</h:panelGroup>
+			</div>
+	
+		</h:form>
+		
+		<!-- Diálogo para INCLUIR novo registro de entrada -->
+		<h:form id="frm_entradaIncluir">
+			<p:dialog
+					widgetVar="widgEntradaIncluirDialog"
+					id="entradaIncluirDialog"
+					header="Financeiro - Entradas - Incluir lançamento"
+					resizable="false"
+					responsive="true"
+					width="50%" >
+				<h:panelGroup id="entradaIncluirPanel" layout="block" styleClass="ui-fluid">
+					<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+					<p:panelGrid id="entradaIncluirGrid" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-10">
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" rendered="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.flMinistro}" value="Ministro:" />
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" rendered="#{!lancamentoEntradaRecebimentosListBean.ministroRecebimento.flMinistro}" value="Membro:" />
+						<p:outputPanel>
+							<p:outputLabel value="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsCodigoNomeMinistro}" />
+							<p:outputLabel styleClass="cv-texto-negrito" style="color:red;" rendered="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.flJubilado}" value=" (Jubilado)" />
+							<p:outputLabel styleClass="cv-texto-negrito" style="color:red;" rendered="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.flInativo}" value=" (Inativo)" />
+						</p:outputPanel>
+						
+						
+						<p:outputLabel value="Igreja:" styleClass="cv-dialogo-exibe-label"/>
+						<p:outputLabel value="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsIgreja}"/>
+						
+						<p:outputLabel value="Departamento:" styleClass="cv-dialogo-exibe-label"/>
+						<p:outputLabel value="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsDepartamento}"/>
+					</p:panelGrid>
+					
+					<p:separator />
+					
+					<p:panelGrid id="entradaIncluirGrid2" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-2">	
+						<p:outputLabel value="Tipo lançamento:" styleClass="cv-dialogo-exibe-label" for="tpLancamento"/>
+						<p:selectOneMenu id="tpLancamento" filter="true" value="#{lancamentoEntradaRecebimentosListBean.regLancamento.tipoLancamento}" >
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma conta"/>
+							<f:selectItems value="#{lancamentoEntradaRecebimentosListBean.tipoLancamentoList}" var="item" itemValue="#{item}" itemLabel="#{item.dsTipoLancamento}" />
+							<p:ajax listener="#{lancamentoEntradaRecebimentosListBean.atualizarValorLancamento}" update="frm_entradaIncluir:vlLancamento" />
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Vencimento:" styleClass="cv-dialogo-exibe-label" for="dtVencimento" />
+						<p:calendar id="dtVencimento" 
+									style="color: red"
+									pattern="dd/MM/yyyy" 
+									mask="true" 
+									locale="pt" 
+									showButtonPanel="true" 
+									navigator="true"
+									value="#{lancamentoEntradaRecebimentosListBean.regLancamento.dtVencimento}"
+									onfocus="false" >
+							<p:ajax event="dateSelect" process="@this" update="@this"/>
+							<f:converter converterId="converter_localdate"/>
+						</p:calendar>
+						
+						<p:outputLabel  value="Valor:" styleClass="cv-dialogo-exibe-label" for="vlLancamento" />
+						<p:inputText id="vlLancamento" onfocus="configurarMoeda()" styleClass="moeda" style="text-align:right;" value="#{lancamentoEntradaRecebimentosListBean.regLancamento.vlLancamento}" >
+					    	<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+					    </p:inputText>
+					</p:panelGrid>
+				
+					<p:separator />
+							
+					<p:commandButton value="Confirmar" 
+    					id="botaoSalvarLancamento" 
+    					action="#{lancamentoEntradaRecebimentosListBean.salvarNovoLancamento}"
+    					style="width: auto; margin-left:30px;"
+    					process="@form"
+    					oncomplete="jsFecharDialogo(xhr, status, args, 'widgEntradaIncluirDialog', 'shake')" 
+    					update=":frm"/>
+					
+					<p:button value="Fechar" 
+							onclick="PF('widgEntradaIncluirDialog').hide(); return false;"
+							style="width: auto; margin-left:50px;"/>
+				
+				</h:panelGroup>
+			</p:dialog>
+		</h:form>
+		
+		<!-- Diálogo para ALTERAR registro de entrada -->
+		<h:form id="frm_entradaAlterar">
+			<p:dialog
+					widgetVar="widgEntradaAlterarDialog"
+					id="entradaAlterarDialog"
+					header="Financeiro - Entradas - Alterar lançamento"
+					resizable="false"
+					responsive="true"
+					width="50%" >
+				<h:panelGroup id="entradaAlterarPanel" layout="block" styleClass="ui-fluid">
+					<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+					<p:panelGrid id="entradaAlterarGrid" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-3, ui-grid-col-9">
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" rendered="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.flMinistro}" value="Ministro:" />
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" rendered="#{!lancamentoEntradaRecebimentosListBean.ministroRecebimento.flMinistro}" value="Membro:" />
+						<p:outputPanel>
+							<p:outputLabel value="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsCodigoNomeMinistro}" />
+							<p:outputLabel styleClass="cv-texto-negrito" style="color:red;" rendered="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.flJubilado}" value=" (Jubilado)" />
+							<p:outputLabel styleClass="cv-texto-negrito" style="color:red;" rendered="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.flInativo}" value=" (Inativo)" />
+						</p:outputPanel>
+						
+						
+						<p:outputLabel value="Igreja:" styleClass="cv-dialogo-exibe-label"/>
+						<p:outputLabel value="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsIgreja}"/>
+						
+						<p:outputLabel value="Departamento:" styleClass="cv-dialogo-exibe-label"/>
+						<p:outputLabel value="#{lancamentoEntradaRecebimentosListBean.ministroRecebimento.dsDepartamento}"/>
+					</p:panelGrid>
+					
+					<p:separator />
+ 					
+					<p:panelGrid id="entradaAlterarGrid2" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-3, ui-grid-col-4">	
+						<p:outputLabel value="Tipo lançamento:" styleClass="cv-dialogo-exibe-label" for="tpLancamentoAlterar"/>
+						<p:selectOneMenu id="tpLancamentoAlterar" filter="true" value="#{lancamentoEntradaRecebimentosListBean.regLancamento.tipoLancamento}" >
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma conta"/>
+							<f:selectItems value="#{lancamentoEntradaRecebimentosListBean.tipoLancamentoList}" var="item" itemValue="#{item}" itemLabel="#{item.dsTipoLancamento}" />
+							<p:ajax listener="#{lancamentoEntradaRecebimentosListBean.atualizarValorLancamento}" update="frm_entradaAlterar:vlLancamentoAlterar" />
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Vencimento:" styleClass="cv-dialogo-exibe-label" for="dtVencimentoAlterar" />
+						<p:calendar id="dtVencimentoAlterar" 
+									style="color: red"
+									pattern="dd/MM/yyyy" 
+									mask="true" 
+									locale="pt" 
+									showButtonPanel="true" 
+									navigator="true"
+									value="#{lancamentoEntradaRecebimentosListBean.regLancamento.dtVencimento}"
+									onfocus="false" >
+							<p:ajax event="dateSelect" process="@this" update="@this"/>
+							<f:converter converterId="converter_localdate"/>
+						</p:calendar>
+						
+						<p:outputLabel  value="Valor:" styleClass="cv-dialogo-exibe-label" for="vlLancamentoAlterar" />
+						<p:inputText id="vlLancamentoAlterar" onfocus="configurarMoeda()" styleClass="moeda" style="text-align:right;" value="#{lancamentoEntradaRecebimentosListBean.regLancamento.vlLancamento}" >
+					    	<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+					    </p:inputText>
+						
+					</p:panelGrid>
+ 	
+					<p:separator />
+							
+					<p:commandButton value="Confirmar" 
+	    					id="botaoSalvarAlterarLancamento" 
+	    					action="#{lancamentoEntradaRecebimentosListBean.salvarAlterarLancamento}"
+	    					style="width: auto; margin-left:30px;"
+	    					process="@form"
+	    					oncomplete="jsFecharDialogo(xhr, status, args, 'widgEntradaAlterarDialog', 'shake')" 
+	    					update=":frm"/>
+					
+					<p:button value="Fechar" 
+							onclick="PF('widgEntradaAlterarDialog').hide(); return false;"
+							style="width: auto; margin-left:50px;"/>
+				
+				</h:panelGroup>
+			</p:dialog>
+		</h:form>
+		
+		<!-- Dialogo para excluir registro de entrada -->
+		<h:form id="frm_entradaExcluir">
+			<p:confirmDialog header="Exclusão de registro de Entrada" 
+					message="Confirma excluir registro de Entrada: (#{lancamentoEntradaRecebimentosListBean.selecionado.dtVencimento} - #{lancamentoEntradaRecebimentosListBean.selecionado.tpLancamento} - #{lancamentoEntradaRecebimentosListBean.selecionado.vlLancamento})? #{lancamentoEntradaRecebimentosListBean.stBoletoRegistrado} " 
+					widgetVar="confirmacaoExclusao"
+					id="confirmacaoExclusaoDialog"
+					width="50%" >
+				<p:button value="Não" 
+						onclick="PF('confirmacaoExclusao').hide(); return false;"
+						style="width: auto"/>
+				<p:commandButton value="SIM" 
+						oncomplete="PF('confirmacaoExclusao').hide();" 
+						action="#{lancamentoEntradaRecebimentosListBean.salvarExcluirLancamento}"
+						update=":frm"
+						style="width: auto"/>
+			</p:confirmDialog>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

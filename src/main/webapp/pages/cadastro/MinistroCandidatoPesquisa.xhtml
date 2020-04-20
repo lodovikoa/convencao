@@ -1,0 +1,197 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{ministroCandidatoPesquisaBeam.inicializar('pesquisa')}" type="preRenderView" />
+		 
+			<o:viewParam name="param_regiaoItensFiltro_sqRegiao" value="#{ministroCandidatoPesquisaBeam.param_regiaoItensFiltro_sqRegiao}" />
+			<o:viewParam name="param_igrejaFiltro_sqIgreja" value="#{ministroCandidatoPesquisaBeam.param_igrejaFiltro_sqIgreja}" />
+			<o:viewParam name="param_protocoloStatus_sqProtocoloStatus" value="#{ministroCandidatoPesquisaBeam.param_protocoloStatus_sqProtocoloStatus}" />
+			<o:viewParam name="param_cdCodigoFiltro" value="#{ministroCandidatoPesquisaBeam.param_cdCodigoFiltro}" />
+			<o:viewParam name="param_nmMinistro" value="#{ministroCandidatoPesquisaBeam.param_nmMinistro}" />
+			<o:viewParam name="param_dsCpf" value="#{ministroCandidatoPesquisaBeam.param_dsCpf}" />
+			
+			<o:viewParam name="param_cdProtocolo" value="#{ministroCandidatoPesquisaBeam.param_cdProtocolo}" />
+			<o:viewParam name="param_controle"  value="#{ministroCandidatoPesquisaBeam.param_controle}"/>
+			
+			
+			
+			<f:event listener="#{ministroCandidatoPesquisaBeam.recuperarParametros}" type="preRenderView" />
+			
+			
+		</f:metadata>
+	
+		<h1 class="aw-page-title">Ministro Candidato - Pesquisar</h1>	
+		
+		<h:form id="frm">
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+							
+			<p:toolbar style="margin-bottom: 3px">
+				<p:toolbarGroup align="left">
+					<p:commandButton value="Pesquisar" action="#{ministroCandidatoPesquisaBeam.pesquisar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Cadastrar Ministro Candidato" outcome="/pages/cadastro/MinistroCandidatoCadastro" rendered="#{ministroCandidatoPesquisaBeam.flExibirBotaoNovo}">
+						<f:param name="param_cadastro" value="cadastrarCandidato" />
+					</p:button>
+				</p:toolbarGroup>
+			</p:toolbar>
+		
+			<div class="ui-fluid">
+				<p:panelGrid columns="6" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3" >
+					<p:outputLabel value="Região:" for="dsRegiao" />
+					<p:selectOneMenu id="dsRegiao" filter="true" filterMatchMode="contains" value="#{ministroCandidatoPesquisaBeam.filtro.regiaoItensFiltro}" >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma região"/>
+						<f:selectItems value="#{ministroCandidatoPesquisaBeam.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
+						<p:ajax listener="#{ministroCandidatoPesquisaBeam.buscarIgrejasAjax}"  update=":frm:dsIgreja"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Igreja:" for="dsIgreja" />
+					<p:selectOneMenu id="dsIgreja" filter="true" filterMatchMode="contains" value="#{ministroCandidatoPesquisaBeam.filtro.igrejaFiltro}"  style="width: 100%;" >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma igreja"/>
+						<f:selectItems value="#{ministroCandidatoPesquisaBeam.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})" />
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Situação:" for="dsSituacao" />
+	        		<p:selectOneMenu id="dsSituacao" filter="true" filterMatchMode="contains" value="#{ministroCandidatoPesquisaBeam.filtro.protocoloStatusFiltro}" >
+						<f:selectItem noSelectionOption="true" itemLabel="Todos"/>
+						<f:selectItems value="#{ministroCandidatoPesquisaBeam.protocolosStatus}" var="item" itemValue="#{item}" itemLabel="#{item.dsStatus}" />
+					</p:selectOneMenu>
+					
+				</p:panelGrid>
+				
+				<p:panelGrid columns="8" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-2,  ui-grid-col-1, ui-grid-col-2" >
+					
+					<p:outputLabel value="Rg:" for="dsRg" />
+					<p:inputText id="dsRg" value="#{ministroCandidatoPesquisaBeam.filtro.cdCodigoFiltro}" />	
+					
+					<p:outputLabel value="Ministro:" for="nmMinistro" style="margin-left: 10px; margin-right: 10px"/>
+					<p:inputText id="nmMinistro" value="#{ministroCandidatoPesquisaBeam.filtro.nmMinistro}" />
+					
+					<p:outputLabel value="CPF:" for="dsCpf" />
+					<p:inputMask id="dsCpf" mask="999.999.999-99" value="#{ministroCandidatoPesquisaBeam.filtro.dsCpf}" >
+						<f:converter converterId="converter_cpf"/>
+						<f:validator validatorId="validator_cpf"/>
+					</p:inputMask>
+					
+					<p:outputLabel value="Protocolo:" for="cdProtocolo" />
+					<p:inputText id="cdProtocolo" value="#{ministroCandidatoPesquisaBeam.filtro.cdProtocoloFiltro}" />
+				</p:panelGrid>	
+				
+				<p:dataTable value="#{ministroCandidatoPesquisaBeam.ministroCandidatoListTO}"
+							var="item"
+							style="margin-top:20px;"
+							id="dtList"
+							paginator="true"
+							rows="60"
+							rowsPerPageTemplate="60,70,80"
+							emptyMessage="Não há registros para exibir"
+							multiViewState="true" 
+							paginatorPosition="bottom" >
+							
+					<p:column headerText="Protocolo" style="text-align:center; width:50px;" sortBy="#{item.cdProtocolo}" >
+						<p:outputLabel value="#{item.cdProtocolo}"/>
+					</p:column>
+					
+					<p:column headerText="Situação" style="text-align:center; width:80px;" sortBy="#{item.dsStatus}" >
+						<p:outputLabel value="#{item.dsStatus}"/>
+					</p:column>
+					
+					<p:column headerText="Rg" style="text-align:center; width:35px;" sortBy="#{item.cdCodigoCandidato}" >
+						<p:outputLabel value="#{item.cdCodigoCandidato}"/>
+					</p:column>
+					
+					<p:column headerText="Candidato" style="text-align:left; width:250px;" sortBy="#{item.nmCandidato}" >
+						<p:link styleClass="cv-link-estilo" 
+								value="#{item.nmCandidato}"
+								outcome="/pages/cadastro/MinistroCandidatoRetrive">
+							<f:param name="protocolo" value="#{item.sqProtocolo}"/>
+							<f:param name="param_regiaoItensFiltro_sqRegiao"  value="#{ministroCandidatoPesquisaBeam.filtro.regiaoItensFiltro.sqRegiao}"/> 
+							<f:param name="param_igrejaFiltro_sqIgreja"  value="#{ministroCandidatoPesquisaBeam.filtro.igrejaFiltro.sqIgreja}"/>
+							<f:param name="param_protocoloStatus_sqProtocoloStatus"  value="#{ministroCandidatoPesquisaBeam.filtro.protocoloStatusFiltro.sqProtocoloStatus}"/>
+							<f:param name="param_cdCodigoFiltro"  value="#{ministroCandidatoPesquisaBeam.filtro.cdCodigoFiltro}"/>
+							<f:param name="param_nmMinistro"  value="#{ministroCandidatoPesquisaBeam.filtro.nmMinistro}"/>
+							<f:param name="param_dsCpf" value="#{ministroCandidatoPesquisaBeam.filtro.dsCpf}" />
+							<f:param name="param_cdProtocolo"  value="#{ministroCandidatoPesquisaBeam.filtro.cdProtocoloFiltro}"/>	
+							<f:param name="param_controle"  value="1"/>	
+						</p:link>
+					</p:column>
+					
+					<p:column headerText="Região" style="text-align:left; width:150px;" sortBy="#{item.dsRegiao}" >
+						<p:outputLabel value="#{item.dsRegiao}"/>
+					</p:column>
+					
+					<p:column headerText="Igreja" style="text-align:left; " sortBy="#{item.dsIgreja}" >
+						<p:outputLabel value="#{item.dsIgreja}"/>
+					</p:column>
+					
+					<p:column style="text-align: left; width: 55px;">
+						<p:button rendered="#{item.flExibirBotaoEditar}"
+								icon="fa fa-fw fa-edit" 
+								style="width: 20px; margin-left: -5px;"
+								 title="Editar" 
+								 outcome="/pages/cadastro/MinistroCandidatoCadastro">
+							<f:param name="protocolo" value="#{item.sqProtocolo}"/>
+							<f:param name="param_cadastro" value="alterarCandidato" />
+							<f:param name="param_regiaoItensFiltro_sqRegiao"  value="#{ministroCandidatoPesquisaBeam.filtro.regiaoItensFiltro.sqRegiao}"/> 
+							<f:param name="param_igrejaFiltro_sqIgreja"  value="#{ministroCandidatoPesquisaBeam.filtro.igrejaFiltro.sqIgreja}"/>
+							<f:param name="param_protocoloStatus_sqProtocoloStatus"  value="#{ministroCandidatoPesquisaBeam.filtro.protocoloStatusFiltro.sqProtocoloStatus}"/>
+							<f:param name="param_cdCodigoFiltro"  value="#{ministroCandidatoPesquisaBeam.filtro.cdCodigoFiltro}"/>
+							<f:param name="param_nmMinistro"  value="#{ministroCandidatoPesquisaBeam.filtro.nmMinistro}"/>
+							<f:param name="param_dsCpf" value="#{ministroCandidatoPesquisaBeam.filtro.dsCpf}" />
+							<f:param name="param_cdProtocolo"  value="#{ministroCandidatoPesquisaBeam.filtro.cdProtocoloFiltro}"/>	
+							<f:param name="param_controle"  value="1"/>	
+						</p:button>
+					
+						<p:commandButton 
+								rendered="#{item.flExibirBotaoExcluir}"
+								icon="ui-icon-trash" 
+								style="width: 20px; margin-left: 5px;"
+								title="Excluir" 
+								oncomplete="PF('confirmacaoExclusao').show();"
+								process="@this"
+								update=":frm_excluir:confirmacaoExclusaoDialog" >
+								
+		    				<f:setPropertyActionListener value="#{item}" target="#{ministroCandidatoPesquisaBeam.selecionado}" />
+		    			</p:commandButton>
+		    		</p:column>
+	
+				</p:dataTable>
+
+			</div>	
+				
+		</h:form>
+		
+		<!-- Dialogo para excluir protocolo -->
+		<h:form id="frm_excluir">
+			<p:confirmDialog header="Exclusão de Protocolo e Candidato" 
+					widgetVar="confirmacaoExclusao"
+					id="confirmacaoExclusaoDialog">
+
+				<f:facet name="message">
+					<p:outputLabel value="Confirma excluir Protocolo: (#{ministroCandidatoPesquisaBeam.selecionado.cdProtocolo})" />
+					<br />
+					<p:outputLabel value="Associado ao candidato (#{ministroCandidatoPesquisaBeam.selecionado.nmCandidato})?"/>
+					<br />
+					<p:outputLabel value="Atenção: O candidato, pareceres e anexos associados ao protocolo também serão excluídos."/>
+				</f:facet>					
+					
+				<p:button value="Não" 
+						onclick="PF('confirmacaoExclusao').hide(); return false;"
+						style="width: auto"/>
+				<p:commandButton value="Sim" 
+						oncomplete="PF('confirmacaoExclusao').hide();" 
+						action="#{ministroCandidatoPesquisaBeam.excluir}"
+						update=":frm:dtList"
+						style="width: auto"/>
+			</p:confirmDialog>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{rptFinanceiroLancamentosEntradaPendenteBean.inicializar}" type="preRenderView" />
+		</f:metadata>
+	
+		<h1 class="aw-page-title">Relatório Lançamentos em Aberto</h1>	
+		
+		<h:form id="frm">
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+							
+			<p:toolbar style="margin-bottom: 30px" >
+				<p:toolbarGroup align="left">
+					<p:commandButton value="Imprimir" 
+							action="#{rptFinanceiroLancamentosEntradaPendenteBean.imprimir}" 
+							update="@form"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+	
+			<div class="ui-fluid">
+			
+				<div class="cv-linha-horizontal" >
+					<div class="cv-linha-horizontal-texto">Filtro</div> 
+				</div>
+			
+				<p:panelGrid columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-3" >
+					<p:outputLabel value="Departamento:" for="dsDepartamento" />
+					<p:selectOneMenu id="dsDepartamento" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaPendenteBean.relatorioFiltro.departamento}" >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione o Departamento"/>
+						<f:selectItems value="#{rptFinanceiroLancamentosEntradaPendenteBean.departamentos}" var="item" itemValue="#{item}" itemLabel="#{item.dsReduzido}" />
+						<p:ajax listener="#{rptFinanceiroLancamentosEntradaPendenteBean.buscarMinistros}"  update=":frm:dsMinistro"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Região Ministro:" for="dsRegiao" />
+					<p:selectOneMenu id="dsRegiao" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaPendenteBean.relatorioFiltro.regiaoItensFiltro}" >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma região"/>
+						<f:selectItems value="#{rptFinanceiroLancamentosEntradaPendenteBean.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
+						<p:ajax listener="#{rptFinanceiroLancamentosEntradaPendenteBean.buscarIgrejasEministros}"  update=":frm:dsIgreja :frm:dsMinistro"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Igreja:" for="dsIgreja" />
+					<p:selectOneMenu id="dsIgreja" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaPendenteBean.relatorioFiltro.igreja}" >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione a Igreja"/>
+						<f:selectItems value="#{rptFinanceiroLancamentosEntradaPendenteBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida}" />
+						<p:ajax listener="#{rptFinanceiroLancamentosEntradaPendenteBean.buscarMinistros}"  update=":frm:dsMinistro"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Cargo:" for="dsCargo" />
+					<p:selectOneMenu id="dsCargo" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaPendenteBean.relatorioFiltro.cargo}" >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione o Cargo"/>
+						<f:selectItems value="#{rptFinanceiroLancamentosEntradaPendenteBean.cargos}" var="item" itemValue="#{item}" itemLabel="#{item.dsCargo}" />
+						<p:ajax listener="#{rptFinanceiroLancamentosEntradaPendenteBean.buscarMinistros}"  update=":frm:dsMinistro"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Ministro:" for="dsMinistro" />
+					<p:selectOneMenu id="dsMinistro" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaPendenteBean.relatorioFiltro.ministro}"  >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione o Ministro"/>
+						<f:selectItems value="#{rptFinanceiroLancamentosEntradaPendenteBean.ministros}" var="item" itemValue="#{item}" itemLabel="#{item.nmNome}" />
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Situação do Ministro:" for="cdSituacao" />
+					<p:outputPanel>
+						<p:selectOneRadio id="cdSituacao" value="#{rptFinanceiroLancamentosEntradaPendenteBean.relatorioFiltro.cdSituacaoMinistro}" >
+				            <f:selectItem itemLabel="Ativos" itemValue="1"  />
+				            <f:selectItem itemLabel="Inativos" itemValue="2" />
+				            <f:selectItem itemLabel="Todos" itemValue="3" />
+				        </p:selectOneRadio>
+					</p:outputPanel>
+					
+					<p:outputLabel value="Conta contábil:" for="dsContaContabil" />
+					<p:selectOneMenu id="dsContaContabil" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaPendenteBean.relatorioFiltro.planoConta}"  >
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione a Conta"/>
+						<f:selectItems value="#{rptFinanceiroLancamentosEntradaPendenteBean.planoContaList}" var="item" itemValue="#{item}" itemLabel="#{item.dsConta}" />
+						<p:ajax listener="#{rptFinanceiroLancamentosEntradaPendenteBean.buscarTipoLancamento}"  update=":frm:dsTipoLancamento"/>
+					</p:selectOneMenu>	
+					
+					<p:outputLabel for="dsTipoLancamento" value="Tipo Lançamento:" />
+			        <p:selectCheckboxMenu id="dsTipoLancamento" value="#{rptFinanceiroLancamentosEntradaPendenteBean.relatorioFiltro.tipoLancamentosSelecionadosString}" label="Selecione" multiple="true"
+			                              filter="true" filterMatchMode="contains" panelStyle="width:250px">
+			            <f:selectItems value="#{rptFinanceiroLancamentosEntradaPendenteBean.tipoLancamentosString}" />
+			        </p:selectCheckboxMenu>									
+				</p:panelGrid>
+				
+				<div class="cv-linha-horizontal" />
+			</div>
+
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

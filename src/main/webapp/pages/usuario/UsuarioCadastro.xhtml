@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<o:viewParam name="usuario" value="#{usuarioCadastroBean.usuario}" />
+			<f:event listener="#{usuarioCadastroBean.inicializar}" type="preRenderView" />
+		</f:metadata>
+
+		<h:form id="frm">
+			<h1 class="aw-page-title">#{usuarioCadastroBean.editando ? 'Usuário - Alteração' : 'Usuário - Cadastro'}</h1>
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+		
+			<p:toolbar styleClass="cv-toolbar-topo">
+				<p:toolbarGroup>
+	    			<p:button value="Novo" />
+	    			<p:commandButton value="Salvar" id="botaoSalvar" action="#{usuarioCadastroBean.salvar}" update="@form" />
+	    		</p:toolbarGroup>
+			
+				<p:toolbarGroup align="right">
+					<p:button value="Pesquisar usuário" outcome="/pages/usuario/UsuarioPesquisa"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+	 				
+				<h:panelGroup id="pnlgrp-cadastro" layout="block" >		
+						<p:focus context="pnlgrp-cadastro"/>
+						<div class="cv-cadastro">
+							<p:panelGrid columns="2"
+									layout="grid"
+									id="panelGrid1" 
+									columnClasses="ui-grid-col-1, ui-grid-col-6">
+								
+								<p:outputLabel value="Nome" for="dsNome"/>
+								<p:inputText id="dsNome" value="#{usuarioCadastroBean.usuario.dsNome}"/>
+								
+								<p:outputLabel value="Email" for="dsEmail"/>
+								<p:inputText id="dsEmail" value="#{usuarioCadastroBean.usuario.dsEmail}"/>
+								
+								<p:outputLabel value="Situação usuário" for="flAtivo"/>
+								<p:selectOneRadio id="flAtivo" value="#{usuarioCadastroBean.usuario.situacao}" layout="responsive" columns="4">
+								   	<f:selectItem itemLabel="Ativo" itemValue="true" />
+								   	<f:selectItem itemLabel="Bloqueado" itemValue="false" />
+								</p:selectOneRadio>
+								
+								<p:outputLabel value="Situação senha" for="flTrocarSenha"/>
+								<p:selectOneRadio id="flTrocarSenha" value="#{usuarioCadastroBean.usuario.trocaSenha}" layout="responsive" columns="4">
+								   	<f:selectItem itemLabel="Definitiva" itemValue="false" />
+								   	<f:selectItem itemLabel="Provisória" itemValue="true" />
+								</p:selectOneRadio>
+								
+								<p:outputLabel value="Observações" for="dsObs"/>
+								<p:inputTextarea id="dsObs" value="#{usuarioCadastroBean.usuario.dsObs}" />
+								
+								<p:outputLabel value="Usuário" for="dsLogin" />
+								<p:inputText id="dsLogin" value="#{usuarioCadastroBean.usuario.dsLogin}" />
+								
+								
+								<h:outputLabel for="pwd1" value="Senha: *" rendered="#{!usuarioCadastroBean.editando}" />
+						        <p:password id="pwd1" value="#{usuarioCadastroBean.usuario.dsSenha}" match="pwd2" label="Senha" required="true" rendered="#{!usuarioCadastroBean.editando}" >
+						        	<f:validateLength minimum="8" maximum="20"/> 
+						        </p:password>
+						 
+						        <h:outputLabel for="pwd2" value="Confirmar senha *" rendered="#{!usuarioCadastroBean.editando}" />
+						        <p:password id="pwd2" value="#{usuarioCadastroBean.usuario.dsSenha}" label="Confirmar senha" required="true" rendered="#{!usuarioCadastroBean.editando}" />
+	
+							</p:panelGrid>
+		
+						</div>
+	 	
+					</h:panelGroup>
+				</div>
+		
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

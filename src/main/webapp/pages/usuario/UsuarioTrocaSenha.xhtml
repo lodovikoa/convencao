@@ -1,0 +1,72 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{usuarioTrocaSenhaBean.inicializar}" type="preRenderView" />
+		</f:metadata>
+
+		<h:form id="frm">
+			<h1 class="aw-page-title">Usuário - Trocar senha</h1>
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+		
+			<p:toolbar styleClass="cv-toolbar-topo">
+				<p:toolbarGroup>
+	    			<p:commandButton value="Salvar" id="botaoSalvar" action="#{usuarioTrocaSenhaBean.salvar}" update="@form" />
+	    		</p:toolbarGroup>
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+	 				
+				<h:panelGroup id="pnlgrp-cadastro" layout="block" >		
+						<p:focus context="pnlgrp-cadastro"/>
+						<div class="cv-cadastro">
+							<p:panelGrid columns="2"
+									layout="grid"
+									id="panelGrid1" 
+									columnClasses="ui-grid-col-1, ui-grid-col-6">
+								
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Nome"/>
+								<p:outputLabel value="#{usuarioTrocaSenhaBean.usuario.dsNome}"/>
+								
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Email" />
+								<p:outputLabel value="#{usuarioTrocaSenhaBean.usuario.dsEmail}"/>
+								
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Situação usuário"/>
+								<p:outputLabel value="Ativo" rendered="#{usuarioTrocaSenhaBean.usuario.situacao}"/>
+								<p:outputLabel value="Bloqueado" rendered="#{!usuarioTrocaSenhaBean.usuario.situacao}" style="color:red;"  />
+								
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Situação senha"/>
+								<p:outputLabel value="Definitiva" rendered="#{!usuarioTrocaSenhaBean.usuario.trocaSenha}"/>
+								<p:outputLabel value="Provisória" rendered="#{usuarioTrocaSenhaBean.usuario.trocaSenha}" style="color:red;"  />
+								
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Usuário" />
+								<p:outputLabel value="#{usuarioTrocaSenhaBean.usuario.dsLogin}"/>
+								
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" for="dsSenhaAtual" value="Senha atual:" />
+								<p:password id="dsSenhaAtual" value="#{usuarioTrocaSenhaBean.usuario.dsSenhaConfirmarTroca}" label="Senha atual" required="true" />
+																				
+								<h:outputLabel styleClass="cv-dialogo-exibe-label" for="pwd1" value="Senha: *" />
+						        <p:password id="pwd1" value="#{usuarioTrocaSenhaBean.usuario.dsSenha}" match="pwd2" label="Senha" required="true"  >
+						        	<f:validateLength minimum="8" maximum="20"/> 
+						        </p:password>
+						 
+						        <h:outputLabel styleClass="cv-dialogo-exibe-label" for="pwd2" value="Confirmar senha *" />
+						        <p:password id="pwd2" value="#{usuarioTrocaSenhaBean.usuario.dsSenha}" label="Confirmar senha" required="true" />
+	
+							</p:panelGrid>
+		
+						</div>
+	 	
+					</h:panelGroup>
+				</div>
+		
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

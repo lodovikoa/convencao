@@ -1,0 +1,517 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{lancamentoResumoList.inicializar}" type="preRenderView" />
+			
+			<o:viewParam name="param_regiaoItens_sqRegiao" value="#{lancamentoResumoList.param_regiaoItens_sqRegiao}" />
+			<o:viewParam name="param_controle"  value="#{lancamentoResumoList.param_controle}" />
+			<f:event listener="#{lancamentoResumoList.recuperarParametros}" type="preRenderView" />
+		</f:metadata>
+	
+		<h1 class="aw-page-title">Financeiro - Resumo</h1>	
+		
+		<h:form id="frm">
+			<p:messages closable="true" > <p:autoUpdate/> </p:messages>
+			
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton value="Pesquisar" action="#{lancamentoResumoList.listar}" update=":frm" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Cadastrar novo período"
+								action="#{lancamentoResumoList.inicializarPeriodo}"
+								oncomplete="PF('widgNovoResumoDialog').show();"
+								process="@this"
+								update=":frm_novoResumo:novoResumoDialog" >
+		    		</p:commandButton>
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<p:panelGrid style="margin-top: 10px;" columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-11" >
+				
+				<p:outputLabel value="Região:" for="dsRegiao"/>
+				<p:outputPanel>
+					<p:selectOneMenu id="dsRegiao" filter="true" value="#{lancamentoResumoList.regiaoItensFiltro}" >
+						<f:selectItem itemLabel="Selecione uma região"/>
+						<f:selectItems value="#{lancamentoResumoList.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
+						<p:ajax listener="#{lancamentoResumoList.listar}"  update=":frm:dtList"/>
+					</p:selectOneMenu>
+															
+				</p:outputPanel>
+				
+			</p:panelGrid>	
+			
+			<div class="ui-fluid">
+				<p:dataTable value="#{lancamentoResumoList.lista}"
+							var="item"
+							style="margin-top:20px;"
+							id="dtList"
+							paginator="true"
+							rows="60"
+							rowsPerPageTemplate="10,20,30,40,50,60,70,80"
+							emptyMessage="Não há registros para exibir" 
+							paginatorPosition="bottom" >
+					
+					<p:column headerText="Inicio período" style="text-align:left;" >
+						<p:outputLabel value="#{item.dtPeriodoInicio}" >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+					</p:column>
+					
+					<p:column headerText="Fim período" style="text-align:left; width:100px;">
+						<p:outputLabel value="#{item.dtPeriodoFim}" >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+					</p:column>
+					
+					<p:column headerText="Saldo anterior" style="text-align:right;">
+						<p:outputLabel value="#{item.vlSaldoAnterior}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+					</p:column>
+					
+					<p:column headerText="Entradas" style="text-align:right;">
+						<p:outputLabel value="#{item.vlEntradas}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+					</p:column>
+					
+					<p:column headerText="Saídas" style="text-align:right;">
+						<p:outputLabel value="#{item.vlSaidas}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+					</p:column>
+					
+					<p:column headerText="Saldo atual" style="text-align:right;">
+						<p:outputLabel value="#{item.vlSaldoAtual}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+					</p:column>
+					
+					<p:column headerText="Data fechamento" style="text-align:left; width:100px;">
+						<p:outputLabel value="#{item.dtFechado}" >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+					</p:column>
+					
+					<!-- Botão para exibir e registrar as entradas -->
+					<p:column style="text-align: left; width: 8px;">
+						<p:button rendered="#{item.flExibirEntradas}"
+								icon="add_16_imagem" 
+								style="width: 20px; margin-left: -5px;"
+								title="Registrar Entradas" 
+								outcome="/pages/financeiro/entrada/LancamentoEntradaIgrejaOutrosList">
+								
+							<f:param name="lancamentoResumo" value="#{item.sqResumo}"/> 
+							<f:param name="param_regiaoItens_sqRegiao"  value="#{lancamentoResumoList.regiaoItensFiltro.sqRegiao}"/> 
+							<f:param name="param_controle"  value="1"/>
+						</p:button>	
+					</p:column>
+					
+					<!-- Botão para exibir e registrar as saídas -->
+					<p:column style="text-align: left; width: 8px;">
+						<p:button rendered="#{item.flExibirSaidas}"
+								icon="cancel_16_imagem" 
+								style="width: 20px; margin-left: -5px;"
+								title="Registrar Saídas" 
+								outcome="/pages/financeiro/saida/LancamentoSaidaList">
+								
+							<f:param name="lancamentoResumo" value="#{item.sqResumo}"/> 
+							<f:param name="param_regiaoItens_sqRegiao"  value="#{lancamentoResumoList.regiaoItensFiltro.sqRegiao}"/> 
+							<f:param name="param_controle"  value="1"/>
+						</p:button>
+					</p:column>
+					
+					<!-- Botão Preencher Data Fim do período -->
+					<p:column style="text-align: left; width: 8px;">
+						<p:commandButton rendered="#{item.flExibirDataFim}"
+								style="width: 20px; margin-left: -5px; "
+								icon="ficha_cadastro_imagem"
+								title="Informar Data Fim do período"
+								oncomplete="PF('widgInformarDataFimDialog').show();"
+								process="@this"
+								update=":frm_dtFim:informarDataFimDialog" >
+					
+		    				<f:setPropertyActionListener value="#{item}" target="#{lancamentoResumoList.selecionado}" />
+		    			</p:commandButton>
+		    		</p:column>
+		    		
+		    		<!-- Botão fechar período -->
+					<p:column style="text-align: left; width: 8px;">
+						<p:commandButton rendered="#{item.flExibirFecharPeriodo}"
+								style="width: 20px; margin-left: -5px; "
+								icon="lock_open_16x16_imagem"
+								title="Fechar período"
+								oncomplete="PF('widgFecharPeriodoDialog').show();"
+								process="@this"
+								update=":frm_fecharPeriodo:fecharPeriodoDialog" >
+					
+		    				<f:setPropertyActionListener value="#{item}" target="#{lancamentoResumoList.selecionado}" />
+		    			</p:commandButton>
+		    		</p:column>
+		    		
+		    		<!-- Botão reabrir período -->
+					<p:column style="text-align: left; width: 8px;">
+						<p:commandButton rendered="#{item.flExibirReabrirPeriodo}"
+								style="width: 20px; margin-left: -5px; "
+								icon="cadeado_16x16_imagem"
+								title="Reabrir período"
+								oncomplete="PF('widgReabrirPeriodoDialog').show();"
+								process="@this"
+								update=":frm_reabrirPeriodo:reabrirPeriodoDialog" >
+					
+		    				<f:setPropertyActionListener value="#{item}" target="#{lancamentoResumoList.selecionado}" />
+		    			</p:commandButton>
+		    		</p:column>
+		    		
+		    		<!-- Botão Excluir resumo do período -->
+		    		<p:column style="text-align: left; width: 8px;">
+						<p:commandButton rendered="#{item.flExibirExcluir}"
+								style="width: 20px; margin-left: -5px; "
+								icon="ui-icon-trash"
+								title="Excluir período"
+								oncomplete="PF('confirmacaoExclusao').show();"
+								process="@this"
+								update=":frm_exclusao:confirmacaoExclusaoDialog" >
+					
+		    				<f:setPropertyActionListener value="#{item}" target="#{lancamentoResumoList.selecionado}" />
+		    			</p:commandButton>
+		    		</p:column>
+		    			
+
+    				 <f:facet name="footer">
+				        #{LancamentoResumoList.mensagemRodape}
+				    </f:facet>
+				</p:dataTable>
+			</div>
+		</h:form>
+		
+		<!-- Diálogo para exluir um registro -->
+		<h:form id="frm_exclusao">
+			<p:confirmDialog header="Exclusão do resumo financeiro selecinado" 
+					message="Confirma exclusão? Os registros de Entradas e Saídas serão desvinculados desse resumo e estarão aptos a serem vinculados a um novo resumo a ser criado."
+					widgetVar="confirmacaoExclusao"
+					id="confirmacaoExclusaoDialog"
+					width="50%" >
+				<p:button value="Não" 
+						onclick="PF('confirmacaoExclusao').hide(); return false;"
+						style="width: auto"/>
+				<p:commandButton value="Sim" 
+						oncomplete="PF('confirmacaoExclusao').hide();" 
+						action="#{lancamentoResumoList.excluir}"
+						update=":frm:dtList"
+						style="width: auto"/>
+			</p:confirmDialog>
+		</h:form>
+		
+		<!-- Dialogo para criar novo resumo em uma região -->
+		<h:form id="frm_novoResumo">
+			<p:dialog
+					widgetVar="widgNovoResumoDialog"
+					id="novoResumoDialog"
+					header="Financeiro - Resumo: Incluir novo período"
+					resizable="false"
+					responsive="true"
+					width="50%" >
+				<h:panelGroup id="novoResumoPanel" layout="block" styleClass="ui-fluid">
+					
+					<p:panelGrid id="novoResumoGrid" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-3, ui-grid-col-9">
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Região:"/>
+						<p:selectOneMenu id="dsNovoResumoRegiao" filter="true" value="#{lancamentoResumoList.regiaoItensFiltroNovoPeriodo}" >
+							<f:selectItem itemLabel="Selecione uma região"/>
+							<f:selectItems value="#{lancamentoResumoList.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
+							<p:ajax listener="#{lancamentoResumoList.atualizarDadosNovoPeriodo}"  update=":frm_novoResumo:novoResumoGrid"/>
+						</p:selectOneMenu>
+						
+					
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Período início:"/>
+						<p:outputLabel id="dsNovoResumoPeriodoInicio" value="#{lancamentoResumoList.selecionado.dtPeriodoInicio}" >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Período fim:"/>
+						<p:outputLabel id="dsNovoResumoPeriodoFim" value="#{lancamentoResumoList.selecionado.dtPeriodoFim}"  >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+														
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Saldo anterior:"/>
+						<p:outputLabel id="dsNovoResumoSaldoAnterior" value="#{lancamentoResumoList.selecionado.vlSaldoAnterior}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+										
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Entradas:"/>
+						<p:outputLabel id="dsNovoResumoEntradas" value="#{lancamentoResumoList.selecionado.vlEntradas}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Saídas:"/>
+						<p:outputLabel id="dsNovoResumoSaidas" value="#{lancamentoResumoList.selecionado.vlSaidas}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Saldo atual:"/>
+						<p:outputLabel id="dsNovoResumoSaldoAtual" value="#{lancamentoResumoList.selecionado.vlSaldoAtual}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+						
+						<p:outputLabel value="" />
+						<p:outputLabel rendered="#{!lancamentoResumoList.flDtFimPeriodo}" style="color: red" value="Para criar novo período é necessário primeiro informar a data fim do período atual."/>
+						
+					
+					</p:panelGrid>
+					
+					<p:separator />
+					<p:commandButton value="Fechar" 
+    					id="botaoFecharNovoResumo" 
+    					action="#{lancamentoResumoList.fecharNovoPeriodo}"
+    					style="width: auto; margin-left:30px;"
+    					oncomplete="PF('widgNovoResumoDialog').hide(); return false;"
+    					update=":frm_novoResumo:novoResumoGrid"/>
+						
+					<p:commandButton value="Confirmar inclusão de novo período" 
+    					id="botaoSalvarNovoResumo" 
+    					action="#{lancamentoResumoList.salvarNovoPeriodo}"
+    					style="width: auto; margin-left:30px;"
+    					process="@form"
+    					oncomplete="jsFecharDialogo(xhr, status, args, 'widgNovoResumoDialog', 'shake')" 
+    					update=":frm:dtList"/>
+    				
+				</h:panelGroup>
+			</p:dialog>	
+		</h:form>
+		
+		<!-- Dialogo para informar data fim -->
+		<h:form id="frm_dtFim">
+			<p:dialog
+					widgetVar="widgInformarDataFimDialog"
+					id="informarDataFimDialog"
+					header="Financeiro - Resumo: Informar Data Fim do período"
+					resizable="false"
+					responsive="true"
+					width="50%" >
+				<h:panelGroup id="dtFimPanel" layout="block" styleClass="ui-fluid">
+					
+					<p:panelGrid id="dtFimGrid" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-3, ui-grid-col-9">
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Região:"/>
+						<p:outputLabel id="dsDtFimPeriodoRegiao" value="#{lancamentoResumoList.selecionado.regiao.dsRegiao}" />
+						
+					
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Período início:"/>
+						<p:outputLabel id="dsDtFimPeriodoInicio" value="#{lancamentoResumoList.selecionado.dtPeriodoInicio}" >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+						
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" style="color: red" value="Período fim:"/>
+						<p:calendar id="dsDtFimPeriodoFim" 
+									style="color: red"
+									pattern="dd/MM/yyyy" 
+									mask="true" 
+									locale="pt" 
+									showButtonPanel="true" 
+									navigator="true"
+									value="#{lancamentoResumoList.selecionado.dtPeriodoFim}">
+							<p:ajax event="dateSelect" process="@this" update="@this"/>
+							<f:converter converterId="converter_localdate"/>
+						</p:calendar>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Saldo anterior:"/>
+						<p:outputLabel id="dsDtFimPeriodoSaldoAnterior" value="#{lancamentoResumoList.selecionado.vlSaldoAnterior}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+										
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Entradas:"/>
+						<p:outputLabel id="dsDtFimPeriodoEntradas" value="#{lancamentoResumoList.selecionado.vlEntradas}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Saídas:"/>
+						<p:outputLabel id="dsDtFimPeriodoSaidas" value="#{lancamentoResumoList.selecionado.vlSaidas}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Saldo atual:"/>
+						<p:outputLabel id="dsDtFimPeriodoSaldoAtual" value="#{lancamentoResumoList.selecionado.vlSaldoAtual}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+					
+					</p:panelGrid>
+					
+					<p:separator />
+					<p:button value="Fechar" 
+							onclick="PF('widgInformarDataFimDialog').hide(); return false;"
+							style="width: auto"/>
+						
+					<p:commandButton value="Confirmar processamento da Data Fim do período" 
+    					id="botaoSalvarDataFimPeriodo" 
+    					action="#{lancamentoResumoList.salvarDataFimPeriodo}"
+    					style="width: auto; margin-left:30px;"
+    					process="@form"
+    					oncomplete="jsFecharDialogo(xhr, status, args, 'widgInformarDataFimDialog', 'shake')" 
+    					update=":frm:dtList"/>
+    				
+				</h:panelGroup>
+			</p:dialog>	
+		</h:form>
+		
+		
+		<!-- Dialogo para fechar periodo -->
+		<h:form id="frm_fecharPeriodo">
+			<p:dialog
+					widgetVar="widgFecharPeriodoDialog"
+					id="fecharPeriodoDialog"
+					header="Financeiro - Resumo: Fechar período"
+					resizable="false"
+					responsive="true"
+					width="50%" >
+				<h:panelGroup id="dtFimPanel" layout="block" styleClass="ui-fluid">
+					
+					<p:panelGrid id="dtFimGrid" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-3, ui-grid-col-9">
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Região:"/>
+						<p:outputLabel id="dsDtFecharPeriodoRegiao" value="#{lancamentoResumoList.selecionado.regiao.dsRegiao}" />
+						
+					
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Período início:"/>
+						<p:outputLabel id="dsDtFecharPeriodoInicio" value="#{lancamentoResumoList.selecionado.dtPeriodoInicio}" >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Período fim:"/>
+						<p:outputLabel id="dsDtFecharPeriodoFim" value="#{lancamentoResumoList.selecionado.dtPeriodoFim}"  >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Saldo anterior:"/>
+						<p:outputLabel id="dsDtFecharPeriodoSaldoAnterior" value="#{lancamentoResumoList.selecionado.vlSaldoAnterior}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+										
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Entradas:"/>
+						<p:outputLabel id="dsDtFecharPeriodoEntradas" value="#{lancamentoResumoList.selecionado.vlEntradas}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Saídas:"/>
+						<p:outputLabel id="dsDtFecharPeriodoSaidas" value="#{lancamentoResumoList.selecionado.vlSaidas}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Saldo atual:"/>
+						<p:outputLabel id="dsDtFecharPeriodoSaldoAtual" value="#{lancamentoResumoList.selecionado.vlSaldoAtual}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+						
+						<p:outputLabel styleClass="cv-dialogo-exibe-label"  style="color: red" value="Fechado em:"/>
+						<p:calendar id="dsDtFecharPeriodo" 
+									style="color: red"
+									pattern="dd/MM/yyyy" 
+									mask="true" 
+									locale="pt" 
+									showButtonPanel="true" 
+									navigator="true"
+									value="#{lancamentoResumoList.dtFecharPeriodo}">
+							<p:ajax event="dateSelect" process="@this" update="@this"/>
+							<f:converter converterId="converter_localdate"/>
+						</p:calendar>
+					
+					</p:panelGrid>
+					
+					<p:separator />
+					<p:button value="Fechar" 
+							onclick="PF('widgFecharPeriodoDialog').hide(); return false;"
+							style="width: auto"/>
+						
+					<p:commandButton value="Confirmar fechar período" 
+    					id="botaoSalvarFecharPeriodo" 
+    					action="#{lancamentoResumoList.salvarFecharPeriodo}"
+    					style="width: auto; margin-left:30px;"
+    					process="@form"
+    					oncomplete="jsFecharDialogo(xhr, status, args, 'widgFecharPeriodoDialog', 'shake')" 
+    					update=":frm:dtList"/>
+    				
+				</h:panelGroup>
+			</p:dialog>	
+		</h:form>
+		
+		<!-- Dialogo para reabrir periodo -->
+		<h:form id="frm_reabrirPeriodo">
+			<p:dialog
+					widgetVar="widgReabrirPeriodoDialog"
+					id="reabrirPeriodoDialog"
+					header="Financeiro - Resumo: Reabrir período"
+					resizable="false"
+					responsive="true"
+					width="50%" >
+				<h:panelGroup id="dtFimPanel" layout="block" styleClass="ui-fluid">
+					
+					<p:panelGrid id="dtFimGrid" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-3, ui-grid-col-9">
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Região:"/>
+						<p:outputLabel id="dsDtReabrirPeriodoRegiao" value="#{lancamentoResumoList.selecionado.regiao.dsRegiao}" />
+						
+					
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Período início:"/>
+						<p:outputLabel id="dsDtReabrirPeriodoInicio" value="#{lancamentoResumoList.selecionado.dtPeriodoInicio}" >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Período fim:"/>
+						<p:outputLabel id="dsDtReabrirPeriodoFim" value="#{lancamentoResumoList.selecionado.dtPeriodoFim}"  >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Saldo anterior:"/>
+						<p:outputLabel id="dsDtReabrirPeriodoSaldoAnterior" value="#{lancamentoResumoList.selecionado.vlSaldoAnterior}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+										
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Entradas:"/>
+						<p:outputLabel id="dsDtReabrirPeriodoEntradas" value="#{lancamentoResumoList.selecionado.vlEntradas}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Saídas:"/>
+						<p:outputLabel id="dsDtReabrirPeriodoSaidas" value="#{lancamentoResumoList.selecionado.vlSaidas}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Saldo atual:"/>
+						<p:outputLabel id="dsDtReabrirPeriodoSaldoAtual" value="#{lancamentoResumoList.selecionado.vlSaldoAtual}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+						
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" style="color: red" value="Fechado em:"/>
+						<p:outputLabel id="dsDtReabrirPeriodoFechado" style="color: red" value="#{lancamentoResumoList.selecionado.dtFechado}" >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+					
+					</p:panelGrid>
+					
+					<p:separator />
+					<p:button value="Fechar" 
+							onclick="PF('widgReabrirPeriodoDialog').hide(); return false;"
+							style="width: auto"/>
+						
+					<p:commandButton value="Confirmar reabrir período" 
+    					id="botaoSalvarReabrirPeriodo" 
+    					action="#{lancamentoResumoList.salvarReabrirPeriodo}"
+    					style="width: auto; margin-left:30px;"
+    					process="@form"
+    					oncomplete="jsFecharDialogo(xhr, status, args, 'widgReabrirPeriodoDialog', 'shake')" 
+    					update=":frm:dtList"/>
+    				
+				</h:panelGroup>
+			</p:dialog>	
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

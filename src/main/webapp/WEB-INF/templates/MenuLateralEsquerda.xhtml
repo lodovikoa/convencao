@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	
+	<h:form id="menu">
+	<nav class="aw-menu">
+		<p:menu toggleable="true">
+	        <p:submenu label="Menu">
+	        	<p:menuitem styleClass="ui-menuitem-icon-meu" value="Alterar senha" outcome="/pages/usuario/UsuarioTrocaSenha" icon="ui-icon-person" />
+	        	<p:menuitem styleClass="ui-menuitem-icon-meu" value="Sair" icon="ui-icon-closethick" url="/confrateres/logout" />	        	
+	        </p:submenu>
+	        
+	        <p:submenu rendered="#{seguranca.menuFinanceiro}" label="Financeiro" >
+	        	<p:menuitem rendered="#{seguranca.subMenuResumoFinanceiro}" styleClass="ui-menuitem-icon-meu" value="Resumo Financeiro" outcome="/pages/financeiro/resumo/LancamentoResumoList" icon="ui-icon-home"/>
+	        	<p:menuitem rendered="#{seguranca.subMenuLancamentos}" styleClass="ui-menuitem-icon-meu" value="Recebimentos" outcome="/pages/financeiro/entrada/LancamentoEntradaPessoasList" icon="ui-icon-home"/>
+	        	<p:menuitem rendered="#{seguranca.subMenuLancamentosCreateEmLote}" styleClass="ui-menuitem-icon-meu" value="Registrar em Lote" outcome="/pages/financeiro/entrada/LancamentoEntradaCreateEmLote" icon="ui-icon-home"/>
+	        	<p:menuitem rendered="#{seguranca.subMenuLancamentosDeleteEmLote}" styleClass="ui-menuitem-icon-meu" value="Excluir em Lote" outcome="/pages/financeiro/entrada/LancamentoEntradaDeleteEmLote" icon="ui-icon-home"/>
+	        </p:submenu>
+	        
+	        <p:submenu rendered="#{seguranca.menuCadastro}" label="Cadastro">
+	            <p:menuitem rendered="#{seguranca.subMenuIgrejas}" styleClass="ui-menuitem-icon-meu" value="Igrejas" outcome="/pages/cadastro/IgrejaPesquisa" icon="ui-icon-home"/>
+	            <p:menuitem rendered="#{seguranca.subMenuMinistros}" styleClass="ui-menuitem-icon-meu" value="Ministros" outcome="/pages/cadastro/MinistroPesquisa" icon="ui-icon-home"/>
+	            <p:menuitem rendered="#{seguranca.subMenuMinistros}" styleClass="ui-menuitem-icon-meu" value="Candidatos" outcome="/pages/cadastro/MinistroCandidatoPesquisa" icon="ui-icon-home"/>
+	        </p:submenu>
+	        <p:submenu rendered="#{seguranca.menuRelatorioSecretaria}" label="Reltório Secretaria">
+	            <p:menuitem rendered="#{seguranca.subMenuRelatorioMinistro}" styleClass="ui-menuitem-icon-meu" value="Ministros" outcome="/pages/relatorio/MinistroRelatorioGeral" icon="ui-icon-home"/>
+	            <p:menuitem rendered="#{seguranca.subMenuRelatorioMinistroPrPresidente}" styleClass="ui-menuitem-icon-meu" value="Pr. Presidente" outcome="/pages/relatorio/MinistroRelatorioPrPresidente" icon="ui-icon-home"/>
+	        </p:submenu>
+	        
+	        <p:submenu rendered="#{seguranca.menuRelatorioFinanceiro}" label="Reltório Financeiro">
+	        	<p:menuitem rendered="#{seguranca.subMenuRelatorioFinanceiroResumo}" styleClass="ui-menuitem-icon-meu" value="Resumo Financeiro" outcome="/pages/relatorio/RptFinanceiroResumo" icon="ui-icon-home"/>
+	        	<p:menuitem rendered="#{seguranca.subMenuRelatorioFinanceiroLancamentosEntradaPeriodo}" styleClass="ui-menuitem-icon-meu" value="Entradas p/ Período" outcome="/pages/relatorio/RptFinanceiroLancamentosEntradaPeriodo" icon="ui-icon-home"/>
+	        	<p:menuitem rendered="#{seguranca.subMenuRelatorioFinanceiroLancamentosEntradaMinistro}" styleClass="ui-menuitem-icon-meu" value="Entradas p/ Ministro" outcome="/pages/relatorio/RptFinanceiroLancamentosEntradaMinistro" icon="ui-icon-home"/>
+	        	<p:menuitem rendered="#{seguranca.subMenuRelatorioFinanceiroLancamentosEntradaRecibo}" styleClass="ui-menuitem-icon-meu" value="Entradas p/ Recibo" outcome="/pages/relatorio/RptFinanceiroLancamentosEntradaRecibo" icon="ui-icon-home"/>
+	        	<p:menuitem rendered="#{seguranca.subMenuRelatorioFinanceiroLancamentosEntradaFormaRecebimento}" styleClass="ui-menuitem-icon-meu" value="Entradas Forma Rec" outcome="/pages/relatorio/RptFinanceiroLancamentosEntradaFormaRecebimento" icon="ui-icon-home"/>        	
+	        	<p:menuitem rendered="#{seguranca.subMenuRelatorioFinanceiroLancamentosEmAberto}" styleClass="ui-menuitem-icon-meu" value="Entradas Pendentes" outcome="/pages/relatorio/RptFinanceiroLancamentosEntradaPendente" icon="ui-icon-home"/>
+	        	<p:menuitem rendered="#{seguranca.subMenuRelatorioFinanceiroLancamentosSaidaPeriodo}" styleClass="ui-menuitem-icon-meu" value="Saídas p/ Periodo" outcome="/pages/relatorio/RptFinanceiroLancamentosSaidaPeriodo" icon="ui-icon-home"/>
+	        </p:submenu>
+	        
+	        <p:submenu rendered="#{seguranca.menuConfiguracao}" label="Configuração">
+	            <p:menuitem rendered="#{seguranca.subMenuConvencao}" styleClass="ui-menuitem-icon-meu" value="Convenção" outcome="/pages/configuracao/ConvencaoPesquisa"  icon="ui-icon-home"/>
+	            <p:menuitem rendered="#{seguranca.subMenuDepartamentos}" styleClass="ui-menuitem-icon-meu" value="Departamentos" outcome="/pages/configuracao/DepartamentoPesquisa"  icon="ui-icon-home"/>
+	            <p:menuitem rendered="#{seguranca.subMenuEstados}" styleClass="ui-menuitem-icon-meu" value="Estados" outcome="/pages/configuracao/EstadoPesquisa" icon="ui-icon-star"/>
+	            <p:menuitem rendered="#{seguranca.subMenuEscolaridade}" styleClass="ui-menuitem-icon-meu" value="Escolaridade" outcome="/pages/configuracao/EscolaridadePesquisa" icon="ui-icon-star"/>
+	            <p:menuitem rendered="#{seguranca.subMenuCargo}" styleClass="ui-menuitem-icon-meu" value="Cargo" outcome="/pages/configuracao/CargoPesquisa" icon="ui-icon-star"/>
+	            <p:menuitem rendered="#{seguranca.subMenuEstadoCivil}" styleClass="ui-menuitem-icon-meu" value="Estado Civil" outcome="/pages/configuracao/EstadoCivelPesquisa" icon="ui-icon-star"/>
+	            <p:menuitem rendered="#{seguranca.subMenuProfissao}" styleClass="ui-menuitem-icon-meu" value="Profissão" outcome="/pages/configuracao/ProfissaoPesquisa" icon="ui-icon-star"/>
+	            <p:menuitem rendered="#{seguranca.subMenuPlanoContas}" styleClass="ui-menuitem-icon-meu" value="Plano de Contas" outcome="/pages/configuracao/PlanoContaPesquisa" icon="ui-icon-star"/>
+	            <p:menuitem rendered="#{seguranca.submenuTipoLancamento}" styleClass="ui-menuitem-icon-meu" value="Tipo Lançamento" outcome="/pages/configuracao/TipoLancamentoPesquisa" icon="ui-icon-star"/>
+	            <p:menuitem rendered="#{seguranca.subMenuRegiao}" styleClass="ui-menuitem-icon-meu" value="Região" outcome="/pages/configuracao/RegiaoPesquisa" icon="ui-icon-star"/>
+	        </p:submenu>
+	        <p:submenu rendered="#{seguranca.menuAuditoria}" label="Auditoria"  >
+	        	<p:menuitem rendered="#{seguranca.subMenuSeguranca}" styleClass="ui-menuitem-icon-meu" value="Auditoria" outcome="/pages/auditoria/AuditoriaPesquisa" icon="ui-icon-star" />
+	        </p:submenu>
+	        <p:submenu rendered="#{seguranca.menuSeguranca}" label="Segurança"  >
+	        	<p:menuitem rendered="#{seguranca.subMenuSeguranca}" styleClass="ui-menuitem-icon-meu" value="Usuários" outcome="/pages/usuario/UsuarioPesquisa" icon="ui-icon-star"  />
+	        </p:submenu>
+	    </p:menu>
+	    </nav>
+	</h:form>
+</ui:composition>

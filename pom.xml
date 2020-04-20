@@ -1,0 +1,249 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>br.com.convencao</groupId>
+  <artifactId>convencao</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>war</packaging>
+  
+ 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+  
+	<dependencies>	
+		<!-- Primefaces -->
+		<!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
+		<!-- 15/01/2020 - Atualizado de 6.1 para 6.2  -->
+		<!-- 16/01/2020 - TENTATIVA para Atualizar de 6.2 para 7.0  -->
+		<dependency>
+		    <groupId>org.primefaces</groupId>
+		    <artifactId>primefaces</artifactId>
+		    <version>7.0</version>
+		    <scope>compile</scope>
+		</dependency>
+
+
+		<!-- Tema bootstrap do Primefaces -->
+		<!-- https://mvnrepository.com/artifact/org.primefaces.themes/bootstrap -->
+		<dependency>
+		    <groupId>org.primefaces.themes</groupId>
+		    <artifactId>bootstrap</artifactId>
+		    <version>1.0.10</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- JSF 2.3 -->
+		<!-- https://mvnrepository.com/artifact/org.glassfish/javax.faces (versão anterior 2.3.0-m11) -->
+		<!-- 14/01/2020 - Atualizado de 2.3.2 para 2.4.0  -->
+		<dependency>
+		    <groupId>org.glassfish</groupId>
+		    <artifactId>javax.faces</artifactId>
+		    <version>2.4.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.omnifaces/omnifaces -->
+		<!-- 15/01/2020 - Atualizado de 2.5.1 para 3.4.1 -->
+		<!-- 17/01/2020 - Retornado de 3.4.1 para 3.2 - Motivo: Deu erro de 'PrimeResourceHandler is duplicated'  -->
+		<dependency>
+		    <groupId>org.omnifaces</groupId>
+		    <artifactId>omnifaces</artifactId>
+		    <version>3.2</version>
+		    <scope>compile</scope>
+		</dependency>
+				 
+		<!-- JSF 2 -->	
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api (versão anterior 3.1.0) -->
+		<!-- 14/01/2020 - Atualizado de 4.0.0 para 4.0.1 -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>4.0.1</version>
+		    <scope>provided</scope>
+		</dependency>
+				
+		<!-- MySql -->
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<!-- 02/04/2020 - Atualizado de 5.1.34 para 8.0.19 -->
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.19</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		
+		<!-- JPA - Hibernate 1 -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		    <version>5.3.4.Final</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- JPA - Hibernate 2 -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-core</artifactId>
+		    <version>5.2.5.Final</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- JPA - Hibernate 3 -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-entitymanager</artifactId>
+		    <version>5.2.5.Final</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
+		<!-- 03/05/2019 -  Atualizado de 0.9.5.2 para 0.9.5.4 -->
+		<!-- 27/01/2020 -  Atualizado de 0.9.5.4 para 0.9.5.5 -->
+		<dependency>
+		    <groupId>com.mchange</groupId>
+		    <artifactId>c3p0</artifactId>
+		    <version>0.9.5.5</version>
+		</dependency>
+		
+		
+		<!-- CDI -->
+		<!-- https://mvnrepository.com/artifact/org.jboss.weld.servlet/weld-servlet -->
+		<!-- 15/01/2020 - Atualizado de 2.4.5.Final para 2.4.8.Final -->
+		<dependency>
+		    <groupId>org.jboss.weld.servlet</groupId>
+		    <artifactId>weld-servlet</artifactId>
+		    <version>2.4.8.Final</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.jboss/jandex -->
+		<dependency>
+		    <groupId>org.jboss</groupId>
+		    <artifactId>jandex</artifactId>
+		    <version>2.0.3.Final</version>
+		</dependency>
+				
+		<!-- Junit para Testes -->
+		<!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <version>4.12</version>
+		    <scope>test</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-api</artifactId>
+		    <version>2.7</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>2.7</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-jcl -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-jcl</artifactId>
+		    <version>2.7</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+		<dependency>
+		    <groupId>commons-logging</groupId>
+		    <artifactId>commons-logging</artifactId>
+		    <version>1.2</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.5</version>
+		    <scope>compile</scope>
+		</dependency>
+	
+		<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
+		<!-- 30/12/2019 - Atualizado versão de 6.4.1 para 6.11.0 - Motivo: jacson-core com versão superior à 2.6.7 para atender aws-java-sdk-s3 -->
+		<dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports</artifactId>
+		    <version>6.11.0</version>
+		</dependency>
+	
+		<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-fonts -->
+		<dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports-fonts</artifactId>
+		    <version>6.0.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+		<!-- 20/10/2018 - Atualizado de 4.2.3.RELEASE para 5.1.1.RELEASE -->
+		<!-- 23/12/2018 - Atualizado de 5.1.1.RELEASE para 5.1.2.RELEASE -->
+		<!-- 03/05/2019 - Atualizado de 5.1.2.RELEASE para 5.1.5.RELEASE -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>5.1.5.RELEASE</version>
+		</dependency>
+				
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+		<!-- 20/10/2018 - Atualizado de 4.2.3.RELEASE para 5.1.1.RELEASE -->
+		<!-- 23/12/2018 - Atualizado de 5.1.1.RELEASE para 5.1.2.RELEASE -->
+		<!-- 03/05/2019 - Atualizado de 5.1.2.RELEASE para 5.1.5.RELEASE -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		    <version>5.1.5.RELEASE</version>
+		</dependency>
+				
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
+		<!-- 20/10/2018 - Atualizado de 4.2.3.RELEASE para 5.1.1.RELEASE -->
+		<!-- 23/12/2018 - Atualizado de 5.1.1.RELEASE para 5.1.2.RELEASE -->
+		<!-- 03/05/2019 - Atualizado de 5.1.2.RELEASE para 5.1.5.RELEASE -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		    <version>5.1.5.RELEASE</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3  -->
+		<dependency>
+		    <groupId>com.amazonaws</groupId>
+		    <artifactId>aws-java-sdk-s3</artifactId>
+		    <version>1.11.699</version>
+		</dependency>
+						
+	</dependencies>
+  
+  	<build>
+		<finalName>confrateres</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<repositories>
+		<repository>
+			<id>prime-repo</id>
+			<name>PrimeFaces Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+</project>

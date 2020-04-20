@@ -1,0 +1,130 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+	
+		<f:metadata>
+			<f:event listener="#{usuarioPermissoesBean.inicializar}" type="preRenderView" />
+			<o:viewParam name="usuario" value="#{usuarioPermissoesBean.usuario}" />
+		</f:metadata>
+	
+		<h1 class="aw-page-title">Permissão em Regiões para: #{usuarioPermissoesBean.usuario.dsNome} (#{usuarioPermissoesBean.usuario.dsLogin})</h1>	
+		
+		<h:form id="frm">
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton value="Confirmar permissões do usuário?" 
+			    			id="botaoSalvarPermissoesAssociado" 
+			    			action="#{usuarioPermissoesBean.salvarPermissoesUsuario}"
+			    			style="width: auto; margin-left:30px;"
+			    			process="@form"
+			    			update=":frm:dtListSecretaria :frm:dtListFinanceiro :frm:dtListPagamento"/>
+				</p:toolbarGroup>
+				
+ 				<p:toolbarGroup align="right">
+					<p:button value="Pesquisar Usuario" outcome="/pages/usuario/UsuarioPesquisa"/>
+				</p:toolbarGroup>   
+			</p:toolbar>
+			
+			<h:panelGroup id="permissaoUsuarioPanel" layout="block" styleClass="ui-fluid" style="margin-bottom:60px;">
+					<p:panelGrid style="margin-top: 10px;" columns="8" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-1, ui-grid-col-3, ui-grid-col-2, ui-grid-col-1, ui-grid-col-2, ui-grid-col-1" >
+							
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Usuário:"/>
+						<p:outputLabel id="dsLogin" value="#{usuarioPermissoesBean.usuario.dsLogin}"/>
+							
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Nome:"/>
+						<p:outputLabel id="dsNome" value="#{usuarioPermissoesBean.usuario.dsNome}"/>
+									
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Situação usuário:"/>
+						<p:outputLabel id="isSituacaoAtivo" value="Ativo" rendered="#{usuarioPermissoesBean.usuario.situacao}"/>
+						<p:outputLabel id="isSituacaoBloqueado" value="Bloqueado" rendered="#{!usuarioPermissoesBean.usuario.situacao}" style="color:red;"  />
+							
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Situação senha:"/>
+						<p:outputLabel id="isTrocaSenhaDefinitiva" value="Definitiva" rendered="#{!usuarioPermissoesBean.usuario.trocaSenha}"/>
+						<p:outputLabel id="isTrocaSenhaProvisoria" value="Provisória" rendered="#{usuarioPermissoesBean.usuario.trocaSenha}" style="color:red;"  />
+												
+					</p:panelGrid>
+					
+					<h:panelGroup style="margin-top: 10px;" id="grupoUsuarioPanel" layout="block" styleClass="ui-fluid">
+						<p:panelGrid columns="1" layout="grid" style="text-align: left;" >
+							<p:outputLabel value="Selecione as regiões para conceder ou retirar permissões do usuário." />
+						</p:panelGrid>
+						
+						<p:panelGrid style="margin-top: 10px;" columns="4" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2" >
+						
+							<p:dataTable value="#{usuarioPermissoesBean.listaPermissoes}" 
+										var="itemRegioes" 
+										style="margin-top:5px; margin-right: -22px;"
+										id="dtListRegioes" 
+										emptyMessage="Nenhum grupo associado" >
+											
+								<p:column headerText="Região" style="text-align: left; height: 25px;">
+									<h:outputText value="#{itemRegioes.regiao.dsRegiao}"/>
+								</p:column>
+											
+							</p:dataTable>
+							
+							<p:dataTable value="#{usuarioPermissoesBean.listaPermissoes}" 
+										var="itemSecretaria" 
+										style="margin-top:5px; margin-right: -22px;"
+										id="dtListSecretaria" 
+										selection="#{usuarioPermissoesBean.permissoesSecretariaSelecionados}" 
+										rowKey="#{itemSecretaria.sqPermissao}" 
+										emptyMessage="Nenhum grupo associado" >
+	
+								<p:column selectionMode="multiple" style="width:16px; height: 25px; text-align:center"/>
+								
+								<p:column headerText="Secretaria" style="text-align: left;  width:70px; ">
+									<h:outputText value="Permitido" rendered="#{itemSecretaria.flSecretaria}" style="color:blue; font-weight:bold;" />
+									<h:outputText value="Negado" rendered="#{!itemSecretaria.flSecretaria}" style="color:red;" />
+								</p:column>
+											
+							</p:dataTable>
+							
+							<p:dataTable value="#{usuarioPermissoesBean.listaPermissoes}" 
+										var="itemFinanceiro" 
+										style="margin-top:5px; margin-right: -22px;"
+										id="dtListFinanceiro" 
+										selection="#{usuarioPermissoesBean.permissoesFinanceiroSelecionados}" 
+										rowKey="#{itemFinanceiro.sqPermissao}" 
+										emptyMessage="Nenhum grupo associado" >
+											
+								<p:column selectionMode="multiple" style="width:16px; height: 25px; text-align:center"/>
+								
+								<p:column headerText="Financeiro" style="text-align: left;  ">
+									<h:outputText value="Permitido" rendered="#{itemFinanceiro.flFinanceiro}" style="color:blue; font-weight:bold;" />
+									<h:outputText value="Negado" rendered="#{!itemFinanceiro.flFinanceiro}" style="color:red;" />
+								</p:column>
+											
+							</p:dataTable>
+							
+							<p:dataTable value="#{usuarioPermissoesBean.listaPermissoes}" 
+										var="itemPagamento" 
+										style="margin-top:5px;"
+										id="dtListPagamento" 
+										selection="#{usuarioPermissoesBean.permissoesPagamentoSelecionados}" 
+										rowKey="#{itemPagamento.sqPermissao}" 
+										emptyMessage="Nenhum grupo associado" >
+								
+								<p:column selectionMode="multiple" style="width:16px; height: 25px; text-align:center"/>
+								
+								<p:column headerText="Pagamento" style="text-align: left;  ">
+									<h:outputText value="Permitido" rendered="#{itemPagamento.flPagamento}" style="color:blue; font-weight:bold;" />
+									<h:outputText value="Negado" rendered="#{!itemPagamento.flPagamento}" style="color:red;" />
+								</p:column>
+											
+							</p:dataTable>
+											
+						</p:panelGrid>
+					</h:panelGroup>
+			</h:panelGroup>
+		</h:form>							
+
+	</ui:define>
+</ui:composition>

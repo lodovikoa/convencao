@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{planoContaCadastroBean.inicializarPlanoConta}" type="preRenderView" />
+			<o:viewParam name="planoConta" value="#{planoContaCadastroBean.planoConta}" />
+		</f:metadata>
+
+		<h:form id="frm">
+			<h1 class="aw-page-title">#{planoContaCadastroBean.editando ? 'Plano de conta - Alteração' : 'Plano de conta - Cadastro'}</h1>
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+		
+			<p:toolbar styleClass="cv-toolbar-topo">
+				<p:toolbarGroup>
+	    			<p:button value="Novo" />
+	    			<p:commandButton value="Salvar" id="botaoSalvar" action="#{planoContaCadastroBean.salvar}" update="@form" />
+	    		</p:toolbarGroup>
+			
+				<p:toolbarGroup align="right">
+					<p:button value="Pesquisar Plano de contas" outcome="/pages/configuracao/PlanoContaPesquisa"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+	 				
+				
+					<p:panel id="panel" header="#{planoContaCadastroBean.editando ? 'Plano de conta - Alteração' : 'Plano de conta - Cadastro'}">
+						<p:focus for="dsConta"/>	
+						<div class="cv-cadastro">
+							<p:panelGrid columns="2"
+									layout="grid"
+									id="panelGrid1" 
+									columnClasses="ui-grid-col-2, ui-grid-col-6">
+								
+								<p:outputLabel value="Código:" for="cdConta"/>
+								<p:inputMask mask="9?99999" id="cdConta" value="#{planoContaCadastroBean.planoConta.cdConta}" placeHolder="" style="width: 20%;"/>
+									
+								<p:outputLabel value="Conta:" for="dsConta"/>
+								<p:inputText id="dsConta" value="#{planoContaCadastroBean.planoConta.dsConta}" />
+									
+								<p:outputLabel value="Tipo" for="tpConta"/>
+								<p:selectOneRadio id="tpConta" value="#{planoContaCadastroBean.planoConta.tpConta}" layout="responsive" columns="4">
+								    <f:selectItem itemLabel="Crédito" itemValue="C" />
+								    <f:selectItem itemLabel="Débito" itemValue="D" />
+								</p:selectOneRadio>					
+														
+							</p:panelGrid>
+		
+						</div>
+	 	
+					</p:panel>
+				</div>
+		
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

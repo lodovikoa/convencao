@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subRetratoPageFooter" pageWidth="500" pageHeight="20" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1196578d-5168-4d95-a3af-ef946832168c">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="321"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="669"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Confrater00"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="sqConvencaoRodape" class="java.lang.Long">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[1L]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT confrater00.tb_con_convencao.con_ds_bairro as dsBairro,
+	confrater00.tb_con_convencao.con_ds_cidade as dsCidade,
+	confrater00.tb_con_convencao.con_ds_cep as dsCep,
+	confrater00.tb_con_convencao.con_ds_endereco as dsEnd,
+	confrater00.tb_est_estado.est_ds_uf as dsUf
+FROM confrater00.tb_con_convencao
+	INNER JOIN confrater00.tb_est_estado ON 
+	 confrater00.tb_con_convencao.est_sq_estado = confrater00.tb_est_estado.est_sq_estado
+WHERE  confrater00.tb_con_convencao.con_sq_convencao =  $P{sqConvencaoRodape}]]>
+	</queryString>
+	<field name="dsBairro" class="java.lang.String"/>
+	<field name="dsCidade" class="java.lang.String"/>
+	<field name="dsCep" class="java.lang.String"/>
+	<field name="dsEnd" class="java.lang.String"/>
+	<field name="dsUf" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="114" y="2" width="326" height="15" uuid="9da13060-b982-4f61-b766-9f48f40403be"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dsEnd}
++ " - "
++ $F{dsBairro}
++ " - "
++ $F{dsCidade}
++ " - "
++ $F{dsUf}
++ " - CEP: "
++ $F{dsCep}.substring( 00, 05 )
++ "-"
++ $F{dsCep}.substring( 05 )]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="2" width="33" height="15" uuid="57b439b7-eaac-46e4-baec-4ed24b723c92"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Emissão:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH:mm">
+				<reportElement x="36" y="2" width="78" height="15" uuid="4556ccf9-1bf4-4e06-b2aa-da772584ab15"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

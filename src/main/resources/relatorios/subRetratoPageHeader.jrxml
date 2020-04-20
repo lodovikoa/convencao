@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subRetratoPageHeader" pageWidth="500" pageHeight="50" orientation="Landscape" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="86b2ee49-6ce4-48e3-a1bc-6fba39f5bf70">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="196"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="799"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Confrater00"/>
+	<parameter name="sqConvencaoParam" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[1L]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT confrater00.tb_con_convencao.con_ds_reduzido as dsReduzido,
+	confrater00.tb_con_convencao.con_ds_convencao as dsConvencao,
+	confrater00.tb_con_convencao.con_ds_cnpj as dsCnpj
+FROM confrater00.tb_con_convencao
+WHERE  confrater00.tb_con_convencao.con_sq_convencao =  $P{sqConvencaoParam}]]>
+	</queryString>
+	<field name="dsReduzido" class="java.lang.String"/>
+	<field name="dsConvencao" class="java.lang.String"/>
+	<field name="dsCnpj" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement x="1" y="3" width="249" height="27" uuid="7044de06-aedf-4cb4-a8e3-0a135209b0f1"/>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dsReduzido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="34" width="499" height="13" uuid="fd76ad55-4560-4e6a-87f9-db96378099b6"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dsConvencao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="259" y="15" width="179" height="15" uuid="1d0e7fcd-e8ba-4262-a72a-a6c2d18ba0ea"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CNPJ: " 
++ $F{dsCnpj}.substring( 0, 2 )
++ "."
++ $F{dsCnpj}.substring( 2, 5 )
++ "."
++ $F{dsCnpj}.substring( 5, 8 )
++ "/"
++ $F{dsCnpj}.substring( 8, 12 )
++ "-"
++ $F{dsCnpj}.substring( 12)]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+</jasperReport>

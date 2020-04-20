@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+	
+		<h1 class="aw-page-title">Plano de contas pesquisa</h1>	
+		
+		<h:form id="frm">
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+			<p:toolbar>
+				<p:toolbarGroup align="right">
+					<p:button value="Cadastrar Plano de contas" outcome="/pages/configuracao/PlanoContaCadastro"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+				<p:dataTable value="#{planoContaPesquisaBean.lista}" 
+						var="item" style="margin-top:20px;"
+						id="dtList">
+						
+					<p:column headerText="Código" style="text-align: center; width: 80px ">
+						<h:outputText value="#{item.cdConta}"/>
+					</p:column>
+					
+					<p:column headerText="Tipo" style="text-align: center; width: 50px ">
+						<h:outputText value="#{item.tpConta}"/>
+					</p:column>
+					
+					<p:column headerText="Conta" style="text-align: left;  ">
+						<h:outputText value="#{item.dsConta}"/>
+					</p:column>
+					
+					<p:column style="text-align: center; width: 65px;">
+					
+						<p:button icon="ui-icon-pencil" 
+								style="width: 25px;"  
+								 title="Editar"
+								outcome="/pages/configuracao/PlanoContaCadastro" >
+							<f:param name="planoConta" value="#{item.sqPlanoConta}"/>
+						</p:button>
+						
+						<p:commandButton icon="ui-icon-trash" 
+								style="width: 25px; margin-left: 5px;"
+								title="Excluir" 
+								oncomplete="PF('confirmacaoExclusao').show();"
+								process="@this"
+								update=":frm:confirmacaoExclusaoDialog" >
+								
+		    				<f:setPropertyActionListener value="#{item}" target="#{planoContaPesquisaBean.selecionado}" />
+		    			</p:commandButton>
+					</p:column>
+					
+					<f:facet name="footer">
+       						 #{planoContaPesquisaBean.mensagemRodape}
+    				</f:facet>
+				
+				</p:dataTable>
+				
+				<p:confirmDialog header="Exclusão de Plano de conta" 
+						message="Confirma excluir Plano de conta (#{planoContaPesquisaBean.selecionado.dsConta})?"
+						widgetVar="confirmacaoExclusao"
+						id="confirmacaoExclusaoDialog">
+					<p:button value="Não" 
+							onclick="PF('confirmacaoExclusao').hide(); return false;"
+							style="width: auto"/>
+					<p:commandButton value="Sim" 
+							oncomplete="PF('confirmacaoExclusao').hide();" 
+							action="#{planoContaPesquisaBean.excluir}"
+							update=":frm:dtList"
+							style="width: auto"/>
+				</p:confirmDialog>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

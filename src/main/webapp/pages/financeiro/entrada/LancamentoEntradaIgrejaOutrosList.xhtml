@@ -1,0 +1,564 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{lancamentoEntradaIgrejaOutrosList.inicializar}" type="preRenderView" />
+			<o:viewParam name="lancamentoResumo" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoResumo}" />
+			
+			<o:viewParam name="param_regiaoItens_sqRegiao" value="#{lancamentoEntradaIgrejaOutrosList.param_regiaoItens_sqRegiao}" />
+			<o:viewParam name="param_controle" value="#{lancamentoEntradaIgrejaOutrosList.param_controle}" />
+		</f:metadata>
+
+		<h:form id="frm">
+			<h1 class="aw-page-title">Financeiro Entradas</h1>
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+		
+			<p:toolbar styleClass="cv-toolbar-topo">		
+				<p:toolbarGroup align="right">
+				
+					<p:commandButton value="Incluir Lançamento de Entrada"
+								action="#{lancamentoEntradaIgrejaOutrosList.iniciarIncluirEntrada}"
+								styleClass="cv-link-estilo"
+								style="margin-right:30px;"
+								title="Registrar nova entrada para Igreja ou Outros"
+								oncomplete="PF('widgEntradaIncluirDialog').show(); "
+								process="@this" 
+								update=":frm_entradaIncluir:entradaIncluirDialog">					
+					</p:commandButton>
+				
+					<p:link styleClass="cv-botao" 
+								value="Resumo"
+								outcome="/pages/financeiro/resumo/LancamentoResumoList" >
+						<f:param name="param_regiaoItens_sqRegiao" value="#{lancamentoEntradaIgrejaOutrosList.param_regiaoItens_sqRegiao}"/> 
+						<f:param name="param_controle"  value="#{lancamentoEntradaIgrejaOutrosList.param_controle}"/>
+					</p:link>
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+			
+				<h:panelGroup id="pnlgrp-cadastro" layout="block">
+					<p:focus context="pnlgrp-cadastro"/>
+					<div class="cv-cadastro">
+					
+						<div class="cv-linha-horizontal" >
+							<div class="cv-linha-horizontal-texto">Período</div> 
+						</div>
+						
+						<p:panelGrid columns="8"
+								layout="grid"
+								id="panelGrid1" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-2">
+							
+							<p:outputLabel value="Região:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoResumo.regiao.dsRegiao}"/>
+							
+							<p:outputLabel value="Período Inicio:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoResumo.dtPeriodoInicio}" >
+								<f:converter converterId="converter_localdate"/>
+							</h:outputText>
+							
+							<p:outputLabel value="Período Fim:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoResumo.dtPeriodoFim}" >
+								<f:converter converterId="converter_localdate"/>
+							</h:outputText>
+							
+							<p:outputLabel value="Fechado em:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoResumo.dtFechado}" >
+								<f:converter converterId="converter_localdate"/>
+							</h:outputText>
+							
+							<p:outputLabel value="Saldo Anterior:" />
+							<h:outputText styleClass="cv-texto-negrito moeda" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoResumo.vlSaldoAnterior}" >
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+							
+							<p:outputLabel value="Entradas:" />
+							<h:outputText styleClass="cv-texto-negrito moeda" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoResumo.vlEntradas}" >
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+							
+							<p:outputLabel value="Saídas:" />
+							<h:outputText styleClass="cv-texto-negrito moeda" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoResumo.vlSaidas}" >
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+								
+							
+							<p:outputLabel value="Saldo Atual:" />
+							<h:outputText styleClass="cv-texto-negrito moeda" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoResumo.vlSaldoAtual}" >
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+							
+						</p:panelGrid>
+						
+						<div class="cv-linha-horizontal" >
+							<div class="cv-linha-horizontal-texto">Exibir consulta recebimentos de Entradas</div> 
+						</div>
+						
+						<p:panelGrid columns="5"
+								layout="grid"
+								id="panelGrid2" 
+								columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-5, ui-grid-col-1">
+							<p:outputPanel>
+								<p:outputLabel value="Ministros" />
+								<p:selectBooleanCheckbox id="flMinistro" value="#{lancamentoEntradaIgrejaOutrosList.flMinistro}" style="margin-left: 50px; margin-right: 10px" />
+							</p:outputPanel>
+							
+							<p:outputPanel>
+								<p:outputLabel value="Igrejas" />
+								<p:selectBooleanCheckbox id="flIgreja" value="#{lancamentoEntradaIgrejaOutrosList.flIgreja}" style="margin-left: 50px; margin-right: 10px" />
+							</p:outputPanel>
+							
+							<p:outputPanel>
+								<p:outputLabel value="Outros" />
+								<p:selectBooleanCheckbox id="flOutros" value="#{lancamentoEntradaIgrejaOutrosList.flOutros}" style="margin-left: 50px; margin-right: 10px" />
+							</p:outputPanel>
+							
+							<p:commandButton value="Pesquisar" 
+									action="#{lancamentoEntradaIgrejaOutrosList.pesquisar}"
+									update=":frm:dtList"
+									style="width: auto; margin-left:30px;" />
+							
+						</p:panelGrid>
+		 				
+					</div>
+				</h:panelGroup>		
+				
+				<p:dataTable value="#{lancamentoEntradaIgrejaOutrosList.listar}"
+							var="item"
+							style="margin-top:20px;"
+							id="dtList"
+							paginator="true"
+							rows="60"
+							rowsPerPageTemplate="10,20,30,40,50,60,70,80"
+							emptyMessage="Não há registros para exibir"
+							paginatorPosition="bottom" >
+					
+					<p:column headerText="Entrada" sortBy="#{item.dtPagamento}" style="text-align:left; width:100px;" >
+						<p:outputLabel value="#{item.dtPagamento}" >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+					</p:column>
+					
+					<p:column headerText="Recibo" sortBy="#{item.cdNsu}" style="text-align:left; width:100px;">
+						<p:outputLabel value="#{item.cdNsu}" />
+					</p:column>
+					
+					<p:column headerText="Valor" sortBy="#{item.vlPagamento}" style="text-align:right; width:200px;">
+						<p:outputLabel value="#{item.vlPagamento}" styleClass="moeda" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+						
+						<f:facet name="footer">
+							<p:outputLabel  style="font-weight: bold;" value="Total: R$ " />
+							<p:outputLabel  style="font-weight: bold; moeda"  value="#{lancamentoEntradaIgrejaOutrosList.vlTotalEntradas}" >
+	    				 		<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+	    				 	</p:outputLabel>
+						</f:facet>
+					</p:column>
+					
+					<p:column headerText="Conta contabil" sortBy="#{item.dsConta}" style="text-align:left;">
+						<p:outputLabel value="#{item.dsConta}" />
+					</p:column>
+					
+					<p:column headerText="Contribuinte" sortBy="#{item.dsContribuinte}" style="text-align:left;">
+						<p:outputLabel value="#{item.dsContribuinte}" />
+						
+						<f:facet name="footer">
+							<p:outputLabel style="font-weight: bold;"  value="#{lancamentoEntradaIgrejaOutrosList.mensagemRodape}" />
+						</f:facet>
+					</p:column>
+					
+					<!-- Botão consultar registro de entrada -->
+					<p:column headerText="Origem" sortBy="#{item.dsOrigem}" style="text-align:left; width:100px;">
+						<p:commandLink rendered="#{item.flConsultar}"
+								action="#{lancamentoEntradaIgrejaOutrosList.buscarEntrada(true)}"
+								styleClass="cv-link-estilo"
+								value="#{item.dsOrigem}"
+								title="Consultar registro de entrada"
+							 	oncomplete="PF('widgEntradaConsultarDialog').show();"
+							 	process="@this"
+							 	update=":frm_entradaConsultar:entradaConsultarDialog" >
+							 	
+							<f:setPropertyActionListener value="#{item}" target="#{lancamentoEntradaIgrejaOutrosList.selecionado}" />
+						
+						</p:commandLink>
+						
+						<p:outputLabel rendered="#{!item.flConsultar}" value="#{item.dsOrigem}"  />
+					</p:column>
+				
+		    		
+		    		<!-- Botão alterar registro de entrada -->
+					<p:column style="text-align: left; width: 8px;">
+						<p:commandButton rendered="#{item.flAlterar}"
+								action="#{lancamentoEntradaIgrejaOutrosList.inicializarAlterarEntrada(false)}"
+								style="width: 20px; margin-left: -5px; "
+								icon="fa fa-fw fa-edit" 
+								title="Alterar registro de entrada"
+								oncomplete="PF('widgEntradaAlterarDialog').show();"
+								process="@this"
+								update=":frm_entradaAlterar:entradaAlterarDialog" >
+					
+		    				<f:setPropertyActionListener value="#{item}" target="#{lancamentoEntradaIgrejaOutrosList.selecionado}" />
+		    			</p:commandButton>
+		    		</p:column>
+		    		
+		    		<!-- Botão Excluir registro de entrada -->
+		    		<p:column style="text-align: left; width: 8px;">
+						<p:commandButton rendered="#{item.flExcluir}"
+								style="width: 20px; margin-left: -5px; "
+								icon="ui-icon-trash"
+								title="Excluir registro de entrada"
+								oncomplete="PF('confirmacaoExclusao').show();"
+								process="@this"
+								update=":frm_exclusao:confirmacaoExclusaoDialog" >
+					
+		    				<f:setPropertyActionListener value="#{item}" target="#{lancamentoEntradaIgrejaOutrosList.selecionado}" />
+		    			</p:commandButton>
+		    		</p:column>
+	
+				</p:dataTable>
+			
+			</div>
+			
+		</h:form>
+		
+		<!-- Diálogo para exluir um registro -->
+		<h:form id="frm_exclusao">
+			<p:confirmDialog header="Exclusão do recibo #{lancamentoEntradaIgrejaOutrosList.selecionado.cdNsu}" 
+					message="Confirma exclusão? O recibo número  #{lancamentoEntradaIgrejaOutrosList.selecionado.cdNsu}  se já emitido deverá ser INUTILIZADO."
+					widgetVar="confirmacaoExclusao"
+					id="confirmacaoExclusaoDialog">
+				<p:button value="Não" 
+						onclick="PF('confirmacaoExclusao').hide(); return false;"
+						style="width: auto"/>
+				<p:commandButton value="Sim" 
+						oncomplete="PF('confirmacaoExclusao').hide();" 
+						action="#{lancamentoEntradaIgrejaOutrosList.salvarExcluir}"
+						update=":frm"
+						style="width: auto"/>
+			</p:confirmDialog>
+		</h:form>
+		
+		<!-- Diálogo para consultar registro de entrada -->
+		<h:form id="frm_entradaConsultar">
+			<p:dialog
+					widgetVar="widgEntradaConsultarDialog"
+					id="entradaConsultarDialog"
+					header="Financeiro - Entradas - Consultar"
+					resizable="false"
+					responsive="true"
+					width="50%" >
+				<h:panelGroup id="entradaConsultarPanel" layout="block" styleClass="ui-fluid">
+					
+					<p:panelGrid id="entradaConsultarGrid" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-3, ui-grid-col-9">
+						<p:outputLabel value="Recibo:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.recibo.cdNsu}" />
+						
+						<p:outputLabel value="Data pagamento:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.dtPagamento}" >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+						
+						<p:outputLabel value="Contribuinte:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.dsContribuinte}" />
+						
+						<p:outputLabel value="Cta contábil:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.planoConta.dsConta}" />
+						
+						<p:outputLabel value="Valor:" styleClass="cv-dialogo-exibe-label" />
+						<p:outputLabel value="R$ #{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.vlPagamento}" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:outputLabel>
+						
+						<p:outputPanel style="margin-top:30px;">
+							<p:outputLabel value="Histórico:" styleClass="cv-dialogo-exibe-label" />
+						</p:outputPanel>
+						<p:inputTextarea value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.recibo.dsHistorico}" rows="4" readonly="true" autoResize="true" />
+					
+						<p:outputPanel style="margin-top:50px;">
+							<p:outputLabel value="Forma recebimento:" styleClass="cv-dialogo-exibe-label" />
+						</p:outputPanel>
+						
+						
+							<p:dataTable value="#{lancamentoEntradaIgrejaOutrosList.formaRecebimentoPorReciboCpl}"
+									var="itemRec"
+									id="dtListFormaRecebimento" >
+									
+								<p:column style="text-align:left; width:100px;">
+									<p:outputLabel value="#{itemRec.dsFormaPagamento}" />
+									
+									<f:facet name="footer">
+										<p:outputLabel style="font-weight: bold;" value="Total"  />
+									</f:facet>
+								</p:column>
+								
+								<p:column style="text-align:right; width:150px;">
+									<p:outputLabel value="#{itemRec.vlRecebido}" styleClass="moeda" >
+										<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+									</p:outputLabel>
+									
+									<f:facet name="footer" >
+										<p:outputLabel style="font-weight: bold;" value="R$ "/>
+										<p:outputLabel style="font-weight: bold; moeda" value="#{lancamentoEntradaIgrejaOutrosList.vlTotal}"  >
+											<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+										</p:outputLabel>
+									</f:facet>
+								</p:column>
+								
+								<p:column style="text-align:left;">
+									<p:outputLabel rendered="true" value="#{itemRec.dsComplemento}" />
+								</p:column>
+								
+							</p:dataTable>
+
+						
+					</p:panelGrid>
+					
+					<p:separator />
+
+					<p:commandButton value="Imprimir recibo" 
+						   	id="botaoImprimirRecibo" 
+						   	style="width: auto; margin-bottom:30px;"
+						   	action="#{lancamentoEntradaIgrejaOutrosList.imprimirRecibo}" />
+					
+					<p:button value="Fechar" 
+							onclick="PF('widgEntradaConsultarDialog').hide(); return false;"
+							style="width: auto; margin-left:50px;"/>
+							
+				</h:panelGroup>
+			</p:dialog>	
+		</h:form>
+		
+		<!-- Diálogo para INCLUIR novo registro de entrada -->
+		<h:form id="frm_entradaIncluir">
+			<p:dialog
+					widgetVar="widgEntradaIncluirDialog"
+					id="entradaIncluirDialog"
+					header="Financeiro - Entradas - Incluir recebimentos de Igrejas e Outros"
+					resizable="false"
+					responsive="true"
+					width="50%" >
+				<h:panelGroup id="entradaIncluirPanel" layout="block" styleClass="ui-fluid">
+					
+					<p:panelGrid id="entradaIncluirGrid" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-10">
+						<p:outputLabel value="Recibo:" styleClass="cv-dialogo-exibe-label" for="incluirNsu"/>
+						<p:inputText id="incluirNsu" disabled="true" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.recibo.cdNsu}" />
+							
+						<p:outputLabel value="Igreja:" styleClass="cv-dialogo-exibe-label" for="incluirDsIgreja" />
+						<p:selectOneMenu id="incluirDsIgreja" filter="true" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.igreja}" >
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma igreja"/>
+							<f:selectItems value="#{lancamentoEntradaIgrejaOutrosList.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})" />
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Outros:" styleClass="cv-dialogo-exibe-label" for="incluirOutros"/>
+						<p:inputText id="incluirOutros" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.nmOutros}" />
+						
+						<p:outputLabel value="Conta contábil:" styleClass="cv-dialogo-exibe-label" for="incluirContaContabil" />
+						<p:selectOneMenu id="incluirContaContabil" filter="true" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.planoConta}" >
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma conta"/>
+							<f:selectItems value="#{lancamentoEntradaIgrejaOutrosList.planoContaList}" var="item" itemValue="#{item}" itemLabel="#{item.dsConta}" />
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Data pagamento" styleClass="cv-dialogo-exibe-label" for="incluirDtPagamento" />
+						<p:calendar id="incluirDtPagamento" 
+									style="color: red"
+									pattern="dd/MM/yyyy" 
+									mask="true" 
+									locale="pt" 
+									showButtonPanel="true" 
+									navigator="true"
+									value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.dtPagamento}"
+									onfocus="false" >
+							<p:ajax event="dateSelect" process="@this" update="@this"/>
+							<f:converter converterId="converter_localdate"/>
+						</p:calendar>
+						
+						<p:outputPanel style="margin-top:50px;">
+							<p:outputLabel value="Histórico:" styleClass="cv-dialogo-exibe-label" for="incluirHistorico" />
+						</p:outputPanel>
+						<p:inputTextarea id="incluirHistorico" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.recibo.dsHistorico}" rows="6" cols="40" autoResize="false" />
+
+						<p:outputPanel style="margin-top:70px;">
+							<p:outputLabel value="Forma pagamento:" styleClass="cv-dialogo-exibe-label" />
+						</p:outputPanel>
+						<p:dataTable value="#{lancamentoEntradaIgrejaOutrosList.formaRecebimento}"
+									var="itemRecebimento"
+									id="dtListFormaPagamento" >
+									
+							<p:column style="text-align:left; width:100px;">
+								<p:outputLabel value="#{itemRecebimento.formaPagamento.dsFormaPagamento}" />
+								
+								<f:facet name="footer">
+									<p:outputLabel style="font-weight: bold;" value="Total"  />
+								</f:facet>
+							</p:column>
+							
+							<p:column style="text-align:right; width:150px;" >
+								<p:inputText id="vlRecebimento" onfocus="configurarMoeda()" styleClass="moeda" value="#{itemRecebimento.vlRecebido}" style="text-align:right;" >
+					    			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+					    			<p:ajax event="change" process="@this" update="dtListFormaPagamento" listener="#{lancamentoEntradaIgrejaOutrosList.calcularTotalRecebido('I')}" />
+					    		</p:inputText>
+					    		
+								<f:facet name="footer">
+									<p:outputLabel id="vlTotal" styleClass="moeda cv-dialogo-exibe-label"  value="#{lancamentoEntradaIgrejaOutrosList.vlTotal}" >
+										<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+									</p:outputLabel>
+								</f:facet>
+							</p:column>
+							
+							<p:column style="text-align:left;">
+								<p:inputText rendered="#{itemRecebimento.formaPagamento.flExibirComplemento}" value="#{itemRecebimento.dsComplemento}" >
+									<p:ajax event="change" process="@this" update="dtListFormaPagamento"  />
+								</p:inputText>
+							</p:column>
+							
+						</p:dataTable>
+
+						<p:outputLabel value="" />
+						<p:outputPanel>
+							<p:selectBooleanCheckbox id="flImprimirRecibo" value="#{lancamentoEntradaIgrejaOutrosList.flImprimirRecibo}" />
+							<p:outputLabel value="Imprimir recibo" styleClass="cv-dialogo-exibe-label" style="margin-left:10px;"/>
+						</p:outputPanel>
+						
+					</p:panelGrid>
+					
+					<p:separator />
+							
+					<p:commandButton value="Confirmar" 
+    					id="botaoSalvarInluirEntrada" 
+    					action="#{lancamentoEntradaIgrejaOutrosList.salvarIncluirEntrada}"
+    					style="width: auto; margin-left:30px;"
+    					process="@form"
+    					oncomplete="jsFecharDialogo(xhr, status, args, 'widgEntradaIncluirDialog', 'shake')" 
+    					update=":frm"/>
+					
+					<p:button value="Fechar" 
+							onclick="PF('widgEntradaIncluirDialog').hide(); return false;"
+							style="width: auto; margin-left:50px;"/>
+							
+				</h:panelGroup>
+			</p:dialog>	
+		</h:form>
+		
+		<!-- Diálogo para ALTERAR registro de entrada -->
+		<h:form id="frm_entradaAlterar">
+			<p:dialog
+					widgetVar="widgEntradaAlterarDialog"
+					id="entradaAlterarDialog"
+					header="Entradas - Alterar recebimentos de Igrejas e Outros"
+					resizable="false"
+					responsive="true"
+					width="60%" >
+				<h:panelGroup id="entradaAlterarPanel" layout="block" styleClass="ui-fluid">
+					
+					<p:panelGrid id="entradaAlterarGrid" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-3, ui-grid-col-9">
+						<p:outputLabel value="Recibo:" styleClass="cv-dialogo-exibe-label" for="alterarNsu"/>
+						<p:inputText id="alterarNsu" disabled="true" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.recibo.cdNsu}" />
+							
+						<p:outputLabel value="Igreja:" styleClass="cv-dialogo-exibe-label" for="alterarDsIgreja" />
+						<p:selectOneMenu id="alterarDsIgreja" filter="true" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.igreja}" style="width:100%;" >
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma igreja"/>
+							<f:selectItems value="#{lancamentoEntradaIgrejaOutrosList.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})" />
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Outros:" styleClass="cv-dialogo-exibe-label" for="alterarOutros"/>
+						<p:inputText id="alterarOutros" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.nmOutros}" />
+						
+						<p:outputLabel value="Conta contábil:" styleClass="cv-dialogo-exibe-label" for="alterarContaContabil" />
+						<p:selectOneMenu id="alterarContaContabil" filter="true" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.planoConta}" >
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma conta"/>
+							<f:selectItems value="#{lancamentoEntradaIgrejaOutrosList.planoContaList}" var="item" itemValue="#{item}" itemLabel="#{item.dsConta}" />
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Data pagamento" styleClass="cv-dialogo-exibe-label" for="alterarDtPagamento" /> 
+						<p:calendar id="alterarDtPagamento" 
+									style="color: red"
+									pattern="dd/MM/yyyy" 
+									mask="true" 
+									locale="pt" 
+									showButtonPanel="true" 
+									navigator="true"
+									value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.dtPagamento}"
+									onfocus="false" >
+							<p:ajax event="dateSelect" process="@this" update="@this"/>
+							<f:converter converterId="converter_localdate"/>
+						</p:calendar>
+						
+						<p:outputPanel style="margin-top:10px;">
+							<p:outputLabel value="Histórico:" styleClass="cv-dialogo-exibe-label" for="alterarHistorico" />
+						</p:outputPanel>
+						<p:inputTextarea id="alterarHistorico" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.recibo.dsHistorico}" rows="3" cols="40" autoResize="false" />
+
+						<p:outputPanel style="margin-top:70px;">
+							<p:outputLabel value="Forma pagamento:" styleClass="cv-dialogo-exibe-label" />
+						</p:outputPanel>
+						<p:dataTable value="#{lancamentoEntradaIgrejaOutrosList.formaRecebimentoPorReciboCpl}"
+									var="itemRec"
+									id="dtListFormaRecebimento" >
+										
+								<p:column style="text-align:left; width:100px;">
+									<p:outputLabel value="#{itemRec.dsFormaPagamento}" />
+									
+									<f:facet name="footer">
+										<p:outputLabel style="font-weight: bold;" value="Total"  />
+									</f:facet>
+								</p:column>
+								
+								<p:column style="text-align:right; width:150px;" >
+									<p:inputText id="vlRecebimento" onfocus="configurarMoeda()" styleClass="moeda" value="#{itemRec.vlRecebido}" style="text-align:right;" >
+						    			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						    			<p:ajax event="change" process="@this" update="dtListFormaRecebimento" listener="#{lancamentoEntradaIgrejaOutrosList.calcularTotalRecebido('A')}" />
+						    		</p:inputText>
+						    		
+									<f:facet name="footer">
+										<p:outputLabel id="vlTotal" styleClass="moeda cv-dialogo-exibe-label"  value="#{lancamentoEntradaIgrejaOutrosList.vlTotal}" >
+											<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+										</p:outputLabel>
+									</f:facet>
+								</p:column>
+								
+								<p:column style="text-align:left;">
+									<p:inputText rendered="#{itemRec.flExibirComplemento}" value="#{itemRec.dsComplemento}" >
+										<p:ajax event="change" process="@this" update="dtListFormaRecebimento"  />
+									</p:inputText>
+								</p:column>
+								
+								
+							</p:dataTable>
+
+						<p:outputLabel value="" />
+						<p:outputPanel>
+							<p:selectBooleanCheckbox id="flImprimirRecibo" value="#{lancamentoEntradaIgrejaOutrosList.flImprimirRecibo}" />
+							<p:outputLabel value="Imprimir recibo" styleClass="cv-dialogo-exibe-label" style="margin-left:10px;"/>
+						</p:outputPanel>
+						
+					</p:panelGrid>
+					
+					<p:separator />
+							
+					<p:commandButton value="Confirmar" 
+    					id="botaoSalvarInluirEntrada" 
+    					action="#{lancamentoEntradaIgrejaOutrosList.salvarAlterarEntrada}"
+    					style="width: auto; margin-left:30px;"
+    					process="@form"
+    					oncomplete="jsFecharDialogo(xhr, status, args, 'widgEntradaAlterarDialog', 'shake')" 
+    					update=":frm"/>
+					
+					<p:button value="Fechar" 
+							onclick="PF('widgEntradaAlterarDialog').hide(); return false;"
+							style="width: auto; margin-left:50px;"/>
+							
+				</h:panelGroup>
+			</p:dialog>	
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

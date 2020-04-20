@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{lancamentoEntradaDeleteEmLoteBean.inicializar}" type="preRenderView" />
+
+		</f:metadata>
+
+		<h:form id="frm">
+			<h1 class="aw-page-title">Financeiro Lançamentos em lote</h1>
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+		
+			<p:toolbar styleClass="cv-toolbar-topo">		
+				<p:toolbarGroup align="right">					
+
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+			
+				<h:panelGroup id="pnlgrp-cadastro" layout="block">
+					<p:focus context="pnlgrp-cadastro"/>
+					<div class="cv-cadastro">
+						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-11" >
+							<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Departamento:"  /> 
+							<p:outputLabel value="#{lancamentoEntradaDeleteEmLoteBean.departamento.dsReduzido}" />
+						</p:panelGrid>
+					
+						<p:panelGrid style="margin-top:10px;" columns="1" layout="grid" columnClasses="ui-grid-col-12" >
+							<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Lançamentos não pagos"  />
+							
+							<p:dataTable  
+									var="item" 
+									value="#{lancamentoEntradaDeleteEmLoteBean.listaEmLote}"
+									id="dtList"
+									rowKey="#{item.sqControle}"
+									selection="#{lancamentoEntradaDeleteEmLoteBean.listaEmLoteSelecionada}"
+									emptyMessage="Nenhum registro encontrado" >
+									
+								<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+								
+								<p:column headerText="Vencimento" style="text-align: left;  ">
+									<h:outputText value="#{item.dtVencimento}">
+									 	<f:converter converterId="converter_localdate"/> 
+									</h:outputText>
+								</p:column>
+						
+								<p:column headerText="Região" style="text-align: left;  ">
+									<h:outputText value="#{item.dsRegiao}"/>
+								</p:column>
+								
+								<p:column headerText="Tipo Lançamento" style="text-align: left;  ">
+									<h:outputText value="#{item.dsTipoLancamento}"/>
+								</p:column>
+								
+								<p:column headerText="Quantidade" style="text-align: left;  ">
+									<h:outputText value="#{item.nrQtdeLancamento}"/>
+								</p:column>
+	
+							</p:dataTable>
+							
+							<p:commandButton value="Confirmar"
+									style="width: auto; margin-top:20px;" 
+	    							id="botaoSalvar"
+	    							action="#{lancamentoEntradaDeleteEmLoteBean.salvarExclusaoEmLote}"
+	    							update="@form"
+	    							onclick="javascript:if (!confirm('Ao confirmar será excluído todos os lançamentos não pagos na data selecionada. Esta operação demora alguns minutos. Confirma??')) return false;" />
+								
+						</p:panelGrid>
+					</div>
+				</h:panelGroup>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,586 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{ministroCadastroBean.inicializar('cadastro')}" type="preRenderView" />
+			<o:viewParam name="ministro" value="#{ministroCadastroBean.ministro}"/>
+			
+			<o:viewParam name="param_regiaoItensFiltro_sqRegiao" value="#{ministroCadastroBean.param_regiaoItensFiltro_sqRegiao}" />
+			<o:viewParam name="param_igrejaFiltro_sqIgreja" value="#{ministroCadastroBean.param_igrejaFiltro_sqIgreja}" />
+			<o:viewParam name="param_cdCodigoFiltro" value="#{ministroCadastroBean.param_cdCodigoFiltro}" />
+			<o:viewParam name="param_nmMinistro" value="#{ministroCadastroBean.param_nmMinistro}" />
+			<o:viewParam name="param_dsCpf" value="#{ministroCadastroBean.param_dsCpf}" />
+			<o:viewParam name="param_departamentoFiltro_sqDepartamento" value="#{ministroCadastroBean.param_departamentoFiltro_sqDepartamento}" />
+			<o:viewParam name="param_cargoFiltro_sqCargo" value="#{ministroCadastroBean.param_cargoFiltro_sqCargo}" />
+			<o:viewParam name="param_dsCidadeFiltro" value="#{ministroCadastroBean.param_dsCidadeFiltro}" />	
+			<o:viewParam name="param_dtIngressoInicioFiltro" value="#{ministroCadastroBean.param_dtIngressoInicioFiltro}" />
+			<o:viewParam name="param_dtIngressoFimFiltro" value="#{ministroCadastroBean.param_dtIngressoFimFiltro}" />
+			<o:viewParam name="param_cdSituacaoFiltro" value="#{ministroCadastroBean.param_cdSituacaoFiltro}" />
+			<o:viewParam name="param_flJubiladoFiltro" value="#{ministroCadastroBean.param_flJubiladoFiltro}" />
+			<o:viewParam name="param_controle"  value="#{ministroCadastroBean.param_controle}"/>
+		</f:metadata>
+
+		<h:form id="frm">
+			<h1 class="aw-page-title"><font color="red"> #{ministroCadastroBean.editando ? 'Ministro - Alteração' : 'Ministro - Cadastro de novos ministros devem ser feitos pelo menu Cadastro/Candidatos'} </font> </h1>
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+		
+			<p:toolbar styleClass="cv-toolbar-topo">
+				<p:toolbarGroup>
+	    			<p:button value="Novo" />
+	    			<p:commandButton value="Salvar" 
+	    					id="botaoSalvar" 
+	    					action="#{ministroCadastroBean.salvar}"
+	    					update="@form" />
+	    		</p:toolbarGroup>
+			
+				<p:toolbarGroup align="right">
+					<p:link styleClass="cv-botao" 
+								value="Pesquisar Ministro"
+								outcome="/pages/cadastro/MinistroPesquisa" >
+						<f:param name="param_regiaoItensFiltro_sqRegiao" value="#{ministroCadastroBean.param_regiaoItensFiltro_sqRegiao}" />
+						<f:param name="param_igrejaFiltro_sqIgreja" value="#{ministroCadastroBean.param_igrejaFiltro_sqIgreja}" />
+						<f:param name="param_cdCodigoFiltro" value="#{ministroCadastroBean.param_cdCodigoFiltro}" />
+						<f:param name="param_nmMinistro" value="#{ministroCadastroBean.param_nmMinistro}" />
+						<f:param name="param_dsCpf" value="#{ministroCadastroBean.param_dsCpf}" />
+						<f:param name="param_departamentoFiltro_sqDepartamento" value="#{ministroCadastroBean.param_departamentoFiltro_sqDepartamento}" />
+						<f:param name="param_cargoFiltro_sqCargo" value="#{ministroCadastroBean.param_cargoFiltro_sqCargo}" />
+						<f:param name="param_dsCidadeFiltro" value="#{ministroCadastroBean.param_dsCidadeFiltro}" />	
+						<f:param name="param_dtIngressoInicioFiltro" value="#{ministroCadastroBean.param_dtIngressoInicioFiltro}" />
+						<f:param name="param_dtIngressoFimFiltro" value="#{ministroCadastroBean.param_dtIngressoFimFiltro}" />
+						<f:param name="param_cdSituacaoFiltro" value="#{ministroCadastroBean.param_cdSituacaoFiltro}" />
+						<f:param name="param_flJubiladoFiltro" value="#{ministroCadastroBean.param_flJubiladoFiltro}" />
+						<f:param name="param_controle"  value="#{ministroCadastroBean.param_controle}"/>
+					</p:link>
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+			
+				<h:panelGroup id="pnlgrp-cadastro" layout="block">
+					<p:focus context="pnl_ministro"/>
+					<div class="cv-cadastro">
+					
+						<div class="cv-linha-horizontal" >
+							<div class="cv-linha-horizontal-texto">Convenção</div> 
+						</div>
+						
+						<p:panelGrid columns="6"
+								layout="grid"
+								id="panelGrid1" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-4">
+								
+							<p:outputLabel value="Departamento:" for="dsDepartamento"/>
+							<h:outputText styleClass="cv-texto-negrito" value="#{ministroCadastroBean.ministro.departamento.dsReduzido}" rendered="#{ministroCadastroBean.flExibirComboDepartamento}"/>
+							
+							<p:selectOneMenu id="dsDepartamento" value="#{ministroCadastroBean.ministro.departamento}" filter="true" filterMatchMode="startsWith" rendered="#{ministroCadastroBean.flExibirComboDepartamento eq false}" >
+								<f:selectItem noSelectionOption="true" itemLabel="Selecione o departamento" />		
+								<f:selectItems value="#{ministroCadastroBean.departamentos}" var="item" itemValue="#{item}" itemLabel="#{item.dsReduzido}" />
+								<p:ajax listener="#{ministroCadastroBean.sugerirCodigoAjax}" process="@this" update="cdCodigo cdCodigoSugerido"/>
+							</p:selectOneMenu>	
+							
+							<p:outputLabel value="Ingresso:" for="dtIngresso" rendered="#{ministroCadastroBean.flInserirEditarMinistro}"/>
+							<p:calendar id="dtIngresso" 
+									rendered="#{ministroCadastroBean.flInserirEditarMinistro}"
+									pattern="dd/MM/yyyy" 
+									mask="true" 
+									locale="pt" 
+									showButtonPanel="true" 
+									navigator="true"
+									value="#{ministroCadastroBean.ministro.dtIngresso}">
+								<p:ajax event="dateSelect" process="@this" update="@this"/>
+								<f:converter converterId="converter_localdate"/>
+							</p:calendar>
+							
+							<p:outputLabel value="CM Validade:" for="dtCmValidade" rendered="#{ministroCadastroBean.flInserirEditarMinistro}"/>
+							<p:calendar id="dtCmValidade" 
+									rendered="#{ministroCadastroBean.flInserirEditarMinistro}"
+									pattern="dd/MM/yyyy" 
+									mask="true" 
+									locale="pt" 
+									showButtonPanel="true" 
+									navigator="true"
+									value="#{ministroCadastroBean.ministro.dtCmvalidade}">
+								<p:ajax event="dateSelect" process="@this" update="@this"/>
+								<f:converter converterId="converter_localdate"/>
+							</p:calendar>
+								
+						</p:panelGrid>	
+						
+						<p:panelGrid columns="4"
+								layout="grid"
+								id="panelGrid2" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-1, ui-grid-col-2">	
+								
+							<p:outputLabel value="CM Atualizada em:" for="dtCmAtualizada" rendered="#{ministroCadastroBean.flInserirEditarMinistro}"/>
+							<p:calendar id="dtCmAtualizada" 
+									rendered="#{ministroCadastroBean.flInserirEditarMinistro}"
+									pattern="dd/MM/yyyy" 
+									mask="true" 
+									locale="pt" 
+									showButtonPanel="true" 
+									navigator="true"
+									value="#{ministroCadastroBean.ministro.dtCmatualizada}">
+								<p:ajax event="dateSelect" process="@this" update="@this"/>
+								<f:converter converterId="converter_localdate"/>
+							</p:calendar>
+							
+							<p:outputLabel value="CADB:" for="cdCgadb" rendered="#{ministroCadastroBean.flInserirEditarMinistro}"/>
+							<p:inputText id="cdCgadb" value="#{ministroCadastroBean.ministro.cdCgadb}" rendered="#{ministroCadastroBean.flInserirEditarMinistro}" />
+						
+						</p:panelGrid>
+						
+						<div class="cv-linha-horizontal" >
+							<div class="cv-linha-horizontal-texto">Ministro</div> 
+						</div>
+						
+						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-10, ui-grid-col-2" styleClass="panelgrid-noborder" >
+							
+							<p:panelGrid columns="1" layout="grid" styleClass="panelgrid-noborder" >
+								<p:panelGrid id="pnl_ministro" columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-11" styleClass="panelgrid-noborder" >
+									<p:outputLabel value="Nome Ministro:" for="nmMinistro"/>
+									<p:inputText id="nmMinistro" value="#{ministroCadastroBean.ministro.nmNome}" />								
+								</p:panelGrid>
+								
+								<p:panelGrid columns="7"
+										layout="grid"
+										styleClass="panelgrid-noborder"
+										columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-4, ui-grid-col-1, ui-grid-col-2">
+									<p:outputLabel value="Rg:" for="cdCodigo"/>
+									<p:inputText id="cdCodigo" value="#{ministroCadastroBean.ministro.cdCodigo}" disabled="#{ministroCadastroBean.flInserirEditarCodigoMinistro}" />
+									<p:outputLabel id="cdCodigoSugerido" style="color: red;" value="#{ministroCadastroBean.dsCodigoSugerido}"/>
+								
+									<p:outputLabel value="Jubilado:" for="cdJubilado" rendered="#{ministroCadastroBean.flInserirEditarMinistro}" />
+									<p:selectOneRadio id="cdJubilado" value="#{ministroCadastroBean.ministro.flJubilado}" layout="responsive" columns="4" rendered="#{ministroCadastroBean.flInserirEditarMinistro}" >
+									   	<f:selectItem itemLabel="Sim" itemValue="true" />
+									   	<f:selectItem itemLabel="Não" itemValue="false" />
+									</p:selectOneRadio>
+									
+									<p:outputLabel value="Cargo:" for="dsCargo" rendered="#{ministroCadastroBean.flInserirEditarMinistro}"/>
+									<p:selectOneMenu id="dsCargo" value="#{ministroCadastroBean.ministro.cargo}" filter="true" filterMatchMode="startsWith" autoWidth="false" style="width:100%;" rendered="#{ministroCadastroBean.flInserirEditarMinistro}" >
+										<f:selectItem noSelectionOption="true" itemLabel="Selecione o cargo" />		
+										<f:selectItems value="#{ministroCadastroBean.cargos}" var="item" itemValue="#{item}" itemLabel="#{item.dsCargo}" />
+									</p:selectOneMenu>	
+									
+								</p:panelGrid>
+								
+								<p:panelGrid columns="6"
+										layout="grid"
+										styleClass="panelgrid-noborder"
+										columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3">
+										
+									<p:outputLabel value="Batismo:" for="dtBatismo" rendered="#{ministroCadastroBean.flInserirEditarMinistro}"/>
+									<p:calendar id="dtBatismo" 
+											rendered="#{ministroCadastroBean.flInserirEditarMinistro}"
+											pattern="dd/MM/yyyy" 
+											mask="true" 
+											locale="pt" 
+											showButtonPanel="true" 
+											navigator="true"
+											value="#{ministroCadastroBean.ministro.dtBatismo}">
+										<p:ajax event="dateSelect" process="@this" update="@this"/>
+										<f:converter converterId="converter_localdate"/>
+									</p:calendar>
+									
+									<p:outputLabel value="Ordenação:" for="dtOrdenacao" rendered="#{ministroCadastroBean.flInserirEditarMinistro}"/>
+									<p:calendar id="dtOrdenacao" 
+											rendered="#{ministroCadastroBean.flInserirEditarMinistro}"
+											pattern="dd/MM/yyyy" 
+											mask="true" 
+											locale="pt" 
+											showButtonPanel="true" 
+											navigator="true"
+											value="#{ministroCadastroBean.ministro.dtOrdenado}">
+										<p:ajax event="dateSelect" process="@this" update="@this"/>
+										<f:converter converterId="converter_localdate"/>
+									</p:calendar>
+							
+									<p:outputLabel value="Est. Civil:" for="dsEstadoCivil" rendered="#{ministroCadastroBean.flInserirEditarMinistro}"/>
+									<p:selectOneMenu id="dsEstadoCivil" value="#{ministroCadastroBean.ministro.estadoCivel}" filter="true" filterMatchMode="startsWith" rendered="#{ministroCadastroBean.flInserirEditarMinistro}" >
+										<f:selectItem noSelectionOption="true" itemLabel="Selecione o estado civil" />		
+										<f:selectItems value="#{ministroCadastroBean.estadoCiveis}" var="item" itemValue="#{item}" itemLabel="#{item.dsEstadoCivel}" />
+									</p:selectOneMenu>	
+									
+									<p:outputLabel value="Conjuge:" for="dsConjuge" rendered="#{ministroCadastroBean.flInserirEditarMinistro}"/>
+									<p:selectOneMenu id="dsConjuge" value="#{ministroCadastroBean.ministro.conjuge}" filter="true" filterMatchMode="startsWith" rendered="#{ministroCadastroBean.flInserirEditarMinistro}" >
+										<f:selectItem noSelectionOption="true" itemLabel="Selecione o conjuge" />		
+										<f:selectItems value="#{ministroCadastroBean.esposasMinistro}" var="item" itemValue="#{item}" itemLabel="#{item.nmNome}" />
+									</p:selectOneMenu>
+									
+								</p:panelGrid>
+								
+								<div class="cv-linha-horizontal" hidden="#{ministroCadastroBean.flInserirEditarMinistro}" >
+									<div class="cv-linha-horizontal-texto">Filiação</div> 
+								</div>
+								
+								<p:panelGrid columns="4"
+										rendered="#{ministroCadastroBean.flInserirEditarMinistro}"
+										layout="grid"
+										styleClass="panelgrid-noborder"
+										columnClasses="ui-grid-col-1, ui-grid-col-5, ui-grid-col-1, ui-grid-col-5">
+										
+									<p:outputLabel value="Pai:" for="nmPai" />
+									<p:inputText id="nmPai" value="#{ministroCadastroBean.ministro.nmPai}" />
+									
+									<p:outputLabel value="Mãe:" for="nmMae" />
+									<p:inputText id="nmMae" value="#{ministroCadastroBean.ministro.nmMae}"  />
+								
+								</p:panelGrid>
+										
+							</p:panelGrid>
+								
+							<p:panelGrid columns="1" layout="grid" rendered="#{ministroCadastroBean.flInserirEditarMinistro}" >
+								<h:panelGroup id="fotoPanelGroup" >			
+										<p:fileUpload fileUploadListener="#{ministroCadastroBean.upload}" auto="true" label="Selecionar foto" update="fotoPanelGroup" />				
+										<p:graphicImage value="/ministro-foto?nome=#{ministroCadastroBean.ministro.dsFoto}" rendered="#{ministroCadastroBean.ministro.dsFoto ne null}" style="max-width:150px; width: auto; display: block; margin-left: auto; margin-right: auto; border: 1px solid black;  margin-top: 5px;margin-bottom: 5px;" />
+										<p:commandButton value="Remover foto" actionListener="#{ministroCadastroBean.removerFoto}" process="@this" update="fotoPanelGroup" rendered="#{ministroCadastroBean.ministro.dsFoto ne null}" />						
+									</h:panelGroup>
+							</p:panelGrid>
+						</p:panelGrid>
+									 
+				
+						<div class="cv-linha-horizontal" >
+							<div class="cv-linha-horizontal-texto">Identificação</div> 
+						</div>
+						
+						<p:panelGrid columns="6"
+								layout="grid"
+								id="panelGrid6" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-5">
+								
+							<p:outputLabel value="Identidade:" for="dsIdentidade" rendered="#{ministroCadastroBean.flInserirEditarMinistro}"/>
+							<p:inputText id="dsIdentidade" value="#{ministroCadastroBean.ministro.dsIdentidade}" rendered="#{ministroCadastroBean.flInserirEditarMinistro}" />	
+							
+							<p:outputLabel value="CPF:" for="dsCpf"/>
+							<p:inputMask mask="999.999.999-99" id="dsCpf" value="#{ministroCadastroBean.ministro.dsCpf}" >	
+								<f:converter converterId="converter_cpf"/>
+								<f:validator validatorId="validator_cpf"/>
+							</p:inputMask>	
+						
+							<p:outputLabel value="Nascimento:" for="dtNascimento" rendered="#{ministroCadastroBean.flInserirEditarMinistro}"/>
+							<p:calendar id="dtNascimento" 
+									rendered="#{ministroCadastroBean.flInserirEditarMinistro}"
+									pattern="dd/MM/yyyy" 
+									mask="true" 
+									locale="pt" 
+									showButtonPanel="true" 
+									navigator="true"
+									value="#{ministroCadastroBean.ministro.dtNascimento}">
+								<p:ajax event="dateSelect" process="@this" update="@this"/>
+								<f:converter converterId="converter_localdate"/>
+							</p:calendar>
+							
+						</p:panelGrid>
+						
+						<p:panelGrid columns="2"
+								rendered="#{ministroCadastroBean.flInserirEditarMinistro}"
+								layout="grid"
+								id="panelGrid7" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-11">
+							
+							<p:outputLabel value="Natural de:" for="dsLocalNascimento"/>
+							<p:inputText id="dsLocalNascimento" value="#{ministroCadastroBean.ministro.dsLocalNascimento}" />	
+						
+						</p:panelGrid>
+						
+						<p:panelGrid columns="4"
+								rendered="#{ministroCadastroBean.flInserirEditarMinistro}"
+								layout="grid"
+								id="panelGrid8" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-5, ui-grid-col-1, ui-grid-col-5">
+							
+							<p:outputLabel value="Escolaridade:" for="dsEscolaridade"/>
+							<p:selectOneMenu id="dsEscolaridade" value="#{ministroCadastroBean.ministro.escolaridade}" filter="true" filterMatchMode="startsWith" >
+								<f:selectItem noSelectionOption="true" itemLabel="Selecione a escolaridade" />		
+								<f:selectItems value="#{ministroCadastroBean.escolaridades}" var="item" itemValue="#{item}" itemLabel="#{item.dsDescricao}" />
+							</p:selectOneMenu>
+							
+							<p:outputLabel value="Profissão:" for="dsProfissao"/>
+							<p:selectOneMenu id="dsProfissao" value="#{ministroCadastroBean.ministro.profissao}" filter="true" filterMatchMode="startsWith" >
+								<f:selectItem noSelectionOption="true" itemLabel="Selecione a profissão" />		
+								<f:selectItems value="#{ministroCadastroBean.profissoes}" var="item" itemValue="#{item}" itemLabel="#{item.dsDescricao}" />
+							</p:selectOneMenu>
+							
+						</p:panelGrid>
+						
+						<div class="cv-linha-horizontal" >
+							<div class="cv-linha-horizontal-texto">Localização</div> 
+						</div>
+						
+						<p:panelGrid columns="2"
+								rendered="#{ministroCadastroBean.flInserirEditarMinistro}"
+								layout="grid"
+								id="panelGrid9" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-11">
+								
+							<p:outputLabel value="Endereço:" for="dsEndereco"/>
+							<p:inputText id="dsEndereco" value="#{ministroCadastroBean.ministro.dsEndereco}" />	
+							
+						</p:panelGrid>
+						
+						<p:panelGrid columns="4"
+								rendered="#{ministroCadastroBean.flInserirEditarMinistro}"
+								layout="grid"
+								id="panelGrid10" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-5, ui-grid-col-1, ui-grid-col-5">
+								
+							<p:outputLabel value="Bairro:" for="dsBairro"/>
+							<p:inputText id="dsBairro" value="#{ministroCadastroBean.ministro.dsBairro}" />	
+							
+							<p:outputLabel value="Cidade:" for="dsCidade"/>
+							<p:inputText id="dsCidade" value="#{ministroCadastroBean.ministro.dsCidade}" />	
+							
+						</p:panelGrid>
+						
+						<p:panelGrid columns="4"
+								rendered="#{ministroCadastroBean.flInserirEditarMinistro}"
+								layout="grid"
+								id="panelGrid11" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-8">
+								
+							<p:outputLabel value="CEP:" for="dsCep"/>
+							<p:inputMask mask="99.999-999" id="dsCep" value="#{ministroCadastroBean.ministro.dsCep}" >
+								<f:converter converterId="converter_cep"/>
+							</p:inputMask>	
+							
+							<p:outputLabel value="Estado:" for="dsEstado"/>
+							<p:selectOneMenu id="dsEstado" value="#{ministroCadastroBean.ministro.estado}" filter="true" filterMatchMode="startsWith" >
+								<f:selectItem noSelectionOption="true" itemLabel="Selecione o estado" />		
+								<f:selectItems value="#{ministroCadastroBean.estados}" var="item" itemValue="#{item}" itemLabel="#{item.dsNome}" />
+							</p:selectOneMenu>
+							
+						</p:panelGrid>
+						
+						<p:panelGrid columns="6"
+								layout="grid"
+								id="panelGrid12" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3">
+								
+							<p:outputLabel value="Telefone 1:" for="dsTelefone1"/>
+							<p:inputMask mask="(99) 9999-999?99" id="dsTelefone1" value="#{ministroCadastroBean.ministro.dsTelefone01}" >
+								<f:converter converterId="converter_telefone"/>
+							</p:inputMask>
+							
+							<p:outputLabel value="Telefone 2:" for="dsTelefone2"/>
+							<p:inputMask mask="(99) 9999-999?99" id="dsTelefone2" value="#{ministroCadastroBean.ministro.dsTelefone02}" >
+								<f:converter converterId="converter_telefone"/>
+							</p:inputMask>
+							
+							<p:outputLabel value="Telefone 3:" for="dsTelefone3"/>
+							<p:inputMask mask="(99) 9999-999?99" id="dsTelefone3" value="#{ministroCadastroBean.ministro.dsTelefone03}" >
+								<f:converter converterId="converter_telefone"/>
+							</p:inputMask>
+							
+						</p:panelGrid>
+						
+						<p:panelGrid columns="4"
+								rendered="#{ministroCadastroBean.flInserirEditarMinistro}"
+								layout="grid"
+								id="panelGrid13" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-6, ui-grid-col-1, ui-grid-col-4">
+								
+							<p:outputLabel value="Email:" for="dsEmail"/>
+							<p:inputText id="dsEmail" value="#{ministroCadastroBean.ministro.dsEmail}" />
+							
+						</p:panelGrid>
+						
+						<div class="cv-linha-horizontal" >
+							<div class="cv-linha-horizontal-texto">Igreja sede</div> 
+						</div>
+						
+						<p:panelGrid columns="4"
+								layout="grid"
+								id="panelGrid14" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-4, ui-grid-col-1, ui-grid-col-6">
+								
+							<p:outputLabel value="Igreja sede: " for="dsIgrejaSede" />
+							<p:selectOneMenu id="dsIgrejaSede" value="#{ministroCadastroBean.ministro.igreja}" filter="true" filterMatchMode="startsWith" style="width:80%;"  >
+								<f:selectItem noSelectionOption="true" itemLabel="Selecione a Igreja"/>
+								<f:selectItems value="#{ministroCadastroBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})"/>
+							</p:selectOneMenu>
+							
+							<p:outputLabel value="Membro igreja sede?:" for="flIgrejaSede"/>
+							<p:selectOneRadio id="flIgrejaSede" value="#{ministroCadastroBean.ministro.flIgrejasede}" layout="responsive" columns="4">
+							   	<f:selectItem itemLabel="Sim" itemValue="true" />
+							   	<f:selectItem itemLabel="Não" itemValue="false" />
+							</p:selectOneRadio>
+						
+						</p:panelGrid>
+						
+						<div class="cv-linha-horizontal" hidden="#{ministroCadastroBean.flInserirEditarMinistro}" >
+							<div class="cv-linha-horizontal-texto">Histórico</div> 
+						</div>
+						
+						
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12"  >	
+							<p:commandButton  
+					    			style="width: auto; margin: 10px 0px 0px 0px" 
+					    			value="Incluir novo parecer"
+					    			title="Incluir novo parecer para o ministro"
+					    			id="botaoIncluirParecer" 
+					    			oncomplete="PF('widgParecerMinistroDialog').show();"
+					    			process="@this"
+					    			update=":frm_parecer:parecerMinistroDialog" 
+					    			actionListener="#{ministroCadastroBean.limparMinistroParecer}" />
+												
+							<p:dataTable value="#{ministroCadastroBean.ministro.ministroParecer}"
+									var="itemParecer"
+									style="margin-top:20px; margin-bottom:20px"
+									id="dtListParecer"
+									paginator="true"
+									rows="5"
+									rowsPerPageTemplate="5,10,20"
+									emptyMessage="Não há registros para exibir"
+									multiViewState="true" 
+									paginatorPosition="bottom" >
+									
+								<p:column headerText="Data" style="text-align:left; width:60px;" sortBy="#{itemParecer.dtRegistro}" >
+									<p:outputLabel value="#{itemParecer.dtRegistro}">
+										<f:converter converterId="converter_localdate"/>
+									</p:outputLabel>
+								</p:column>
+									
+								<p:column headerText="Responsável" style="text-align:left; width:100px;" sortBy="#{itemParecer.dsResponsavel}" >
+									<p:outputLabel value="#{itemParecer.dsResponsavel}"/>
+								</p:column>
+								
+								<p:column headerText="Parecer" style="text-align:left;"  >
+									<p:outputLabel value="#{itemParecer.dsParecer}" escape="false" />
+								</p:column>
+									
+							</p:dataTable>
+						</p:panelGrid>
+						
+						<div class="cv-linha-horizontal"  >
+							<div class="cv-linha-horizontal-texto" >Anexos</div> 
+						</div>
+						
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" style="border: black solid 1px !important;" >
+							<p:fileUpload id="dsAnexos" fileUploadListener="#{ministroCadastroBean.uploadArquivo}" 
+									label="Escolher arquivo ou arrastar e soltar na área abaixo"
+									uploadLabel="Enviar"
+									cancelLabel="Cancelar"
+									sizeLimit="5120000"     
+									invalidSizeMessage="O tamanho máximo permitido é de 5 MB"
+									fileLimit="10"
+									fileLimitMessage="Só é possível importar até 10 arquivos."
+									multiple="true"
+									auto="true"
+									dragDropSupport="true"
+									sequential="true"
+									onstart="console.log('Iniciando o envio do arquivo')"
+									onerror="console.log('Erro na requisição de envio')"
+									oncomplete="console.log('Envio concluído')"
+									update="frm:dtList" 
+									process="frm:dsAnexos"/>
+									
+							<p:dataTable value="#{ministroCadastroBean.ministro.ministroAnexo}"
+									var="itemAnexo"
+									id="dtList"
+									emptyMessage=""
+									scrollable="false"
+									styleClass="noHeader" >
+									
+								<p:column style="text-align: center; width: 60px;" >
+									<p:outputLabel value="#{itemAnexo.dtAnexoRegistro}">
+										<f:converter converterId="converter_localdate"/>
+									</p:outputLabel>
+								</p:column>
+								
+								<p:column style="text-align: center; width: 100px;" >
+									<p:outputLabel value="#{itemAnexo.dsAnexoResponsavel}"/>
+								</p:column>
+									
+								<p:column>									
+									<p:commandLink styleClass="cv-link-estilo" 
+													value="#{itemAnexo.dsAnexoOriginal}" 
+													actionListener="#{ministroCadastroBean.downloadArquivo(itemAnexo)}"
+													ajax="false" 
+													title="Download" >
+													
+										<p:fileDownload value="#{ministroCadastroBean.streamedContent}"  />
+									</p:commandLink>
+								</p:column>
+								
+								<p:column style="text-align: center; width: 30px;" >
+									<p:commandButton 
+											icon="ui-icon-trash" 
+											style="width: 20px; margin-left: 5px;"
+											title="Excluir" 
+											actionListener="#{ministroCadastroBean.removerAnexo}"
+											process="@this"
+											update="frm:dtList">
+											
+										<f:attribute name="attribute_sqMinistroAnexo" value="#{itemAnexo.sqMinistroAnexo}" />
+										<f:attribute name="attribute_dsAnexoRenomeado" value="#{itemAnexo.dsAnexoRenomeado}" />
+					    			</p:commandButton>
+								</p:column>
+							
+							</p:dataTable>
+									
+						</p:panelGrid>
+						
+						<div class="cv-linha-horizontal"  >
+							<div class="cv-linha-horizontal-texto" >Fim</div> 
+						</div>
+						
+					</div>
+				
+				</h:panelGroup>
+			
+			</div>
+			
+		</h:form>
+		
+		<!-- Dialogo para registrar novo parecer do ministro -->
+		<h:form id="frm_parecer">
+			<p:dialog 
+					widgetVar="widgParecerMinistroDialog"
+					id="parecerMinistroDialog"
+					header="Registrar novo parecer para o ministro: (#{ministroCadastroBean.ministro.nmNome})"
+					resizable="false"
+					responsive="true"
+					modal="true"
+					width="70%" >
+					
+				<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+					
+				<h:panelGroup id="parecerMinistroPanel" layout="block" styleClass="ui-fluid">
+					<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-11" >
+						<p:outputLabel value="Parecer: " for="dsParecerDlg" />
+						<p:inputTextarea id="dsParecerDlg" rows="5" placeholder="Informe o parecer" value="#{ministroCadastroBean.ministroParecer.dsParecerTemp}"  autoResize="true"/>
+					</p:panelGrid>
+					<p:separator />
+					<p:button value="Fechar" 
+							onclick="PF('widgParecerMinistroDialog').hide(); return false;"
+							style="width: auto"/>
+							
+					<p:commandButton value="Confirmar inclusão de parecer" 
+    					id="botaoSalvarParecer" 
+    					action="#{ministroCadastroBean.salvarParecerMinistro}"
+    					style="width: auto; margin-left:30px;"
+    					process="@form"
+    					oncomplete="jsFecharDialogo(xhr, status, args, 'widgParecerMinistroDialog', 'shake')" 
+    					update=":frm:dtListParecer"/>
+				</h:panelGroup>
+			</p:dialog>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,330 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+	
+		<f:metadata>
+			<f:event listener="#{usuarioPesquisaBean.iniciarGrupos}" type="preRenderView" />
+		</f:metadata>
+	
+		<h1 class="aw-page-title">Usuario pesquisa</h1>	
+		
+		<h:form id="frm">
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+			<p:toolbar>
+ 				<p:toolbarGroup align="right">
+					<p:button value="Cadastrar Usuario" outcome="/pages/usuario/UsuarioCadastro"/>
+				</p:toolbarGroup>   
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+				<p:dataTable value="#{usuarioPesquisaBean.lista}" 
+						var="item" style="margin-top:20px;"
+						id="dtList">
+						
+					<p:column headerText="Usuario" style="text-align: left;  ">
+						
+						<p:link styleClass="cv-link-estilo" 
+								value="#{item.dsLogin}"
+								outcome="/pages/usuario/UsuarioPermissoes">
+							<f:param name="usuario" value="#{item.sqUsuario}"/>
+						</p:link>
+
+					</p:column>
+					
+					<p:column headerText="Nome" style="text-align: left;  ">
+						<p:commandLink styleClass="cv-link-estilo"
+								value="#{item.dsNome}"
+								oncomplete="PF('exibirUsuarioDialog').show()"
+								process="@this"
+								update=":frm:exibirUsuarioDialog" 
+								title="Consultar dados do usuário" >
+							<f:setPropertyActionListener value="#{item}" target="#{usuarioPesquisaBean.selecionado}" />
+						</p:commandLink>
+					</p:column>
+					
+					<p:column headerText="Email" style="text-align: left;  ">
+						<h:outputText value="#{item.dsEmail}"/>
+					</p:column>
+					
+					<p:column headerText="Situação usuário" style="text-align: left;  ">
+						<h:outputText value="Usuário ativo" rendered="#{item.situacao}" />
+						<h:outputText value="Usuário bloqueado" rendered="#{!item.situacao}" style="color:red;" />
+					</p:column>
+					
+					<p:column headerText="Situação senha" style="text-align: left;  ">
+						<h:outputText value="Provisória" rendered="#{item.trocaSenha}" style="color:red;" />
+						<h:outputText value="Definitiva" rendered="#{!item.trocaSenha}" />
+					</p:column>
+							
+					<p:column style="text-align: center; width: 132px;">
+					
+						<p:commandButton 
+								style="width: 20px; margin-left: 5px; "
+								icon="ui-icon-document"
+								title="Reiniciar senha do usuário"
+								oncomplete="PF('wdgReiniciarSenhaUsuarioDialog').show();"
+								process="@this"
+								update=":frm_ReiniciarSenhaUsuario" >
+					
+		    				<f:setPropertyActionListener value="#{item}" target="#{usuarioPesquisaBean.selecionado}" />
+		    			</p:commandButton>
+					
+ 						<p:commandButton 
+								style="width: 20px; margin-left: 5px; "
+								icon="ui-icon-folder-collapsed"
+								title="Associar grupo ao usuário"
+								oncomplete="PF('wdgGrupoUsuarioDialog').show();"
+								process="@this"
+								update=":frm_GrupoUsuario" >
+					
+		    				<f:setPropertyActionListener value="#{item}" target="#{usuarioPesquisaBean.selecionado}" />
+		    			</p:commandButton>
+		    			
+						<p:button icon="ui-icon-pencil" 
+								style="width: 20px; margin-left: 5px; "
+								 title="Editar"
+								outcome="/pages/usuario/UsuarioCadastro" >
+							<f:param name="usuario" value="#{item.sqUsuario}"/>
+						</p:button>
+						
+						<p:commandButton icon="ui-icon-trash" 
+								style="width: 20px; margin-left: 5px; "
+								title="Excluir" 
+								oncomplete="PF('confirmacaoExclusao').show();"
+								process="@this"
+								update=":frm:confirmacaoExclusaoDialog" >
+								
+		    				<f:setPropertyActionListener value="#{item}" target="#{usuarioPesquisaBean.selecionado}" />
+		    			</p:commandButton>
+					</p:column>
+					
+					<f:facet name="footer">
+       						 #{usuarioPesquisaBean.mensagemRodape}
+    				</f:facet>
+				
+				</p:dataTable>
+				
+				<!-- Diálogo para exclusão de usuários -->
+				<p:confirmDialog header="Exclusão do Usuario: #{usuarioPesquisaBean.selecionado.dsLogin}" 
+						message="Confirma excluir Usuário (#{usuarioPesquisaBean.selecionado.dsLogin})?"
+						widgetVar="confirmacaoExclusao"
+						id="confirmacaoExclusaoDialog">
+					<p:button value="Não" 
+							onclick="PF('confirmacaoExclusao').hide(); return false;"
+							style="width: auto"/>
+					<p:commandButton value="Sim" 
+							oncomplete="PF('confirmacaoExclusao').hide();" 
+							action="#{usuarioPesquisaBean.excluir}"
+							update=":frm:dtList"
+							style="width: auto"/>
+				</p:confirmDialog>
+				
+				
+				<!-- Diálogo para exibir um usuário -->
+				<p:dialog
+						widgetVar="exibirUsuarioDialog"
+						id="exibirUsuarioDialog"
+						header="Exibir informações do usuário: #{usuarioPesquisaBean.selecionado.dsLogin}"
+						resizable="false"
+						responsive="true"
+						width="50%" >
+					<h:panelGroup id="exibirUsuarioPanel" layout="block" styleClass="ui-fluid">
+						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-8, ui-grid-col-4" >
+							<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9">
+								
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Usuário"/>
+								<p:outputLabel id="dsLogin" value="#{usuarioPesquisaBean.selecionado.dsLogin}"/>
+								
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Nome"/>
+								<p:outputLabel id="dsNome" value="#{usuarioPesquisaBean.selecionado.dsNome}"/>
+										
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Email"/>
+								<p:outputLabel id="dsEmal" value="#{usuarioPesquisaBean.selecionado.dsEmail}"/>
+								
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Cadastro"/>
+								<p:outputLabel id="dtCadastro" value="#{usuarioPesquisaBean.selecionado.dtCadastro}" >
+									<f:converter converterId="converter_localdate"/>
+								</p:outputLabel>
+								
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Situação usuário"/>
+								<p:outputLabel id="isSituacaoAtivo" value="Ativo" rendered="#{usuarioPesquisaBean.selecionado.situacao}"/>
+								<p:outputLabel id="isSituacaoBloqueado" value="Bloqueado" rendered="#{!usuarioPesquisaBean.selecionado.situacao}" style="color:red;"  />
+								
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Situação senha"/>
+								<p:outputLabel id="isTrocaSenhaDefinitiva" value="Definitiva" rendered="#{!usuarioPesquisaBean.selecionado.trocaSenha}"/>
+								<p:outputLabel id="isTrocaSenhaProvisoria" value="Provisória" rendered="#{usuarioPesquisaBean.selecionado.trocaSenha}" style="color:red;"  />
+								
+								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Observação"/>
+								<p:inputTextarea id="dsObs" value="#{usuarioPesquisaBean.selecionado.dsObs}" readonly="true"/>
+								
+										
+							</p:panelGrid>
+							<p:panelGrid columns="1" layout="grid" >
+								<p:dataTable value="#{usuarioPesquisaBean.selecionado.grupos}" 
+										var="itemGrupo" style="margin-top:20px;"
+										id="dtListGrupo" 
+										emptyMessage="Nenhum grupo associado" >
+										
+									<p:column headerText="Grupos associados" style="text-align: left;  ">
+										<h:outputText value="#{itemGrupo.dsNome}"/>
+									</p:column>
+													
+								</p:dataTable>
+							
+							</p:panelGrid>
+							
+						</p:panelGrid>
+						
+						<p:separator />
+						<p:button value="Fechar" 
+								onclick="PF('exibirUsuarioDialog').hide(); return false;"
+								style="width: auto"/>
+					</h:panelGroup>
+				</p:dialog>
+			</div>
+		</h:form>
+				
+		<!-- Diálogo para associar grupos -->
+		<h:form id="frm_GrupoUsuario">
+			<p:dialog
+					widgetVar="wdgGrupoUsuarioDialog"
+					id="grupoUsuarioDialog"
+					header="Associar grupos ao usuário: #{usuarioPesquisaBean.selecionado.dsLogin}"
+					resizable="false"
+					responsive="true"
+					width="70%" >
+				<h:panelGroup id="grupoUsuarioPanel" layout="block" styleClass="ui-fluid">						
+					<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6, ui-grid-col-6">
+							
+						<p:dataTable id="dtListaGrupo" 
+								var="itemListaGrupo" 
+								value="#{usuarioPesquisaBean.listaGrupos}" 
+								selection="#{usuarioPesquisaBean.gruposDisponivelSelecionados}" 
+								rowKey="#{itemListaGrupo.sqGrupo}" 
+								emptyMessage="Não há grupos disponíveis"
+								style="margin-bottom:0">							
+							
+							<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+										
+							<p:column headerText="Grupos disponíveis" style="text-align: left;  ">
+								<h:outputText value="#{itemListaGrupo.dsNome}"/>
+							</p:column>
+							
+							<p:column headerText="Situação do grupo" style="text-align: left;  ">
+								<h:outputText value="Ativo" rendered="#{itemListaGrupo.situacao}"/>
+								<h:outputText value="Bloqueado" rendered="#{!itemListaGrupo.situacao}" style="color:red;" />
+							</p:column>
+											
+						</p:dataTable>
+						
+						<p:dataTable id="dtListGrupo" 
+								var="itemGrupo" 
+								value="#{usuarioPesquisaBean.selecionado.grupos}" 
+								selection="#{usuarioPesquisaBean.gruposAssociadosSelecionados}" 
+								rowKey="#{itemGrupo.sqGrupo}" 
+								emptyMessage="Nenhum grupo associad" 
+								style="margin-bottom:0"  >							
+							
+							<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+								
+							<p:column headerText="Grupos associados" style="text-align: left;  ">
+								<h:outputText value="#{itemGrupo.dsNome}"/>
+							</p:column>
+							
+							<p:column headerText="Situação do grupo" style="text-align: left;  ">
+								<h:outputText value="Ativo" rendered="#{itemGrupo.situacao}"/>
+								<h:outputText value="Bloqueado" rendered="#{!itemGrupo.situacao}" style="color:red;" />
+							</p:column>
+													
+						</p:dataTable>
+										
+					</p:panelGrid>
+		
+					<p:separator />
+					<p:button value="Fechar" 
+							onclick="PF('wdgGrupoUsuarioDialog').hide(); return false;"
+							style="width: auto"/>
+				
+					<p:commandButton value="Confirmar grupos associados ao usuário" 
+    					id="botaoSalvarGrupoAssociado" 
+    					action="#{usuarioPesquisaBean.salvarGruposAssociados}"
+    					style="width: auto; margin-left:30px;"
+    					process="@form"
+    					oncomplete="jsFecharDialogo(xhr, status, args, 'wdgGrupoUsuarioDialog', 'shake')" 
+    					update=":frm:dtList"/>
+									
+									
+				</h:panelGroup>
+			</p:dialog>
+		</h:form>	
+		
+		<!-- Diálogo para reiniciar senha -->
+		<h:form id="frm_ReiniciarSenhaUsuario">
+			<p:dialog
+					widgetVar="wdgReiniciarSenhaUsuarioDialog"
+					id="ReiniciarSenhaUsuarioDialog"
+					header="Reiniciar senha do usuário: #{usuarioPesquisaBean.selecionado.dsLogin}"
+					resizable="false"
+					responsive="true"
+					width="50%" >
+				<h:panelGroup id="reiniciarSenhaUsuarioPanel" layout="block" styleClass="ui-fluid">						
+					<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-10">
+							
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Usuário"/>
+						<p:outputLabel id="dsLogin" value="#{usuarioPesquisaBean.selecionado.dsLogin}"/>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Nome"/>
+						<p:outputLabel id="dsNome" value="#{usuarioPesquisaBean.selecionado.dsNome}"/>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Email"/>
+						<p:outputLabel id="dsEmal" value="#{usuarioPesquisaBean.selecionado.dsEmail}"/>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Cadastro"/>
+						<p:outputLabel id="dtCadastro" value="#{usuarioPesquisaBean.selecionado.dtCadastro}" >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Situação usuário"/>
+						<p:outputLabel id="isSituacaoAtivo" value="Ativo" rendered="#{usuarioPesquisaBean.selecionado.situacao}"/>
+						<p:outputLabel id="isSituacaoBloqueado" value="Bloqueado" rendered="#{!usuarioPesquisaBean.selecionado.situacao}" style="color:red;"  />
+								
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Situação senha"/>
+						<p:outputLabel id="isReiniciarDefinitiva" value="Definitiva" rendered="#{!usuarioPesquisaBean.selecionado.trocaSenha}"/>
+						<p:outputLabel id="isReiniciarProvisoria" value="Provisória" rendered="#{usuarioPesquisaBean.selecionado.trocaSenha}" style="color:red;"  />
+						
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Nova senha" for="pwd1"/>
+						<p:password id="pwd1" value="#{usuarioPesquisaBean.selecionado.dsSenha}" match="pwd2" label="Senha" required="true" >
+							<f:validateLength minimum="8" maximum="20"/> 
+						</p:password>
+						
+						<p:outputLabel styleClass="cv-dialogo-exibe-label" for="pwd2" value="Confirmar senha" />
+						<p:password id="pwd2" value="#{usuarioPesquisaBean.selecionado.dsSenha}" label="Confirmar senha" required="true" />
+									
+					</p:panelGrid>
+		
+					<p:separator />
+					<p:button value="Fechar" 
+							onclick="PF('wdgReiniciarSenhaUsuarioDialog').hide(); return false;"
+							style="width: auto"/>
+				
+					<p:commandButton value="Confirmar reinicialização de senha do usuário" 
+    					id="botaoSalvarReiniciarSenha" 
+    					action="#{usuarioPesquisaBean.salvarReiniciarSenha}"
+    					style="width: auto; margin-left:30px;"
+    					process="@form"
+    					oncomplete="jsFecharDialogo(xhr, status, args, 'wdgReiniciarSenhaUsuarioDialog', 'shake')" 
+    					update=":frm:dtList"/>
+									
+									
+				</h:panelGroup>
+			</p:dialog>
+		</h:form>							
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,200 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<o:viewParam name="igreja" value="#{igrejaRetriveBean.igreja}" />
+			
+			<o:viewParam name="param_regiaoItens_sqRegiao" value="#{igrejaRetriveBean.param_regiaoItens_sqRegiao}" />
+			<o:viewParam name="param_dsIgrejaFiltro"  value="#{igrejaRetriveBean.param_dsIgrejaFiltro}" />	
+			<o:viewParam name="param_dsBairroFiltro"  value="#{igrejaRetriveBean.param_dsBairroFiltro}" />
+			<o:viewParam name="param_dsCidadeFiltro"  value="#{igrejaRetriveBean.param_dsCidadeFiltro}" />
+			<o:viewParam name="param_dsCnpjFiltro"  value="#{igrejaRetriveBean.param_dsCnpjFiltro}" />
+			<o:viewParam name="param_estado_sqEstado"  value="#{igrejaRetriveBean.param_estado_sqEstado}" />
+			<o:viewParam name="param_ministro_sqMinistro"  value="#{igrejaRetriveBean.param_ministro_sqMinistro}" />
+			<o:viewParam name="param_controle"  value="#{igrejaRetriveBean.param_controle}" />
+			
+			
+			<f:event listener="#{igrejaRetriveBean.inicializarMinistrosPorIgreja}" type="preRenderView" />
+			
+		</f:metadata>
+
+		<h:form id="frm">
+			<h1 class="aw-page-title">Exibir Igreja</h1>
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+		
+			<p:toolbar styleClass="cv-toolbar-topo">		
+				<p:toolbarGroup align="right">
+					<p:link styleClass="cv-botao" 
+								value="Pesquisar Igreja"
+								outcome="/pages/cadastro/IgrejaPesquisa" >
+						<f:param name="param_regiaoItens_sqRegiao" value="#{igrejaRetriveBean.param_regiaoItens_sqRegiao}"/> 
+						<f:param name="param_dsIgrejaFiltro"  value="#{igrejaRetriveBean.param_dsIgrejaFiltro}"/>  
+						<f:param name="param_dsBairroFiltro"  value="#{igrejaRetriveBean.param_dsBairroFiltro}"/>  
+						<f:param name="param_dsCidadeFiltro"  value="#{igrejaRetriveBean.param_dsCidadeFiltro}"/>
+						<f:param name="param_dsCnpjFiltro"  value="#{igrejaRetriveBean.param_dsCnpjFiltro}"/>
+						<f:param name="param_estado_sqEstado"  value="#{igrejaRetriveBean.param_estado_sqEstado}"/>
+						<f:param name="param_ministro_sqMinistro"  value="#{igrejaRetriveBean.param_ministro_sqMinistro}"/>
+						<f:param name="param_controle"  value="#{igrejaRetriveBean.param_controle}"/>
+					</p:link>
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<div class="ui-fluid">
+			
+				<h:panelGroup id="pnlgrp-cadastro" layout="block">
+					<p:focus context="pnlgrp-cadastro"/>
+					<div class="cv-cadastro">
+					
+						<div class="cv-linha-horizontal" >
+							<div class="cv-linha-horizontal-texto">Dados da Igreja</div> 
+						</div>
+						
+						<p:panelGrid columns="2"
+								layout="grid"
+								id="panelGrid1" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-11">
+						
+							<p:outputLabel value="Igreja:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{igrejaRetriveBean.igreja.dsIgreja}"/>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="6"
+								layout="grid"
+								id="panelGrid2" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-2, ui-grid-col-2, ui-grid-col-3">
+
+						
+							<p:outputLabel value="Região:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{igrejaRetriveBean.igreja.regiao.dsRegiao}"/>
+							
+							<p:outputLabel value="CNPJ:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{igrejaRetriveBean.igreja.dsCnpj}" >
+								<f:converter converterId="converter_cnpj" />
+							</h:outputText>
+							
+							<p:outputLabel value="Data de fundação:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{igrejaRetriveBean.igreja.dtAniversario}">
+								<f:converter converterId="converter_localdate"/>
+							</h:outputText>
+
+						</p:panelGrid>	
+						
+						<div class="cv-linha-horizontal" >
+							<div class="cv-linha-horizontal-texto">Endereço da Igreja</div>  
+						</div>
+						
+						<p:panelGrid columns="2"
+								layout="grid"
+								id="panelGrid3" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-11">
+						
+							<p:outputLabel value="Endereço:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{igrejaRetriveBean.igreja.dsEndereco}"/>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="6"
+								layout="grid"
+								id="panelGrid4" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-2, ui-grid-col-2, ui-grid-col-3">
+							
+							<p:outputLabel value="Bairro:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{igrejaRetriveBean.igreja.dsBairro}"/>
+							
+							<p:outputLabel value="CEP:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{igrejaRetriveBean.igreja.dsCep}" >
+								<f:converter converterId="converter_cep" />
+							</h:outputText>
+							
+							<p:outputLabel value="Cidade:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{igrejaRetriveBean.igreja.dsCidade}"/>
+						
+						</p:panelGrid>
+						
+						<p:panelGrid columns="4"
+								layout="grid"
+								id="panelGrid5" 
+								styleClass="panelgrid-noborder"
+								columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-7">
+								
+							<p:outputLabel value="Estado:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{igrejaRetriveBean.igreja.estado.dsNome}"/>
+							
+							<p:outputLabel value="E-mail:" />
+							<h:outputText styleClass="cv-texto-negrito" value="#{igrejaRetriveBean.igreja.dsEmail}"/>
+							
+						</p:panelGrid>
+						
+					</div>
+				
+				</h:panelGroup>
+				
+				<div class="cv-linha-horizontal" >
+					<div class="cv-linha-horizontal-texto">Ministros da Igreja</div>  
+				</div>
+				
+				<p:dataTable value="#{igrejaRetriveBean.ministroListarTO}"
+						var="item" 
+						style="margin-top:10px;" 
+						id="dtList"
+						paginator="true"
+						rows="10"
+						rowsPerPageTemplate="10,20,30,40,50,60,70,80"
+						emptyMessage="Não há registro para exibir">
+					
+					<p:column headerText="Rg" style="text-align:left; width:5%;" sortBy="#{item.ministroTO.cdCodigo}">
+						<p:outputLabel value="#{item.ministroTO.cdCodigo}"/>
+					</p:column>
+					
+					<p:column headerText="Depto" style="text-align:left; width:10%;" filterBy="#{item.dsDepartamentoReduzido}" sortBy="#{item.dsDepartamentoReduzido}">
+						<p:outputLabel value="#{item.dsDepartamentoReduzido}"/>
+					</p:column>
+					
+					<p:column headerText="Ministro" style="text-align:left;" filterBy="#{item.ministroTO.nmNome}" sortBy="#{item.ministroTO.nmNome}">
+						<p:outputLabel value="#{item.ministroTO.nmNome}"/>
+					</p:column>
+					
+					<p:column headerText="Dt Ingresso" style="text-align:left; width:10%;" sortBy="#{item.ministroTO.dtIngresso}">
+						<p:outputLabel value="#{item.ministroTO.dtIngresso}">
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+					</p:column>
+				
+					<p:column headerText="Cargo" style="text-align:left; width:10%;" sortBy="#{item.dsCargo}">
+						<p:outputLabel value="#{item.dsCargo}"/>
+					</p:column>
+					
+					<p:column headerText="Cidade/UF" style="text-align:left; width:10%;" sortBy="#{item.dsCidadeUf}">
+						<p:outputLabel value="#{item.dsCidadeUf}"/>
+					</p:column>
+					
+					<p:column style="width:10%;" >
+						<p:outputLabel value="Inativo em:" rendered="#{item.ministroTO.dtExcluido!=null}" style="color:Red;border-color:Red;font-weight:bold;">
+							<p:outputLabel value="#{item.ministroTO.dtExcluido}" rendered="#{item.ministroTO.dtExcluido!=null}" style="color:Red;border-color:Red;font-weight:bold;" >
+								<f:converter converterId="converter_localdate"/>
+							</p:outputLabel>
+						</p:outputLabel>
+						
+					</p:column>
+					
+					<f:facet name="footer">
+				        #{igrejaRetriveBean.mensagemRodape}
+				    </f:facet>
+				    
+				</p:dataTable>
+				
+			</div>
+			
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

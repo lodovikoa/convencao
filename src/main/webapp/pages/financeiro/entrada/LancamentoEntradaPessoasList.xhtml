@@ -1,0 +1,274 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/templates/LayoutPrincipal.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:event listener="#{lancamentoEntradaPessoasList.inicializar}" type="preRenderView" />
+			
+			<o:viewParam name="param_regiaoItens_sqRegiao"  value="#{lancamentoEntradaPessoasList.param_regiaoItens_sqRegiao}"/> 
+			<o:viewParam name="param_igrejaItensFiltro_sqIgreja"  value="#{lancamentoEntradaPessoasList.param_igrejaItensFiltro_sqIgreja}"/> 
+			<o:viewParam name="param_departamentoItensFiltro_sqDepartamento"  value="#{lancamentoEntradaPessoasList.param_departamentoItensFiltro_sqDepartamento}"/> 
+			<o:viewParam name="param_cdRg"  value="#{lancamentoEntradaPessoasList.param_cdRg}"/>
+			<o:viewParam name="param_nmMinistro"  value="#{lancamentoEntradaPessoasList.param_nmMinistro}"/>  
+			<o:viewParam name="param_cargo_sqCargo"  value="#{lancamentoEntradaPessoasList.param_cargo_sqCargo}"/> 
+			<o:viewParam name="param_cdNsu"  value="#{lancamentoEntradaPessoasList.param_cdNsu}"/> 
+			<o:viewParam name="param_dtInicio1"  value="#{lancamentoEntradaPessoasList.param_dtInicio1}"/> 
+			<o:viewParam name="param_dtFim1"  value="#{lancamentoEntradaPessoasList.param_dtFim1}"/> 
+			<o:viewParam name="param_dtInicio2"  value="#{lancamentoEntradaPessoasList.param_dtInicio2}"/> 
+			<o:viewParam name="param_dtFim2"  value="#{lancamentoEntradaPessoasList.param_dtFim2}"/> 
+			<o:viewParam name="param_dsCidade"  value="#{lancamentoEntradaPessoasList.param_dsCidade}"/> 
+			<o:viewParam name="param_estado_sqEstado"  value="#{lancamentoEntradaPessoasList.param_estado_sqEstado}"/> 
+			<o:viewParam name="param_cdSituacao"  value="#{lancamentoEntradaPessoasList.param_cdSituacao}"/> 
+			<o:viewParam name="param_flJubilado"  value="#{lancamentoEntradaPessoasList.param_flJubilado}"/> 
+			<o:viewParam name="param_controle"  value="#{lancamentoEntradaPessoasList.param_controle}"/>
+			
+			<f:event listener="#{lancamentoEntradaPessoasList.recuperarParametros}" type="preRenderView" />
+		</f:metadata>
+
+		<h:form id="frm">
+			<h1 class="aw-page-title">Financeiro - Listar pessoas</h1>
+			<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
+			
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton value="Pesquisar" action="#{lancamentoEntradaPessoasList.pesquisar}" update=":frm" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:link styleClass="cv-botao" 
+							style="margin-left:30px;"
+							value="Lançamento de Igrejas"
+							outcome="/pages/financeiro/entrada/LancamentoEntradaIgrejaList" >
+							
+						<f:param name="param_regiaoItens_sqRegiao"  value="#{lancamentoEntradaPessoasList.filtro.regiaoItensFiltro.sqRegiao}"/> 
+						<f:param name="param_igrejaItensFiltro_sqIgreja"  value="#{lancamentoEntradaPessoasList.filtro.igrejaFiltro.sqIgreja}"/> 
+						<f:param name="param_departamentoItensFiltro_sqDepartamento"  value="#{lancamentoEntradaPessoasList.filtro.departamentoFiltro.sqDepartamento}"/> 
+						<f:param name="param_cdRg"  value="#{lancamentoEntradaPessoasList.filtro.cdCodigoFiltro}"/>
+						<f:param name="param_nmMinistro"  value="#{lancamentoEntradaPessoasList.filtro.nmMinistro}"/>  
+						<f:param name="param_cargo_sqCargo"  value="#{lancamentoEntradaPessoasList.filtro.cargoFiltro.sqCargo}"/> 
+						<f:param name="param_cdNsu"  value="#{lancamentoEntradaPessoasList.filtro.cdReciboFiltro}"/> 
+						<f:param name="param_dtInicio1"  value="#{lancamentoEntradaPessoasList.filtro.dtInicio1Filtro}"/> 
+						<f:param name="param_dtFim1"  value="#{lancamentoEntradaPessoasList.filtro.dtFim1Filtro}"/> 
+						<f:param name="param_dtInicio2"  value="#{lancamentoEntradaPessoasList.filtro.dtInicio2Filtro}"/> 
+						<f:param name="param_dtFim2"  value="#{lancamentoEntradaPessoasList.filtro.dtFim2Filtro}"/> 
+						<f:param name="param_dsCidade"  value="#{lancamentoEntradaPessoasList.filtro.dsCidadeFiltro}"/> 
+						<f:param name="param_estado_sqEstado"  value="#{lancamentoEntradaPessoasList.filtro.estadoFiltro.sqEstado}"/> 
+						<f:param name="param_cdSituacao"  value="#{lancamentoEntradaPessoasList.filtro.cdSituacaoFiltro}"/> 
+						<f:param name="param_flJubilado"  value="#{lancamentoEntradaPessoasList.filtro.flJubiladoFiltro}"/> 
+							
+						<f:param name="param_controle"  value="1"/>
+							
+					</p:link>
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<p:panelGrid style="margin-top: 10px;" columns="6" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3" >
+				<p:outputLabel value="Região:" for="dsRegiao" />
+				<p:selectOneMenu id="dsRegiao" filter="true" value="#{lancamentoEntradaPessoasList.filtro.regiaoItensFiltro}" >
+					<f:selectItem itemLabel="Selecione uma região"/>
+					<f:selectItems value="#{lancamentoEntradaPessoasList.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
+					<p:ajax listener="#{lancamentoEntradaPessoasList.buscarIgrejasAjax}"  update=":frm:dsIgreja"/>
+				</p:selectOneMenu>
+															
+				<p:outputLabel value="Igreja:" for="dsIgreja" />
+				<p:selectOneMenu id="dsIgreja" filter="true" value="#{lancamentoEntradaPessoasList.filtro.igrejaFiltro}" style="width:90%;" >
+					<f:selectItem noSelectionOption="true" itemLabel="Selecione uma igreja"/>
+					<f:selectItems value="#{lancamentoEntradaPessoasList.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Dpto:" for="dsDepartamentoReduzido"  />
+				<p:selectOneMenu id="dsDepartamentoReduzido" filter="true" value="#{lancamentoEntradaPessoasList.filtro.departamentoFiltro}" >
+					<f:selectItem noSelectionOption="true" itemLabel="Selecione um departamento"/>
+					<f:selectItems value="#{lancamentoEntradaPessoasList.departamentos}" var="item" itemValue="#{item}" itemLabel="#{item.dsReduzido}" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Rg:" for="rgMinistro" />
+				<p:inputText id="rgMinistro" value="#{lancamentoEntradaPessoasList.filtro.cdCodigoFiltro}" />
+				
+				<p:outputLabel value="Ministro:" for="dsMinistro"/>
+				<p:inputText id="dsMinistro" value="#{lancamentoEntradaPessoasList.filtro.nmMinistro}" style="width:90%;" />
+				
+				<p:outputLabel value="Cargo:" for="dsCargo" />
+				<p:selectOneMenu id="dsCargo" filter="true" value="#{lancamentoEntradaPessoasList.filtro.cargoFiltro}" >
+					<f:selectItem noSelectionOption="true" itemLabel="Selecione um cargo"/>
+					<f:selectItems value="#{lancamentoEntradaPessoasList.cargos}" var="item" itemValue="#{item}" itemLabel="#{item.dsCargo}" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="NSU:" for="cdRecibo" />
+				<p:inputText id="cdRecibo" value="#{lancamentoEntradaPessoasList.filtro.cdReciboFiltro}" />
+				
+				<p:outputLabel value="Pagamentos:" for="dtPgtoInicio" />
+				<p:outputPanel >
+					<p:calendar id="dtPgtoInicio"
+							pattern="dd/MM/yyyy" 
+							mask="true" 
+							locale="pt" 
+							showButtonPanel="true" 
+							navigator="true"
+							value="#{lancamentoEntradaPessoasList.filtro.dtInicio1Filtro}" 
+							size="10" >
+						<p:ajax event="dateSelect" process="@this" update="@this"/>
+						<f:converter converterId="converter_localdate"/>
+					</p:calendar>
+					<p:outputLabel value="a" style="margin-left: 5px; margin-right: 5px"/>
+					<p:calendar pattern="dd/MM/yyyy" 
+							mask="true" 
+							locale="pt" 
+							showButtonPanel="true" 
+							navigator="true" 
+							value="#{lancamentoEntradaPessoasList.filtro.dtFim1Filtro}"
+							size="10" >
+						<p:ajax event="dateSelect" process="@this" update="@this"/>
+						<f:converter converterId="converter_localdate"/>
+					</p:calendar>
+				</p:outputPanel>
+				
+				<p:outputLabel value="Lançtos:" for="dtLctoInicio" />
+				<p:outputPanel >
+					<p:calendar id="dtLctoInicio"
+							pattern="dd/MM/yyyy" 
+							mask="true" 
+							locale="pt" 
+							showButtonPanel="true" 
+							navigator="true"
+							value="#{lancamentoEntradaPessoasList.filtro.dtInicio2Filtro}"
+							size="10" >
+						<p:ajax event="dateSelect" process="@this" update="@this"/>
+						<f:converter converterId="converter_localdate"/>
+					</p:calendar>
+					<p:outputLabel value="a" style="margin-left: 10px; margin-right: 10px"/>
+					<p:calendar pattern="dd/MM/yyyy" 
+							mask="true" 
+							locale="pt" 
+							showButtonPanel="true" 
+							navigator="true" 
+							value="#{lancamentoEntradaPessoasList.filtro.dtFim2Filtro}"
+							size="10" >
+						<p:ajax event="dateSelect" process="@this" update="@this"/>
+						<f:converter converterId="converter_localdate"/>
+					</p:calendar>
+				</p:outputPanel>
+				
+				<p:outputLabel value="Cidade:" for="dsCidade" />
+				<p:inputText id="dsCidade" value="#{lancamentoEntradaPessoasList.filtro.dsCidadeFiltro}" style="width:90%;" />
+				
+				<p:outputLabel value="Estado:" for="dsEstado" style="margin-left: 10px; margin-right: 10px"/>
+				<p:selectOneMenu id="dsEstado" value="#{lancamentoEntradaPessoasList.filtro.estadoFiltro}" filter="true" filterMatchMode="startsWith"  >
+					<f:selectItem noSelectionOption="true" itemLabel="Selecione o estado" />
+					<f:selectItems value="#{lancamentoEntradaPessoasList.estados}" var="item" itemValue="#{item}" itemLabel="#{item.dsNome}" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="" />
+				<p:outputLabel value="" />
+				
+				<p:outputLabel value="Situação:" for="cdSituacao" />
+				<p:outputPanel>
+					<p:selectOneRadio id="cdSituacao" value="#{lancamentoEntradaPessoasList.filtro.cdSituacaoFiltro}">
+			            <f:selectItem itemLabel="Ativos" itemValue="1"  />
+			            <f:selectItem itemLabel="Inativos" itemValue="2" />
+			            <f:selectItem itemLabel="Todos" itemValue="3" />
+			        </p:selectOneRadio>
+				</p:outputPanel>
+				
+				
+				<p:outputLabel value="" />
+				<p:outputPanel>
+					<p:selectBooleanCheckbox id="flJubilado" value="#{lancamentoEntradaPessoasList.filtro.flJubiladoFiltro}" style="margin-left: 0px; margin-right: 10px" />
+					<p:outputLabel for="flJubilado" value="Somente Ministros Jubilados"/>
+				</p:outputPanel>
+			
+			</p:panelGrid>
+		
+			<div class="ui-fluid" >
+				<p:dataTable value="#{lancamentoEntradaPessoasList.lista}"
+							var="item"
+							id="dtList"
+							paginator="true"
+							rows="60"
+							rowsPerPageTemplate="10,20,30,40,50,60,70,80"
+							emptyMessage="Não há registros para exibir"
+							paginatorPosition="bottom"  >
+							
+					<p:column headerText="Departamento" sortBy="#{item.dsDepartamento}" style="text-align: left; width:100px;" >
+						<p:outputLabel value="#{item.dsDepartamento}" />
+					</p:column>
+					
+					<p:column headerText="Rg" sortBy="#{item.cdCodigo}" style="text-align: left; width:35px;" >
+						<p:outputLabel value="#{item.cdCodigo}" />
+					</p:column>
+					
+					<p:column headerText="Nome" sortBy="#{item.nmMinistro}" style="text-align: left; width:150px;" >
+						<p:link styleClass="cv-link-estilo" 
+								value="#{item.nmMinistro}"
+								outcome="/pages/financeiro/entrada/LancamentoEntradaRecebimentosList"  >
+								
+							<f:param name="param_sqMinistro" value="#{item.sqMinistro}"/> 
+							
+							<f:param name="param_regiaoItens_sqRegiao"  value="#{lancamentoEntradaPessoasList.filtro.regiaoItensFiltro.sqRegiao}"/> 
+							<f:param name="param_igrejaItensFiltro_sqIgreja"  value="#{lancamentoEntradaPessoasList.filtro.igrejaFiltro.sqIgreja}"/> 
+							<f:param name="param_departamentoItensFiltro_sqDepartamento"  value="#{lancamentoEntradaPessoasList.filtro.departamentoFiltro.sqDepartamento}"/> 
+							<f:param name="param_cdRg"  value="#{lancamentoEntradaPessoasList.filtro.cdCodigoFiltro}"/>
+							<f:param name="param_nmMinistro"  value="#{lancamentoEntradaPessoasList.filtro.nmMinistro}"/>  
+							<f:param name="param_cargo_sqCargo"  value="#{lancamentoEntradaPessoasList.filtro.cargoFiltro.sqCargo}"/> 
+							<f:param name="param_cdNsu"  value="#{lancamentoEntradaPessoasList.filtro.cdReciboFiltro}"/> 
+							<f:param name="param_dtInicio1"  value="#{lancamentoEntradaPessoasList.filtro.dtInicio1Filtro}"/> 
+							<f:param name="param_dtFim1"  value="#{lancamentoEntradaPessoasList.filtro.dtFim1Filtro}"/> 
+							<f:param name="param_dtInicio2"  value="#{lancamentoEntradaPessoasList.filtro.dtInicio2Filtro}"/> 
+							<f:param name="param_dtFim2"  value="#{lancamentoEntradaPessoasList.filtro.dtFim2Filtro}"/> 
+							<f:param name="param_dsCidade"  value="#{lancamentoEntradaPessoasList.filtro.dsCidadeFiltro}"/> 
+							<f:param name="param_estado_sqEstado"  value="#{lancamentoEntradaPessoasList.filtro.estadoFiltro.sqEstado}"/> 
+							<f:param name="param_cdSituacao"  value="#{lancamentoEntradaPessoasList.filtro.cdSituacaoFiltro}"/> 
+							<f:param name="param_flJubilado"  value="#{lancamentoEntradaPessoasList.filtro.flJubiladoFiltro}"/> 
+							
+							<f:param name="param_controle"  value="1"/>
+						
+						</p:link>
+					</p:column>
+					
+					<p:column headerText="Região" sortBy="#{item.dsRegiao}" style="text-align: left; width:100px;" >
+						<p:outputLabel value="#{item.dsRegiao}" />
+					</p:column>
+					
+					<p:column headerText="Ingresso" sortBy="#{item.dtIngresso}" style="text-align:left; width:70px;">
+						<p:outputLabel value="#{item.dtIngresso}" >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+					</p:column>
+					
+					<p:column headerText="Cargo" sortBy="#{item.dsCargo}" style="text-align: left; width:80px;" >
+						<p:outputLabel value="#{item.dsCargo}" />
+					</p:column>
+					
+					<p:column headerText="Igreja" sortBy="#{item.dsIgreja}" style="text-align: left;" >
+						<p:outputLabel value="#{item.dsIgreja}" />
+					</p:column>
+					
+					<p:column headerText="Cidade/UF" sortBy="#{item.dsCidEst}" style="text-align: left; width:100px;" >
+						<p:outputLabel value="#{item.dsCidEst}" />
+					</p:column>
+					
+					<p:column sortBy="#{item.dsJubilado}" style="text-align: left; color:Red;  width:35px;" >
+						<p:outputLabel value="#{item.dsJubilado}" />
+					</p:column>
+					
+					<p:column sortBy="#{item.dtExcluido}" style="text-align: left; color:Red;  width:70px; font-weight:bold;" >
+						<p:outputLabel value="Inativo em: " rendered="#{item.flInativo}" />
+						<p:outputLabel value="#{item.dtExcluido}" rendered="#{item.flInativo}" >
+							<f:converter converterId="converter_localdate"/>
+						</p:outputLabel>
+					</p:column>
+				
+					<f:facet name="footer">
+				        #{lancamentoEntradaPessoasList.mensagemRodape}
+				    </f:facet>
+				</p:dataTable>
+			</div>
+	
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

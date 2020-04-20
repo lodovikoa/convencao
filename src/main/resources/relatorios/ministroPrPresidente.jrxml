@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ministroPrPresidente" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="bc000040-6ef2-4e88-9de9-fb7d9d04856d">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Confrater00"/>
+	<property name="net.sf.jasperreports.print.create.bookmarks" value="false"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="164"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="829"/>
+	<parameter name="sqConvencao" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="urlLogo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="param_regiao" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="param_situacao" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="param_sqlComplemento1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="param_sqlComplemento2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA["/home/lodoviko/JaspersoftWorkspace/confrateres/"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT rgn.rgn_ds_regiao  as dsRegiao
+		, cgo.cgo_ds_titulo as dsTitullo
+		, min.min_nm_nome as nmMinistro
+        , igr.igr_ds_igreja as dsIgreja
+        , min.min_ds_endereco as dsEnd
+        , min.min_ds_bairro as dsBairro
+        , min.min_ds_cep as dsCep
+        , min.min_ds_cidade as dsCidade
+        , est.est_ds_uf as dsUf
+        , min.min_ds_email as dsEmail
+        , min.min_ds_telefone01 as dsTel1
+        , min.min_ds_telefone02 as dsTel2
+        , min.min_ds_telefone03 as dsTel3
+FROM tb_min_ministro min
+	LEFT JOIN tb_cgo_cargo cgo ON cgo.cgo_sq_cargo = min.cgo_sq_cargo
+    LEFT JOIN tb_est_estado est ON est.est_sq_estado = min.est_sq_estado
+    INNER JOIN tb_igr_igreja igr ON igr.igr_sq_igreja = min.igr_sq_igreja 
+		AND igr.min_sq_ministro = min.min_sq_ministro
+    $P!{param_sqlComplemento1} 
+   INNER JOIN tb_rgn_regiao rgn ON rgn.rgn_sq_regiao = igr.rgn_sq_regiao
+    $P!{param_sqlComplemento2}]]>
+	</queryString>
+	<field name="dsRegiao" class="java.lang.String"/>
+	<field name="dsTitullo" class="java.lang.String"/>
+	<field name="nmMinistro" class="java.lang.String"/>
+	<field name="dsIgreja" class="java.lang.String"/>
+	<field name="dsEnd" class="java.lang.String"/>
+	<field name="dsBairro" class="java.lang.String"/>
+	<field name="dsCep" class="java.lang.String"/>
+	<field name="dsCidade" class="java.lang.String"/>
+	<field name="dsUf" class="java.lang.String"/>
+	<field name="dsEmail" class="java.lang.String"/>
+	<field name="dsTel1" class="java.lang.String"/>
+	<field name="dsTel2" class="java.lang.String"/>
+	<field name="dsTel3" class="java.lang.String"/>
+	<group name="porRegiao">
+		<groupExpression><![CDATA[$F{dsRegiao}]]></groupExpression>
+		<groupHeader>
+			<band height="13">
+				<textField>
+					<reportElement mode="Opaque" x="9" y="0" width="548" height="10" backcolor="#F5F5F5" uuid="de5a1d15-7c57-4772-8e47-af152df6dffc"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Região: "
++
+$F{dsRegiao}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="69" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="560" height="65" uuid="a0c18201-aab5-4ec0-abfb-2f1c131a5003">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<frame>
+					<reportElement mode="Opaque" x="83" y="48" width="474" height="16" backcolor="#F2F0F0" uuid="2dc7b652-062e-49e6-bd3e-e597a72d39fc"/>
+					<textField>
+						<reportElement x="0" y="1" width="190" height="12" uuid="6ef92292-3721-421b-afbf-586b1f41444e"/>
+						<textElement verticalAlignment="Middle">
+							<font size="10" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$P{param_situacao}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement x="190" y="1" width="281" height="12" uuid="1afe9506-68d8-4a20-a635-6fba1a3bda28"/>
+						<textElement textAlignment="Right" verticalAlignment="Middle"/>
+						<textFieldExpression><![CDATA[$P{param_regiao}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement x="0" y="0" width="80" height="65" uuid="6bdd34a8-3872-42e1-958a-7b62edcbc361">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
+						<reportElement x="4" y="3" width="75" height="59" uuid="6367d370-a034-4158-8652-1204f84b49f6"/>
+						<imageExpression><![CDATA[$P{urlLogo}]]></imageExpression>
+					</image>
+				</frame>
+			</frame>
+			<subreport>
+				<reportElement x="80" y="0" width="480" height="43" uuid="8994e03b-0a86-4c09-9d44-6ebb952865a0">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="sqConvencaoCabecalho">
+					<subreportParameterExpression><![CDATA[$P{sqConvencao}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}
++
+"subRetratoPageHeader.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="67" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="2" width="560" height="59" uuid="fda22b90-0822-42ff-b24f-41ea728b93a7"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<textField>
+				<reportElement x="10" y="2" width="20" height="12" uuid="ba2c1f93-6894-4199-ac02-c59704dd25c7"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dsTitullo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="31" y="2" width="528" height="12" uuid="7b78e7ac-aafa-4e98-abbb-d6dc1eea5f92"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nmMinistro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="14" width="528" height="12" uuid="04578d72-4d35-4e07-ba85-9df284eff24c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dsIgreja}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="31" y="26" width="528" height="12" uuid="59dc5d48-2e4e-48dc-844a-7378e99af7df"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dsEnd}
++ " - "
++ $F{dsBairro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="38" width="528" height="12" uuid="b38a0e51-054a-4898-be49-9a49968017dd"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dsCep}.substring( 00, 05 )
++ "-"
++ $F{dsCep}.substring( 05 )
++ " - "
++ $F{dsCidade}
++ " - "
++ $F{dsUf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="50" width="528" height="12" uuid="da32e044-9824-402b-a009-c19aa8c522f3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Email: "
++ ($F{dsEmail}.length() <  01 ? $F{dsEmail} + "     ":"                               ")
++ "Telefone(s): "
++ $F{dsTel1}
++ "   "
++ $F{dsTel2}
++ "  "
++ $F{dsTel3}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="23" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="2" width="560" height="20" uuid="64173244-a9d2-4f08-8e22-55f49cfc7041"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<subreport>
+					<reportElement x="1" y="0" width="80" height="20" isPrintInFirstWholeBand="true" uuid="01b9b052-f951-48d0-a26f-5e536893a55b"/>
+					<subreportParameter name="sqConvencaoRodape">
+						<subreportParameterExpression><![CDATA[$P{sqConvencao}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR}
++
+"subRetratoPageFooter.jasper"]]></subreportExpression>
+				</subreport>
+				<textField>
+					<reportElement x="450" y="0" width="66" height="14" uuid="8097c6b9-a173-41dd-b150-0da6d225b2a3"/>
+					<textElement textAlignment="Right">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Pagina: " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement x="516" y="0" width="43" height="14" uuid="cc431b9b-f7a4-4623-9aa6-de8436272917"/>
+					<textElement textAlignment="Left">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="21">
+			<staticText>
+				<reportElement x="453" y="3" width="100" height="10" uuid="bac44e26-f75e-4ba2-bd0a-e8cd7c41d205"/>
+				<textElement textAlignment="Right" rotation="None">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Fim relatório]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

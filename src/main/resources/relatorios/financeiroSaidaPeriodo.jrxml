@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="financeiroSaidaPeriodo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2a3a08a7-80ab-49f3-b9c5-fb7a262960a0">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="195"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="797"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Confrater00"/>
+	<parameter name="sqConvencao" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[1L]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="url-logo" class="java.lang.String"/>
+	<parameter name="nome-relatorio" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Saídas por período:"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ds-parametros1" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Período:"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sqResumo" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[0L]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sqRegiao" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[0L]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sqPlanoConta" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[0L]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cdOrdem" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select las.las_sq_saida as sqSaida
+	, las.las_dt_saida as dtPagamento
+	, las.las_cd_nsu as cdRecibo
+	, las.las_vl_saida as vlSaida
+	, plc.plc_cd_conta as cdConta
+	, plc.plc_ds_conta as dsConta
+	, las.las_nm_favorecido as dsFavorecido
+from tb_las_lancamento_saida las    
+     left join  tb_plc_plano_contas plc on las.plc_sq_plano_contas = plc.plc_sq_plano_contas
+where las.lar_sq_resumo = $P{sqResumo}   
+	and las.rgn_sq_regiao = $P{sqRegiao}   
+	and if( $P{sqPlanoConta} = 0, 0=0, plc.plc_sq_plano_contas = $P{sqPlanoConta}  )
+order by  if( $P{cdOrdem}  = 1, las.las_sq_saida, 0=0),
+          if( $P{cdOrdem}  = 2, las.las_dt_saida, 0=0),
+	  	  if( $P{cdOrdem}  = 2, las.las_cd_nsu, 0=0),
+          if( $P{cdOrdem}  = 3, las.las_cd_nsu, 0=0),
+          if( $P{cdOrdem}  = 4, las.las_nm_favorecido, 0=0),
+          if( $P{cdOrdem}  = 4, las.las_cd_nsu, 0=0)]]>
+	</queryString>
+	<field name="dtPagamento" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="dtPagamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_las_lancamento_saida"/>
+	</field>
+	<field name="cdRecibo" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="cdRecibo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_las_lancamento_saida"/>
+	</field>
+	<field name="vlSaida" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="vlSaida"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_las_lancamento_saida"/>
+	</field>
+	<field name="cdConta" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="cdConta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_plc_plano_contas"/>
+	</field>
+	<field name="dsConta" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="dsConta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_plc_plano_contas"/>
+	</field>
+	<field name="dsFavorecido" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="dsFavorecido"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_las_lancamento_saida"/>
+	</field>
+	<variable name="total-saidas" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{vlSaida}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="75" splitType="Stretch">
+			<subreport>
+				<reportElement x="82" y="0" width="200" height="31" uuid="def345fd-0d49-4be4-ba55-17cba5d455e5"/>
+				<subreportParameter name="sqConvencaoParam">
+					<subreportParameterExpression><![CDATA[$P{sqConvencao}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subRetratoPageHeader.jasper"]]></subreportExpression>
+			</subreport>
+			<image hAlign="Center">
+				<reportElement x="6" y="4" width="70" height="59" uuid="4fbeab3c-389b-4d01-be67-991a70b4680e"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<imageExpression><![CDATA[$P{url-logo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement mode="Opaque" x="83" y="44" width="472" height="17" backcolor="#F0EDED" uuid="dc12f68c-5310-4424-a2ba-79c9511db8a8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nome-relatorio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="83" y="62" width="472" height="12" backcolor="#F0EDED" uuid="f605a132-80e3-4be3-9b5f-0f8cb246c3cd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ds-parametros1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="1" width="561" height="14" uuid="da2e682e-9978-4430-9722-df8bf7a809ef"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<staticText>
+				<reportElement x="0" y="2" width="54" height="12" uuid="ec674e18-4482-4c2f-bea4-7a10ca239c8b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7f77d1d1-6c13-4466-a31e-287bcd44113b"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="66" y="2" width="44" height="12" uuid="7460355e-bb93-48be-8ccf-26e16b39ae0b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7e6feb6d-e8dd-4823-87f4-c241c3089472"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Recibo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="2" width="81" height="12" uuid="926772c2-9d24-4b53-84c3-a53bc33f327b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="579f006e-28de-4ec3-926b-7267de6da975"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="2" width="51" height="12" uuid="8a1a4f6f-3a4d-461e-b380-ad2b95db638e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="94e2badd-3e8a-4d5a-beff-4ea6d336104e"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Conta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="348" y="2" width="72" height="12" uuid="3ec308e6-bcc6-4c2b-b75a-2f9cb00e472b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5629b39a-84de-4b4a-9660-b23b47a345fd"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Favorecido]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="0" width="62" height="12" uuid="0daeae82-6675-4fd4-8af8-e31ca3c5538e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7f77d1d1-6c13-4466-a31e-287bcd44113b"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dtPagamento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="66" y="0" width="44" height="12" uuid="3eab4285-6601-4e1a-bb34-eb9035a0e31e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7e6feb6d-e8dd-4823-87f4-c241c3089472"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cdRecibo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00;¤ -#,##0.00">
+				<reportElement x="113" y="0" width="81" height="12" uuid="e61a1c28-2b84-42dd-bca7-3c9cd913ea4a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="579f006e-28de-4ec3-926b-7267de6da975"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{vlSaida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="28" height="12" uuid="96f8172b-9e78-43f2-a480-edd88d8b0ef3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="94e2badd-3e8a-4d5a-beff-4ea6d336104e"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cdConta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="230" y="0" width="111" height="12" uuid="a55b943c-cb08-46e6-a9ef-c8a4eff94d23">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cfd7ca06-3d13-4248-ab18-8ba83b44431e"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dsConta}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="348" y="0" width="207" height="12" uuid="31e54ed9-42d6-4423-a4b6-2f5f6672ba23">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5629b39a-84de-4b4a-9660-b23b47a345fd"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dsFavorecido}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="24" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="555" height="23" uuid="1e79f81a-086c-467d-8c15-64e98ae06de9"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<subreport>
+				<reportElement x="0" y="3" width="200" height="15" uuid="6f5ee360-5448-482a-94ce-585a0a4874c6"/>
+				<subreportParameter name="sqConvencaoRodape">
+					<subreportParameterExpression><![CDATA[$P{sqConvencao}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subRetratoPageFooter.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement x="443" y="4" width="66" height="10" uuid="c97000d1-db1b-4a9d-9f79-38972554945d"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina: " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="509" y="4" width="43" height="10" uuid="b3c6c24a-f99a-44f9-b87f-377de1379088"/>
+				<textElement textAlignment="Left">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement x="450" y="0" width="100" height="13" uuid="1dad30d6-f5be-4b20-b55c-873556182492"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Fim realtório]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00;¤- #,##0.00">
+				<reportElement x="95" y="0" width="100" height="13" uuid="a5c8ec47-f373-4b9a-93a9-f4490797615d"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total-saidas}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="14" y="0" width="75" height="13" uuid="2e7044d9-9b9a-4edb-9c8b-677d8ea3a9e3"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total saídas:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
