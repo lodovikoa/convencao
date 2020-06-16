@@ -73,28 +73,31 @@
 		
 		<!-- JPA - Hibernate 1 -->
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
+		<!-- 15/06/2020 - Atualizado de 5.3.4.Final para 6.1.5.Final -->
 		<dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-validator</artifactId>
-		    <version>5.3.4.Final</version>
+		    <version>6.1.5.Final</version>
 		    <scope>compile</scope>
 		</dependency>
 		
 		<!-- JPA - Hibernate 2 -->
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+		<!-- 15/06/2020 - Atualizado de 5.2.5.Final para 5.4.17.Final -->
 		<dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-core</artifactId>
-		    <version>5.2.5.Final</version>
+		    <version>5.4.17.Final</version>
 		    <scope>compile</scope>
 		</dependency>
 		
 		<!-- JPA - Hibernate 3 -->
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
+		<!-- 15/06/2020 - Atualizado de 5.2.5.Final para 5.4.17.Final -->
 		<dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-entitymanager</artifactId>
-		    <version>5.2.5.Final</version>
+		    <version>5.4.17.Final</version>
 		    <scope>compile</scope>
 		</dependency>
 		
