@@ -11,14 +11,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import br.com.convencao.bo.MinistroBO;
 import br.com.convencao.bo.MinistroParecerBO;
-import br.com.convencao.bo.MinistroSenhaBO;
 import br.com.convencao.bo.NegocioException;
 import br.com.convencao.model.Cargo;
 import br.com.convencao.model.Departamento;
 import br.com.convencao.model.Igreja;
 import br.com.convencao.model.Ministro;
 import br.com.convencao.model.MinistroParecer;
-import br.com.convencao.model.MinistroSenha;
 import br.com.convencao.util.Uteis;
 import br.com.convencao.util.jsf.FacesUtil;
 import br.com.convencao.util.permissao.Permissoes;
@@ -37,17 +35,10 @@ public class MinistroPesquisaBean extends MinistroCodbehind {
 	private Ministro selecionado;
 	
 	@Inject
-	private MinistroSenhaBO ministroSenhaBO;
-	
-	@Inject
 	private MinistroParecerBO ministroParecerBO;
 	
-	@Inject
-	private MinistroSenha ministroSenha; 
-			
 	private List<MinistroListarTO> ministroListarTO;
 	
-	private String senhaMinistroEstatus;
 	private boolean exibirBotaoCadastrarMinistro;
 	
 
@@ -146,31 +137,6 @@ public class MinistroPesquisaBean extends MinistroCodbehind {
 		
 	}
 
-	public void criarPasswordProvisoriaMinistro() {
-		
-
-		// Preparar para gravar
-		this.ministroSenha.setDsSenhaTemp1(ministroSenha.getDsSenhaTemp1().trim());
-		this.ministroSenha.setDsSenhaTemp2(ministroSenha.getDsSenhaTemp2().trim());
-		this.ministroSenha.setMinistro(this.selecionado);
-		this.ministroSenha.setFlAtivo(true);
-		this.ministroSenha.setFlProvisoria(true);
-		this.ministroSenha.setDtSenha(LocalDate.now());
-		this.ministroSenha.setNnQtdeErro(0);
-
-		
-		
-		// Gravar senha provisoria do ministro
-		this.ministroSenha = this.ministroSenhaBO.criarPasswordProvisoriaMinistro(this.ministroSenha);
-		
-		//Exibir mensagem
-		FacesUtil.addInfoMessage("Senha provisória do ministro " + this.selecionado.getNmNome() + " gravado com sucesso");
-		
-		// Fechar a tela de Dialog
-		this.fecharDialogoPrimeFaces(true);
-	}
-	
-
 	public List<MinistroListarTO> getMinistroListarTO() {
 		return ministroListarTO;
 	}
@@ -186,21 +152,6 @@ public class MinistroPesquisaBean extends MinistroCodbehind {
 	
 	public void setSelecionado(Ministro selecionado) {
 		this.selecionado = selecionado;
-	}
-	
-	
-	public MinistroSenha getMinistroSenha() {
-		return ministroSenha;
-	}
-	
-	public void setMinistroSenha(MinistroSenha ministroSenha) {
-		this.ministroSenha = ministroSenha;
-	}
-	
-	public String getSenhaMinistroEstatus() {
-		if(this.selecionado.getSqMinistro() != null)
-			this.senhaMinistroEstatus =  ministroSenhaBO.findByMinistroUltimoRegistro(this.selecionado.getSqMinistro());
-		return senhaMinistroEstatus;
 	}
 	
 	public void recuperarParametros(){

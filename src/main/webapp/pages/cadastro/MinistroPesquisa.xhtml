@@ -423,60 +423,6 @@
 			</p:dialog>
 		</h:form>
 		
-		<!-- Dialogo para registrar senha provisória do ministro para acesso aos dados financeiros -->
-		<h:form id="frm_provisoria">
-			<p:dialog
-					widgetVar="widgPasswordProvisoriaMinistroDialog"
-					id="passwordProvisoriaMinistroDialog"
-					header="Senha provisória para ministro: (#{ministroPesquisaBean.selecionado.nmNome})"
-					resizable="false"
-					responsive="true"
-					width="50%" >
-				<h:panelGroup id="passwordProvisoriaMinistroPanel" layout="block" styleClass="ui-fluid">
-					<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-8, ui-grid-col-4" >
-						<p:panelGrid columns="1" layout="grid" styleClass="panelgrid-noborder" >
-							<p:panelGrid columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-3, ui-grid-col-9">
-								
-								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Rg:"/>
-								<p:outputLabel id="cdCodigoPasswordProvisoria" value="#{ministroPesquisaBean.selecionado.cdCodigo}"/>
-								
-								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Nome:"/>
-								<p:outputLabel id="dsNomePasswordProvisoria" value="#{ministroPesquisaBean.selecionado.nmNome}"/>
-								
-								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Situação atual:"/>
-								<p:outputLabel id="dsSituacaoPasswordProvisoria" value="#{ministroPesquisaBean.senhaMinistroEstatus}" style="color:Red; font-weight:bold;"/>
-								
-								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Senha provisória:"/>
-								<p:inputText id="dsSenhaPassordProvisoria" value="#{ministroPesquisaBean.ministroSenha.dsSenhaTemp1}" />
-								
-								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Confirmar senha:"/>
-								<p:inputText id="dsConfirmarSenhaPassordProvisoria" value="#{ministroPesquisaBean.ministroSenha.dsSenhaTemp2}" />
-								
-							</p:panelGrid>
-						</p:panelGrid>	
-						<p:panelGrid columns="1" layout="grid" >
-															
-							<p:graphicImage value="/ministro-foto?nome=#{ministroPesquisaBean.selecionado.dsFoto}" rendered="#{ministroPesquisaBean.selecionado.dsFoto ne null}" style="max-width:150px; width: auto; display: block; margin-left: auto; margin-right: auto; border: 1px solid black;  margin-top: 5px;margin-bottom: 5px;" />
-
-						</p:panelGrid>
-					</p:panelGrid>	
-					
-					<p:separator />
-					<p:button value="Cancelar" 
-							onclick="PF('widgPasswordProvisoriaMinistroDialog').hide(); return false;"
-							style="width: auto"/>
-							
-					<p:commandButton value="Confirmar criação de senha provisória" 
-	   					id="botaoSalvarPassordProvisoriaMinistro" 
-	   					action="#{ministroPesquisaBean.criarPasswordProvisoriaMinistro}"
-	   					style="width: auto; margin-left:30px;"
-	   					process="@form"
-	   					oncomplete="jsFecharDialogo(xhr, status, args, 'widgPasswordProvisoriaMinistroDialog', 'shake')" 
-	   					update=":frm:dtList"/>
-				</h:panelGroup>
-			</p:dialog>
-		</h:form>
-		
 		<!-- Dialogo para registrar novo parecer do ministro -->
 		<h:form id="frm_parecer">
 			<p:dialog
