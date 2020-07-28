@@ -110,6 +110,12 @@
 						</p:calendar>
 					</p:outputPanel>
 					
+					<p:outputLabel value="Impressão:" for="tpRelatorio" />
+					<p:selectOneRadio id="tpRelatorio" value="#{rptFinanceiroLancamentosEntradaMinistroBean.relatorioFiltro.tpRelatorio}">
+				    	<f:selectItem itemLabel="PDF" itemValue="pdf"  />
+				      	<f:selectItem itemLabel="Excel" itemValue="xlsx" />
+				 	</p:selectOneRadio>
+					
 				</p:panelGrid>
 			
 				<div class="cv-linha-horizontal" />
