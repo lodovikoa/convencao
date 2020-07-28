@@ -13,11 +13,12 @@
 		<!-- Primefaces -->
 		<!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
 		<!-- 15/01/2020 - Atualizado de 6.1 para 6.2  -->
-		<!-- 16/01/2020 - TENTATIVA para Atualizar de 6.2 para 7.0  -->
+		<!-- 16/01/2020 - Atualizado de 6.2 para 7.0  -->
+		<!-- 23/07/2020 - TENTATIVA para Atualizar de 7.0 para 8.0  -->
 		<dependency>
 		    <groupId>org.primefaces</groupId>
 		    <artifactId>primefaces</artifactId>
-		    <version>7.0</version>
+		    <version>8.0</version>
 		    <scope>compile</scope>
 		</dependency>
 

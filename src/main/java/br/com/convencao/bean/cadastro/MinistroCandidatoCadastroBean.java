@@ -12,7 +12,7 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 
 import br.com.convencao.bo.AnexosBO;
 import br.com.convencao.bo.FotoBO;
@@ -264,7 +264,7 @@ public class MinistroCandidatoCadastroBean extends MinistroCodbehind{
 		UploadedFile uploadFile = event.getFile();
 
 		try {
-			String foto = fotoBO.salvarFotoTemp(uploadFile.getFileName(), uploadFile.getContents());
+			String foto = fotoBO.salvarFotoTemp(uploadFile.getFileName(), uploadFile.getContent());
 			protocolo.getMinistro().setDsFoto(foto);
 
 			// Se estiver editando salva a foto no local definitivo senão salvar a foto junto com o candidato
@@ -340,7 +340,7 @@ public class MinistroCandidatoCadastroBean extends MinistroCodbehind{
 
 
 		try {
-			String anexo = anexosBO.salvarAnexosTemp(uploadFile.getFileName(), uploadFile.getContents(), protocolo.getMinistro().getSqMinistro());
+			String anexo = anexosBO.salvarAnexosTemp(uploadFile.getFileName(), uploadFile.getContent(), protocolo.getMinistro().getSqMinistro());
 
 
 

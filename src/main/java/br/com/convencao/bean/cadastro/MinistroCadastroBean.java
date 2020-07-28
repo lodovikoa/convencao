@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 
 import br.com.convencao.bo.AnexosBO;
 import br.com.convencao.bo.FotoBO;
@@ -113,7 +113,7 @@ public class MinistroCadastroBean extends MinistroCodbehind {
 		UploadedFile uploadFile = event.getFile();
 
 		try {
-			String foto = fotoBO.salvarFotoTemp(uploadFile.getFileName(), uploadFile.getContents());
+			String foto = fotoBO.salvarFotoTemp(uploadFile.getFileName(), uploadFile.getContent());
 			ministro.setDsFoto(foto);
 
 		} catch (Exception e) {
@@ -128,7 +128,7 @@ public class MinistroCadastroBean extends MinistroCodbehind {
 
 
 		try {
-			String anexo = anexosBO.salvarAnexosTemp(uploadFile.getFileName(), uploadFile.getContents(), this.ministro.getSqMinistro());
+			String anexo = anexosBO.salvarAnexosTemp(uploadFile.getFileName(), uploadFile.getContent(), this.ministro.getSqMinistro());
 
 
 

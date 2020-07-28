@@ -238,10 +238,10 @@
 								
 							<p:panelGrid columns="1" layout="grid" rendered="#{ministroCadastroBean.flInserirEditarMinistro}" >
 								<h:panelGroup id="fotoPanelGroup" >			
-										<p:fileUpload fileUploadListener="#{ministroCadastroBean.upload}" auto="true" label="Selecionar foto" update="fotoPanelGroup" />				
+										<p:fileUpload listener="#{ministroCadastroBean.upload}" auto="true" label="Selecionar foto" update="fotoPanelGroup" />				
 										<p:graphicImage value="/ministro-foto?nome=#{ministroCadastroBean.ministro.dsFoto}" rendered="#{ministroCadastroBean.ministro.dsFoto ne null}" style="max-width:150px; width: auto; display: block; margin-left: auto; margin-right: auto; border: 1px solid black;  margin-top: 5px;margin-bottom: 5px;" />
 										<p:commandButton value="Remover foto" actionListener="#{ministroCadastroBean.removerFoto}" process="@this" update="fotoPanelGroup" rendered="#{ministroCadastroBean.ministro.dsFoto ne null}" />						
-									</h:panelGroup>
+								</h:panelGroup>
 							</p:panelGrid>
 						</p:panelGrid>
 									 
@@ -472,7 +472,7 @@
 						</div>
 						
 						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" style="border: black solid 1px !important;" >
-							<p:fileUpload id="dsAnexos" fileUploadListener="#{ministroCadastroBean.uploadArquivo}" 
+							<p:fileUpload id="dsAnexos" listener="#{ministroCadastroBean.uploadArquivo}" 
 									label="Escolher arquivo ou arrastar e soltar na área abaixo"
 									uploadLabel="Enviar"
 									cancelLabel="Cancelar"
