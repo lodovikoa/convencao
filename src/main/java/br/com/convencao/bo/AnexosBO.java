@@ -1,6 +1,10 @@
 package br.com.convencao.bo;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -12,8 +16,11 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
-import br.com.convencao.config.S3Config;
 import br.com.convencao.dao.MinistroAnexoDAO;
 import br.com.convencao.model.MinistroAnexo;
 import br.com.convencao.util.Uteis;
@@ -22,9 +29,8 @@ public class AnexosBO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Inject
-	private S3Config s3Config;
-	
+	private static Log log = LogFactory.getLog(AnexosBO.class);
+
 	@Inject
 	private MinistroAnexoDAO ministroAnexoDAO;
 
@@ -77,9 +83,12 @@ public class AnexosBO implements Serializable {
 				// Atualizar nome do anexo renomeado colocando no inicio o sqMinistro para facilitar a localizacao no Amazon S3
 				ministroAnexo.setDsAnexoRenomeado(sqMinistro + "_" + nmArquivoRenomeado);
 				ministroAnexoDAO.salvar(ministroAnexo);
-				
-				// Gravar anexo no repositorio S3 do Amazon
-				s3Config.uploadAnexo(Uteis._S3_BUCKET_confrateresanexos, ministroAnexo.getDsAnexoRenomeado(), this.diretorioRaizTemp.toString() + "/" +  nmArquivoRenomeado);
+
+				// Gravar anexo na área definitiva
+				byte[] conteudo = Files.readAllBytes(anexoTemp);
+				Path anexo = diretorioRaiz.resolve(ministroAnexo.getDsAnexoRenomeado());
+				Files.write(anexo, conteudo);
+
 
 				Files.delete(anexoTemp);
 			} else {
@@ -100,8 +109,10 @@ public class AnexosBO implements Serializable {
 
 		Path anexoTemp = this.diretorioRaizTemp.resolve(anexoRenomeado);
 		if(Files.exists(anexoTemp)) {
-			// Gravar anexo no repositorio S3 do Amazon
-			s3Config.uploadAnexo(Uteis._S3_BUCKET_confrateresanexos, anexoRenomeado, this.diretorioRaizTemp.toString() + "/" +  anexoRenomeado);
+			// Gravar anexo no repositorio definitivo			
+			byte[] conteudo = Files.readAllBytes(anexoTemp);
+			Path anexo = diretorioRaiz.resolve(anexoRenomeado);
+			Files.write(anexo, conteudo);
 
 			Files.delete(anexoTemp);
 		} else {
@@ -126,19 +137,40 @@ public class AnexosBO implements Serializable {
 
 	}
 
-	private void deletar(Path raiz, String nome) {
+
+	// Download de anexos (arquivos)
+	@SuppressWarnings("deprecation")
+	public StreamedContent download(MinistroAnexo anexo) {
+		log.info("download(SqMinistroAnexo=" + anexo.getSqMinistroAnexo() + " - DsAnexoOriginal=" + anexo.getDsAnexoOriginal() + " - DsAnexoRenomeado=" + anexo.getDsAnexoRenomeado() + ")");
+		try {
+			InputStream in;
+			File file = new File(diretorioRaiz + "/" + anexo.getDsAnexoRenomeado());
+
+			in = new FileInputStream(file);
+			return new DefaultStreamedContent(in, anexo.getDsAnexoContentType(), anexo.getDsAnexoOriginal());
+			
+		} catch (FileNotFoundException e) {
+			throw new NegocioException("Erro ao tentar fazer download do arquivo: ("+ anexo.getSqMinistroAnexo() + " - " + anexo.getDsAnexoOriginal() + ") "  + e.getMessage());
+		}
+	}
+
+	private void deletar(Path raiz, String nome) throws IOException {
 		if(StringUtils.isEmpty(nome)) {
 			throw new NegocioException("Não foi possível excluir anexo. Nome do arquivo não identificado.");
 		}
 
-		s3Config.deleteAnexo(Uteis._S3_BUCKET_confrateresanexos, nome);
+		Path anexo = raiz.resolve(nome);
+
+		if(Files.exists(anexo)) {
+			Files.delete(anexo);
+		}
 	}
 
 	private String renomearArquivo(String original) {
 		int pos = original.lastIndexOf(".");
 		String nomePrincipal;
 		String nomeExtensao = "";
-		if(pos > 1) {
+		if(pos >= 1) {
 			nomePrincipal = original.substring(0,pos);
 			nomeExtensao = original.substring(pos);
 		} else {

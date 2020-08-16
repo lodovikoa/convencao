@@ -25,7 +25,7 @@ public class Uteis {
 	public static final String _PAGagamento = "PAG";
 	public static final String _TUDo = "TUD";
 	public static final String _FOTO_DEFAULT = "0.jpg";
-	public static final String _S3_BUCKET_confrateresanexos = "confrateresanexos";
+//	public static final String _S3_BUCKET_confrateresanexos = "confrateresanexos";
 	
 	// Usado para identificar nome da tabela na exclusão de registros quando é gravado em auditoria.
 	public static String obterNomeTabela(String dsClasse) {
