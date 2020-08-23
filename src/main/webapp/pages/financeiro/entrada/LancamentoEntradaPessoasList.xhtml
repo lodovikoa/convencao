@@ -197,11 +197,11 @@
 						<p:outputLabel value="#{item.dsDepartamento}" />
 					</p:column>
 					
-					<p:column headerText="Rg" sortBy="#{item.cdCodigo}" style="text-align: left; width:35px;" >
+					<p:column headerText="Rg" sortBy="#{item.cdCodigo}" style="text-align: left; width:35px;" filterBy="#{item.cdCodigo}" >
 						<p:outputLabel value="#{item.cdCodigo}" />
 					</p:column>
 					
-					<p:column headerText="Nome" sortBy="#{item.nmMinistro}" style="text-align: left; width:150px;" >
+					<p:column headerText="Nome" sortBy="#{item.nmMinistro}" style="text-align: left; width:150px;" filterMatchMode="contains"  filterBy="#{item.nmMinistro}" >
 						<p:link styleClass="cv-link-estilo" 
 								value="#{item.nmMinistro}"
 								outcome="/pages/financeiro/entrada/LancamentoEntradaRecebimentosList"  >

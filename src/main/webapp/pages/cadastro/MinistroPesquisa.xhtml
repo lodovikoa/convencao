@@ -35,7 +35,7 @@
 							
 			<p:toolbar style="margin-bottom: 3px">
 				<p:toolbarGroup align="left">
-					<p:commandButton value="Pesquisar" action="#{ministroPesquisaBean.pesquisar}" update="@form" />
+					<p:commandButton value="Pesquisar" action="#{ministroPesquisaBean.pesquisar}"  update="frm:dtList" />
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="Cadastrar UFADES/UPADES/OUTROS" outcome="/pages/cadastro/MinistroCadastro" rendered="#{ministroPesquisaBean.exibirBotaoCadastrarMinistro}"/>
@@ -144,11 +144,11 @@
 							multiViewState="true" 
 							paginatorPosition="bottom" >
 						
-					<p:column headerText="Rg" style="text-align:center; width:29px;" sortBy="#{item.ministroTO.cdCodigo}" >
+					<p:column headerText="Rg" style="text-align:center; width:32px;" sortBy="#{item.ministroTO.cdCodigo}" filterBy="#{item.ministroTO.cdCodigo}" >
 						<p:outputLabel value="#{item.ministroTO.cdCodigo}"/>
 					</p:column>
 					
-					<p:column headerText="Ministro" style="text-align:left; width:120px;" sortBy="#{item.ministroTO.nmNome}" filterBy="#{item.ministroTO.nmNome}">
+					<p:column headerText="Ministro" style="text-align:left; width:122px;" sortBy="#{item.ministroTO.nmNome}" filterMatchMode="contains" filterBy="#{item.ministroTO.nmNome}">
 						<p:link styleClass="cv-link-estilo" 
 								value="#{item.ministroTO.nmNome}"
 								outcome="/pages/cadastro/MinistroRetrive">
@@ -173,11 +173,11 @@
 						<p:outputLabel value="#{item.dsRegiao}"/>
 					</p:column>
 					
-					<p:column headerText="Dpto" style="text-align:left; width: 100px;" sortBy="#{item.dsDepartamentoReduzido}">
+					<p:column headerText="Dpto" style="text-align:left; width: 98px;" sortBy="#{item.dsDepartamentoReduzido}">
 						<p:outputLabel value="#{item.dsDepartamentoReduzido}"/>
 					</p:column>
 					
-					<p:column headerText="Cargo" style="text-align:left; width:100px;" sortBy="#{item.dsCargo}">
+					<p:column headerText="Cargo" style="text-align:left; width:98px;" sortBy="#{item.dsCargo}">
 						<p:outputLabel value="#{item.dsCargo}" />
 					</p:column>
 					
