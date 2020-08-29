@@ -167,10 +167,11 @@
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<!-- 29/08/2020 - Atualizado de 3.5.1 para 3.11-->
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-lang3</artifactId>
-		    <version>3.5</version>
+		    <version>3.11</version>
 		    <scope>compile</scope>
 		</dependency>
 	
