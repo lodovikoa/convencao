@@ -40,7 +40,7 @@ public class MinistroCandidatoCadastroBean extends MinistroCodbehind{
 	private boolean flExibirBotaoConcluir;
 	private boolean flExibirBotaoSalvar;
 	private Protocolo protocolo;
-	
+
 	private MinistroAnexo ministroAnexo;
 
 	private Long sqCodigoDepartamentoOriginal;
@@ -68,62 +68,73 @@ public class MinistroCandidatoCadastroBean extends MinistroCodbehind{
 
 	public void inicializar() {
 		String tipo = this.getParam_cadastro();
-		
+
 		// Grupo de usuários que tem permsisão e acesso ao botão Concluir PROTOCOLO
 		this.flExibirBotaoConcluir = Permissoes.getPermissaoConcluirProtocolo( this.protocolo == null? 0L: this.protocolo.getProtocoloStatus().getSqProtocoloStatus());
 
-		if(this.protocolo == null) {
-			this.limpar();
-			this.flExibirBotaoSalvar = true;
-		} else if(this.protocolo.getProtocoloStatus().getSqProtocoloStatus() == 7 || this.protocolo.getProtocoloStatus().getSqProtocoloStatus() == 8) {
-			this.flExibirBotaoSalvar = false;
-		} else {
-			this.flExibirBotaoSalvar = true;
-		}
-
-		if(tipo.equalsIgnoreCase("cadastrarCandidato")) {
-			this.flExibirCampo = false;
-			if(this.protocolo.getMinistro().getSqMinistro() == null) {
-				this.flCadastrando = true;
-			}else {
-				this.flCadastrando = false;
+		// Caso estiver Cadatrando o Conjuge atraves do botão [...] ao lado do Combobox Conjuge, não faz as atualizações de tela
+		if(!this.getFlCadastroConjugeSalvo()) {
+			if(this.protocolo == null) {
+				this.limpar();
+				this.flExibirBotaoSalvar = true;
+			} else if(this.protocolo.getProtocoloStatus().getSqProtocoloStatus() == 7 || this.protocolo.getProtocoloStatus().getSqProtocoloStatus() == 8) {
+				this.flExibirBotaoSalvar = false;
+			} else {
+				this.flExibirBotaoSalvar = true;
 			}
 
-			this.protocolo.setDtProtocolo(LocalDate.now());
+			if(tipo.equalsIgnoreCase("cadastrarCandidato")) {
+				this.flExibirCampo = false;
+				if(this.protocolo.getMinistro().getSqMinistro() == null) {
+					this.flCadastrando = true;
+				}else {
+					this.flCadastrando = false;
+				}
 
-		} else if(tipo.equalsIgnoreCase("alterarCandidato")) {
-			this.flCadastrando = false;	
+				this.protocolo.setDtProtocolo(LocalDate.now());
+
+			} else if(tipo.equalsIgnoreCase("alterarCandidato")) {
+				this.flCadastrando = false;	
+			}
+
+			if(this.isEditando()) {
+				// Ordenar exibição de pareceres
+				protocolo.getMinistro().getMinistroParecer().sort((a, b) -> b.getDtRegistro().compareTo(a.getDtRegistro()));
+			}
+
+
+			// Buscar status
+			List<ProtocoloStatus> protocolosStatus = protocoloStatusBO.findAllAtivos();
+
+			// Iniciazliar departamentos
+			this.inicializarDepartamentos(tipo);
+
+			if(this.flCadastrando) {
+				this.protocolo.setProtocoloStatus(protocolosStatus.get(0));
+				this.protocolo.getMinistro().setDepartamento(this.getDepartamentos().get(0));
+			}
+
+			this.inicializarCargos();
+			this.inicializarEstadoCiveis();
+			this.inicializarEsposasMinistro();
+			this.inicializarEscolaridades();
+			this.inicializarProfissoes();
+			this.inicializarEstados();
+
+			// parametro: -1L buscar todas as igrejas independente de região
+			// parametro: true colocar "ASSEMLBEIA DE DEUS" no final do nome da igreja Ex.: CAMPO GRANDE, ASSEMLBEIA DE DEUS
+			this.inicializarIgrejas(-1L, true);
+
+			this.inicializarMinistroConjuge();
+			
+		} else {
+			// Caso estiver cadastrando o conjuge pelo botão [...] ao lado Combobox Conjuge, ao salvar entra aqui para atualizar a combobox Conjuge.
+			this.setFlCadastroConjugeSalvo(false);
+
+			if(null != this.getMinistroConjuge() && null != this.getMinistroConjuge().getSqMinistro()) {
+				this.protocolo.getMinistro().setConjuge(this.getMinistroConjuge());
+			}
 		}
-		
-		if(this.isEditando()) {
-			// Ordenar exibição de pareceres
-			protocolo.getMinistro().getMinistroParecer().sort((a, b) -> b.getDtRegistro().compareTo(a.getDtRegistro()));
-		}
-
-
-		// Buscar status
-		List<ProtocoloStatus> protocolosStatus = protocoloStatusBO.findAllAtivos();
-
-		// Iniciazliar departamentos
-		this.inicializarDepartamentos(tipo);
-
-		if(this.flCadastrando) {
-			this.protocolo.setProtocoloStatus(protocolosStatus.get(0));
-			this.protocolo.getMinistro().setDepartamento(this.getDepartamentos().get(0));
-		}
-
-		this.inicializarCargos();
-		this.inicializarEstadoCiveis();
-		this.inicializarEsposasMinistro();
-		this.inicializarEscolaridades();
-		this.inicializarProfissoes();
-		this.inicializarEstados();
-
-		// parametro: -1L buscar todas as igrejas independente de região
-		// parametro: true colocar "ASSEMLBEIA DE DEUS" no final do nome da igreja Ex.: CAMPO GRANDE, ASSEMLBEIA DE DEUS
-		this.inicializarIgrejas(-1L, true);
-
-
 	}
 
 	public void inicializarProtocoloConclusao() {

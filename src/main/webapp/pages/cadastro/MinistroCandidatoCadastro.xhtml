@@ -324,13 +324,13 @@
 																
 								</p:panelGrid>
 								
-								<p:panelGrid columns="6"
+								<p:panelGrid columns="8"
 										layout="grid"
 										styleClass="panelgrid-noborder"
-										columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3">
+										columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-2, ui-grid-col-1, ui-grid-col-3,">
 									<p:outputLabel value="Rg:"/>
 									<p:outputLabel value="#{ministroCandidatoCadastroBean.protocolo.ministro.cdCodigo}" rendered="#{ministroCandidatoCadastroBean.flCadastrando eq false}" style="color: red; font-size: medium;" styleClass="cv-texto-negrito" />
-									<p:outputLabel value="Preenchido pelo sistema" rendered="#{ministroCandidatoCadastroBean.flCadastrando eq true}" style="color: red" styleClass="cv-texto-negrito" />
+									<p:outputLabel value="Automático" rendered="#{ministroCandidatoCadastroBean.flCadastrando eq true}" style="color: red" styleClass="cv-texto-negrito" />
 								
 									<p:outputLabel value="Batismo:" for="dtBatismo" />
 									<p:calendar id="dtBatismo" 
@@ -356,12 +356,18 @@
 										<f:converter converterId="converter_localdate"/>
 									</p:calendar>
 									
+									<p:outputLabel value="Cargo:" for="dsCargo" />
+									<p:selectOneMenu id="dsCargo" value="#{ministroCandidatoCadastroBean.protocolo.ministro.cargo}" filter="true" filterMatchMode="contains" autoWidth="false"  >
+										<f:selectItem noSelectionOption="true" itemLabel="Selecione o cargo" />		
+										<f:selectItems value="#{ministroCandidatoCadastroBean.cargos}" var="item" itemValue="#{item}" itemLabel="#{item.dsCargo}" />
+									</p:selectOneMenu>	
+									
 								</p:panelGrid>
 								
-								<p:panelGrid columns="6"
+								<p:panelGrid columns="5"
 										layout="grid"
 										styleClass="panelgrid-noborder"
-										columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3">
+										columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-6, ui-grid-col-1">
 										
 									<p:outputLabel value="Est. Civil:" for="dsEstadoCivil" />
 									<p:selectOneMenu id="dsEstadoCivil" value="#{ministroCandidatoCadastroBean.protocolo.ministro.estadoCivel}" filter="true" filterMatchMode="contains" >
@@ -370,16 +376,27 @@
 									</p:selectOneMenu>	
 									
 									<p:outputLabel value="Conjuge:" for="dsConjuge" />
-									<p:selectOneMenu id="dsConjuge" value="#{ministroCandidatoCadastroBean.protocolo.ministro.conjuge}" filter="true" filterMatchMode="contains" style="width:100%;" >
-										<f:selectItem noSelectionOption="true" itemLabel="Selecione o conjuge" />		
+									<p:selectOneMenu id="dsConjuge" 
+											value="#{ministroCandidatoCadastroBean.protocolo.ministro.conjuge}" 
+											filter="true" 
+											filterMatchMode="contains" 
+											style="width:100%;" >
+										<f:selectItem noSelectionOption="true" itemLabel="Selecione o conjuge ou Cadastre-o no botão ao lado" />		
 										<f:selectItems value="#{ministroCandidatoCadastroBean.esposasMinistro}" var="item" itemValue="#{item}" itemLabel="#{item.nmNome}" />
 									</p:selectOneMenu>
-									
-									<p:outputLabel value="Cargo:" for="dsCargo" />
-									<p:selectOneMenu id="dsCargo" value="#{ministroCandidatoCadastroBean.protocolo.ministro.cargo}" filter="true" filterMatchMode="contains" autoWidth="false"  >
-										<f:selectItem noSelectionOption="true" itemLabel="Selecione o cargo" />		
-										<f:selectItems value="#{ministroCandidatoCadastroBean.cargos}" var="item" itemValue="#{item}" itemLabel="#{item.dsCargo}" />
-									</p:selectOneMenu>	
+										
+									<p:commandButton 
+										title="Cadastrar conjuge"
+										value=".."
+										id="botaoCadastrarConjuge" 
+										oncomplete="PF('widgCadastrarConjugeDialog').show();"
+										actionListener="#{ministroCandidatoCadastroBean.inicializarMinistroConjugeTeste}"
+										process="@this"
+										update=":frm_cadastrar_conjuge"
+						    			ajax="true" >
+						    			
+									</p:commandButton>
+
 									
 								</p:panelGrid>
 								
@@ -705,6 +722,66 @@
 			</p:dialog>
 		</h:form>
 		
+		<!-- Dialogo para cadastrar conjuge do Candidato a Ministro -->
+		<h:form id="frm_cadastrar_conjuge">
+			<p:dialog 
+					widgetVar="widgCadastrarConjugeDialog"
+					id="cadastrarConjugeDialog"
+					header="Cadastrar conjuge do Candidato: (#{ministroCandidatoCadastroBean.protocolo.ministro.nmNome})"
+					resizable="false"
+					responsive="true"
+					modal="true"
+					width="70%" >
+					
+				<p:messages closable="true" style="font-size: small;" > <p:autoUpdate /> </p:messages>
+			
+				<h:panelGroup id="CadastrarConjugePanel" layout="block" styleClass="ui-fluid">
+					
+					<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-1, ui-grid-col-10" styleClass="panelgrid-noborder" >
+						<p:outputLabel value="Id: "/>
+						
+						<p:outputLabel value="Nome Conjuge:" for="nmConjuge"/>
+						<p:inputText id="nmConjuge" value="#{ministroCandidatoCadastroBean.ministroConjuge.nmNome}" />	
+					</p:panelGrid>
+					
+					<p:panelGrid columns="4" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-6" styleClass="panelgrid-noborder" >
+						<p:outputLabel value="Dt. Nascimento:" for="dtNascimentoConjuge" />
+						<p:calendar id="dtNascimentoConjuge" 
+								pattern="dd/MM/yyyy" 
+								mask="true" 
+								locale="pt" 
+								showButtonPanel="true" 
+								navigator="true"
+								value="#{ministroCandidatoCadastroBean.ministroConjuge.dtNascimento}">
+							<p:ajax event="dateSelect" process="@this" update="@this"/>
+							<f:converter converterId="converter_localdate"/>
+						</p:calendar>
+						
+						<p:outputLabel value="Igreja sede: " for="dsIgrejaSedeConjuge" />
+						<p:selectOneMenu id="dsIgrejaSedeConjuge" value="#{ministroCandidatoCadastroBean.ministroConjuge.igreja}" filter="true" filterMatchMode="contains" style="width:100%;"  >
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione a Igreja"/>
+							<f:selectItems value="#{ministroCandidatoCadastroBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})"/>
+						</p:selectOneMenu>
+						
+					</p:panelGrid>
+				
+					<p:separator />
+			
+					<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-11" styleClass="panelgrid-noborder" >
+						<p:button value="Fechar" 
+								onclick="PF('widgCadastrarConjugeDialog').hide(); return false;"
+								style="width: auto"/>
+						<p:commandButton value="Confirmar cadastro do conjuge" 
+	    					id="botaoSalvarCadastroConjuge" 
+	    					action="#{ministroCandidatoCadastroBean.salvarCadastroConjuge}"
+	    					style="width: auto; margin-left:30px;"
+	    					process="@form"
+	    					oncomplete="jsFecharDialogo(xhr, status, args, 'widgCadastrarConjugeDialog', 'shake')" 
+	    					update=":frm:dsConjuge"/>				
+    				</p:panelGrid>
+				</h:panelGroup>		
+			</p:dialog>
+		</h:form>
 	</ui:define>
 		
 </ui:composition>

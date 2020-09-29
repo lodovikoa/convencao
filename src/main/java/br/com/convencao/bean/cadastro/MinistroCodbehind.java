@@ -2,12 +2,19 @@ package br.com.convencao.bean.cadastro;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.StreamedContent;
 
 import br.com.convencao.bean.financeiro.LancamentoCodbehind;
 import br.com.convencao.bo.AnexosBO;
+import br.com.convencao.bo.DepartamentoBO;
+import br.com.convencao.bo.MinistroBO;
+import br.com.convencao.bo.NegocioException;
+import br.com.convencao.model.Igreja;
+import br.com.convencao.model.Ministro;
 import br.com.convencao.model.MinistroAnexo;
 import br.com.convencao.model.MinistroParecer;
+import br.com.convencao.util.jsf.FacesUtil;
 
 
 public class MinistroCodbehind extends LancamentoCodbehind {
@@ -29,9 +36,11 @@ public class MinistroCodbehind extends LancamentoCodbehind {
 	private String param_cadastro;
 
 	private MinistroParecer ministroParecer;
-
+	private Ministro ministroConjuge;
+	
 
 	private Boolean flBuscarAjax = false;
+	private Boolean flCadastroConjugeSalvo = false;
 
 	private StreamedContent streamedContent;
 
@@ -40,6 +49,12 @@ public class MinistroCodbehind extends LancamentoCodbehind {
 	
 	@Inject
 	private AnexosBO anexosBO;
+	
+	@Inject
+	private DepartamentoBO departamentoBO;
+	
+	@Inject
+	private MinistroBO ministroBO;
 
 	public String getParam_regiaoItensFiltro_sqRegiao() {
 		return param_regiaoItensFiltro_sqRegiao;
@@ -178,5 +193,50 @@ public class MinistroCodbehind extends LancamentoCodbehind {
 
 	public void limparMinistroParecer() {
 		this.ministroParecer = new MinistroParecer();
+	}
+	
+	public Boolean getFlCadastroConjugeSalvo() {
+		return flCadastroConjugeSalvo;
+	}
+
+	public void setFlCadastroConjugeSalvo(Boolean flCadastroConjugeSalvo) {
+		this.flCadastroConjugeSalvo = flCadastroConjugeSalvo;
+	}
+
+	public Ministro getMinistroConjuge() {
+		return ministroConjuge;
+	}
+	
+	public void setMinistroConjuge(Ministro ministroConjuge) {
+		this.ministroConjuge = ministroConjuge;
+	}
+	
+	public void inicializarMinistroConjuge() {
+		this.ministroConjuge = new Ministro();
+		this.ministroConjuge.setIgreja(new Igreja());
+	}
+	
+	public void salvarCadastroConjuge() {
+		
+		// Atribuir Departamento ao conjuge
+		this.ministroConjuge.setDepartamento(departamentoBO.find(2L));
+		
+		// Verificar campos obrigatórios
+		if(StringUtils.isBlank(this.ministroConjuge.getNmNome()) && this.ministroConjuge.getNmNome().trim().length() < 5)
+			throw new NegocioException("Faltou informar o nome do conjuge.");
+			
+		this.ministroConjuge = ministroBO.salvar(this.ministroConjuge);
+		
+		FacesUtil.addInfoMessage("Conjuge salvo com sucesso!");
+		
+		this.flCadastroConjugeSalvo = true;
+		
+		this.inicializarEsposasMinistro();
+		
+		this.fecharDialogoPrimeFaces(true);
+	}
+	
+	public void inicializarMinistroConjugeTeste() {
+		this.flCadastroConjugeSalvo = true;
 	}
 }
