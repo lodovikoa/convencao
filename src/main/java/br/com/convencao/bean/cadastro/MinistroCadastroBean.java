@@ -51,6 +51,9 @@ public class MinistroCadastroBean extends MinistroCodbehind {
 
 		// Grupos de usuário que tem permissão para inserir/editar todos os dados do ministro.
 		this.flInserirEditarMinistro = Permissoes.getPermissaoInserirEditarMinistro();
+		
+		// Caso estiver Cadatrando o Conjuge atraves do botão [...] ao lado do Combobox Conjuge, não faz as atualizações de tela
+		if(!this.getFlCadastroConjugeSalvo()) {
 
 		if(this.getParam_controle().equals("1")) {
 			if(ministro.getDepartamento().getSqDepartamento() == 1 || ministro.getDepartamento().getSqDepartamento() == 5 )
@@ -73,6 +76,17 @@ public class MinistroCadastroBean extends MinistroCodbehind {
 		// parametro: -1L buscar todas as igrejas independente de região
 		// parametro: true colocar "ASSEMLBEIA DE DEUS" no final do nome da igreja Ex.: CAMPO GRANDE, ASSEMLBEIA DE DEUS
 		this.inicializarIgrejas(-1L, true);
+		
+		this.inicializarMinistroConjuge();
+		
+		} else {
+			// Caso estiver cadastrando o conjuge pelo botão [...] ao lado Combobox Conjuge, ao salvar entra aqui para atualizar a combobox Conjuge.
+			this.setFlCadastroConjugeSalvo(false);
+
+			if(null != this.getMinistroConjuge() && null != this.getMinistroConjuge().getSqMinistro()) {
+				this.ministro.setConjuge(this.getMinistroConjuge());
+			}
+		}
 	}
 
 	private void limpar(){

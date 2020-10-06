@@ -236,7 +236,7 @@ public class MinistroCodbehind extends LancamentoCodbehind {
 		this.fecharDialogoPrimeFaces(true);
 	}
 	
-	public void inicializarMinistroConjugeTeste() {
+	public void inicializarMinistroConjugeAvulso() {
 		this.flCadastroConjugeSalvo = true;
 	}
 }
