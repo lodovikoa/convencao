@@ -49,16 +49,16 @@ public class MinistroCandidatoBO implements Serializable {
 
 	@Inject
 	MinistroDAO ministroDAO;
-	
+
 	@Inject
 	DepartamentoDAO departamentoDAO;
 
 	@Inject
 	AnexosBO anexosBO;
-	
+
 	@Inject
 	MinistroParecerBO ministroParecerBO;
-	
+
 	@Inject
 	FotoBO fotoBO;
 
@@ -152,7 +152,7 @@ public class MinistroCandidatoBO implements Serializable {
 
 			// Salvar Candidato Ministro
 			Ministro candidatoMinistro = ministroDAO.salvar(protocolo.getMinistro());
-			
+
 			// Atualizar Candidato em protocolo
 			protocolo.setMinistro(candidatoMinistro);
 
@@ -169,7 +169,8 @@ public class MinistroCandidatoBO implements Serializable {
 
 			// Transferir a foto do candidato que esta na área temporária para área definitiva
 			try {
-				fotoBO.recuperarFotoTemporaria(protocolo.getMinistro().getDsFoto(), candidatoMinistro.getCdCodigo());
+				// fotoBO.recuperarFotoTemporaria(protocolo.getMinistro().getDsFoto(), candidatoMinistro.getCdCodigo());
+				fotoBO.recuperarFotoTemporaria(protocolo.getMinistro(),candidatoMinistro.getSqMinistro());
 			} catch (IOException e) {
 				throw new NegocioException("Problema ao tentar recuperar foto temporária.", e);
 			}
@@ -236,12 +237,16 @@ public class MinistroCandidatoBO implements Serializable {
 
 			fotoBO.recuperarFotoTemporaria(ministroTemp);
 
-			// Salvar o Ministro com o nome da nova foto
-			ministroDAO.salvar(ministroTemp);
+			// Verificar se o nome da foto atual é igual ao nome da foto anterior. Se for diferente precisa gravar o novo nome e excluir a foto antiga
+			if(!protocolo.getMinistro().getDsFoto().equalsIgnoreCase(dsFotoAnterior)) {
 
-			// Remover foto anterior (Caso a foto anterior seja a foto default, então não remover)
-			if(StringUtils.isNotEmpty(dsFotoAnterior) && !dsFotoAnterior.equals(Uteis._FOTO_DEFAULT)) {
-				fotoBO.deletar(dsFotoAnterior);
+				// Salvar o Ministro com o nome da nova foto
+				ministroDAO.salvar(ministroTemp);
+
+				// Remover foto anterior (Caso a foto anterior seja a foto default, então não remover)
+				if(StringUtils.isNotEmpty(dsFotoAnterior) && !dsFotoAnterior.equals(Uteis._FOTO_DEFAULT)) {
+					fotoBO.deletar(dsFotoAnterior);
+				}
 			}
 
 		} catch (Exception e) {
@@ -360,14 +365,14 @@ public class MinistroCandidatoBO implements Serializable {
 
 		try {
 			log.info("salvarProtocoloConclusao(Protocolo:" + protocolo.getSqProtocolo() + ")");
-			
+
 			// Buscar ministro original
 			Ministro ministroAtual = ministroDAO.find(Ministro.class, protocolo.getMinistro().getSqMinistro());
-			
+
 			if(ministroAtual.getCargo() == null || ministroAtual.getCargo().getSqCargo().compareTo(protocolo.getMinistro().getCargo().getSqCargo()) != 0 ) {
 				ministroAtual.setCargo(protocolo.getMinistro().getCargo());
 			}
-			
+
 			if(ministroAtual.getDtOrdenado() == null || !ministroAtual.getDtOrdenado().isEqual(protocolo.getMinistro().getDtOrdenado())) {
 				ministroAtual.setDtOrdenado(protocolo.getMinistro().getDtOrdenado());
 			}
@@ -380,7 +385,7 @@ public class MinistroCandidatoBO implements Serializable {
 			ministroParecer.setMinistro(ministroAtual);
 			ministroParecer.setAuditoriaUsuario(Uteis.UsuarioLogado().getUsuario().getDsLogin());
 			ministroParecer.setAuditoriaData(Uteis.DataHoje());
-			
+
 			ministroAtual.getMinistroParecer().add(ministroParecer);
 
 			// Departamento - Buscar Departamento Confrateres para ajustar o ministro que será transferido
@@ -390,11 +395,11 @@ public class MinistroCandidatoBO implements Serializable {
 			} else if(cdProtocoloConclusao == 8) {
 				ministroAtual.setDtExcluido(Uteis.DataHoje().toLocalDate());
 			}
-			
+
 			// Ajustes na auditoria de Ministro
 			ministroAtual.setAuditoriaUsuario(Uteis.UsuarioLogado().getUsuario().getDsLogin());
 			ministroAtual.setAuditoriaData(Uteis.DataHoje());
-		
+
 			// Ajustes no protocolo
 			protocolo.setProtocoloStatus(protocoloStatusDAO.find(ProtocoloStatus.class, Long.valueOf(cdProtocoloConclusao)));
 			protocolo.setAuditoriaUsuario(Uteis.UsuarioLogado().getUsuario().getDsLogin());
@@ -402,10 +407,10 @@ public class MinistroCandidatoBO implements Serializable {
 			protocolo.setMinistro(ministroAtual);
 			protocolo.setDsResponsavel(Uteis.UsuarioLogado().getUsuario().getDsLogin());
 			protocolo.setDtStatus(Uteis.DataHoje().toLocalDate());
-			
+
 			// Salvar Protocolo
 			protocoloDAO.salvar(protocolo);
-			
+
 		} catch (Exception e) {
 			throw new NegocioException("Erro ao tentar concluír protocolo " + protocolo.getCdProtocolo(), e.getCause());
 		}

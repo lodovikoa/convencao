@@ -68,7 +68,7 @@ public class MinistroCandidatoCadastroBean extends MinistroCodbehind{
 
 	public void inicializar() {
 		String tipo = this.getParam_cadastro();
-
+		
 		// Grupo de usuários que tem permsisão e acesso ao botão Concluir PROTOCOLO
 		this.flExibirBotaoConcluir = Permissoes.getPermissaoConcluirProtocolo( this.protocolo == null? 0L: this.protocolo.getProtocoloStatus().getSqProtocoloStatus());
 
@@ -275,7 +275,7 @@ public class MinistroCandidatoCadastroBean extends MinistroCodbehind{
 		UploadedFile uploadFile = event.getFile();
 
 		try {
-			String foto = fotoBO.salvarFotoTemp(uploadFile.getFileName(), uploadFile.getContent());
+			String foto = fotoBO.salvarFotoTemp(uploadFile.getFileName(), uploadFile.getContent(), protocolo.getMinistro().getSqMinistro());
 			protocolo.getMinistro().setDsFoto(foto);
 
 			// Se estiver editando salva a foto no local definitivo senão salvar a foto junto com o candidato

@@ -29,7 +29,9 @@
 		
 			<p:toolbar styleClass="cv-toolbar-topo">
 				<p:toolbarGroup>
-	    			<p:button value="Novo" />
+	    			<p:button value="Novo" outcome="/pages/cadastro/MinistroCandidatoCadastro" >
+						<f:param name="param_cadastro" value="cadastrarCandidato" />
+					</p:button>
 	    			<p:commandButton value="Salvar" 
 	    					rendered="#{ministroCandidatoCadastroBean.flExibirBotaoSalvar eq true}"
 	    					id="botaoSalvar" 

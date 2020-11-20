@@ -51,34 +51,34 @@ public class MinistroCadastroBean extends MinistroCodbehind {
 
 		// Grupos de usuário que tem permissão para inserir/editar todos os dados do ministro.
 		this.flInserirEditarMinistro = Permissoes.getPermissaoInserirEditarMinistro();
-		
+
 		// Caso estiver Cadatrando o Conjuge atraves do botão [...] ao lado do Combobox Conjuge, não faz as atualizações de tela
 		if(!this.getFlCadastroConjugeSalvo()) {
 
-		if(this.getParam_controle().equals("1")) {
-			if(ministro.getDepartamento().getSqDepartamento() == 1 || ministro.getDepartamento().getSqDepartamento() == 5 )
-				this.flExibirComboDepartamento = true;
-		} else {
-			this.flExibirComboDepartamento = false;
-		}
+			if(this.getParam_controle().equals("1")) {
+				if(ministro.getDepartamento().getSqDepartamento() == 1 || ministro.getDepartamento().getSqDepartamento() == 5 )
+					this.flExibirComboDepartamento = true;
+			} else {
+				this.flExibirComboDepartamento = false;
+			}
 
-		if(this.ministro == null){
-			this.limpar();
-		}
+			if(this.ministro == null){
+				this.limpar();
+			}
 
-		this.inicializarDepartamentos(tipo);
-		this.inicializarCargos();
-		this.inicializarEstadoCiveis();
-		this.inicializarEscolaridades();
-		this.inicializarProfissoes();
-		this.inicializarEstados();
-		this.inicializarEsposasMinistro();
-		// parametro: -1L buscar todas as igrejas independente de região
-		// parametro: true colocar "ASSEMLBEIA DE DEUS" no final do nome da igreja Ex.: CAMPO GRANDE, ASSEMLBEIA DE DEUS
-		this.inicializarIgrejas(-1L, true);
-		
-		this.inicializarMinistroConjuge();
-		
+			this.inicializarDepartamentos(tipo);
+			this.inicializarCargos();
+			this.inicializarEstadoCiveis();
+			this.inicializarEscolaridades();
+			this.inicializarProfissoes();
+			this.inicializarEstados();
+			this.inicializarEsposasMinistro();
+			// parametro: -1L buscar todas as igrejas independente de região
+			// parametro: true colocar "ASSEMLBEIA DE DEUS" no final do nome da igreja Ex.: CAMPO GRANDE, ASSEMLBEIA DE DEUS
+			this.inicializarIgrejas(-1L, true);
+
+			this.inicializarMinistroConjuge();
+
 		} else {
 			// Caso estiver cadastrando o conjuge pelo botão [...] ao lado Combobox Conjuge, ao salvar entra aqui para atualizar a combobox Conjuge.
 			this.setFlCadastroConjugeSalvo(false);
@@ -127,8 +127,13 @@ public class MinistroCadastroBean extends MinistroCodbehind {
 		UploadedFile uploadFile = event.getFile();
 
 		try {
-			String foto = fotoBO.salvarFotoTemp(uploadFile.getFileName(), uploadFile.getContent());
+			String foto = fotoBO.salvarFotoTemp(uploadFile.getFileName(), uploadFile.getContent(), ministro.getSqMinistro());
 			ministro.setDsFoto(foto);
+
+			// Se estiver editando salva a foto no local definitivo senão salvar a foto junto com o ministro
+			if(this.isEditando()) {
+				bo.salvarFotoNaAlteracao(ministro);
+			}
 
 		} catch (Exception e) {
 			FacesUtil.addErrorMessage(e.getMessage());

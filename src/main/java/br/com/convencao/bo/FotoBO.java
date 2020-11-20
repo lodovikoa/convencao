@@ -8,14 +8,19 @@ import java.nio.file.Path;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 
+import br.com.convencao.dao.MinistroDAO;
 import br.com.convencao.model.Ministro;
 
 public class FotoBO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	@Inject
+	private MinistroDAO ministroDAO;
 
 	private Path diretorioRaiz;
 	private Path diretorioRaizTemp;
@@ -35,8 +40,9 @@ public class FotoBO implements Serializable {
 		}
 	}
 	
-	public String salvarFotoTemp(String nome, byte[] conteudo) throws IOException {
-		String novoNome = this.renomearArquivo(nome);
+	public String salvarFotoTemp(String nome, byte[] conteudo, Long sqMinistro) throws IOException {
+		String novoNome = this.renomearArquivo(nome, sqMinistro);
+		
 		Path fotoTemp = diretorioRaizTemp.resolve(novoNome);
 		
 		Files.write(fotoTemp, conteudo);
@@ -53,21 +59,28 @@ public class FotoBO implements Serializable {
 	}
 	
 	// Recuperar foto da área temporária e grava-la na área definitiva (Na inclusão de novo ministro)
-	public void recuperarFotoTemporaria(String nome, Long cdCodigo) throws IOException {
-		if(StringUtils.isEmpty(nome)) {
+	public void recuperarFotoTemporaria(Ministro ministro, Long sqMinistro) throws Exception {
+		if(StringUtils.isEmpty(ministro.getDsFoto())) {
 			return;
 		}
 		
-		Path fotoTemp = this.diretorioRaizTemp.resolve(nome);
-		if(!Files.exists(fotoTemp)) {
+		Path fotoTemp = this.diretorioRaizTemp.resolve(ministro.getDsFoto());
+		if(Files.exists(fotoTemp)) {	
+			
+			ministro.setDsFoto(ministro.getSqMinistro() + this.obterNomeExtensaoArquivo(fotoTemp.getFileName().toString()));
+			
+			ministroDAO.salvar(ministro);
+			
+			byte[] conteudo = Files.readAllBytes(fotoTemp);
+			Path foto = diretorioRaiz.resolve(ministro.getDsFoto());
+			Files.write(foto, conteudo);
+			
+			Files.delete(fotoTemp);
+			
+			
+		} else {
 			return;
 		}
-		
-		byte[] conteudo = Files.readAllBytes(fotoTemp);
-		Path foto = diretorioRaiz.resolve(nome);
-		Files.write(foto, conteudo);
-		
-		Files.delete(fotoTemp);
 	}
 	
 	// Recuperar foto da área temporária e grava-la na área definitiva (Na alteração de  ministro)
@@ -115,22 +128,39 @@ public class FotoBO implements Serializable {
 		}
 	}
 	
-	private String renomearArquivo(String original) {
-		int pos = original.lastIndexOf(".");
-		String nomePrincipal;
-		String nomeExtensao = "";
-		if(pos > 1) {
-			nomePrincipal = original.substring(0,pos);
-			nomeExtensao = original.substring(pos);
-		} else {
-			nomePrincipal = original;
-		}
+	private String renomearArquivo(String original, Long sqMinistro) {
+	
+		String nomePrincipal = obterNomePrincipalArquivo(original);
+		String nomeExtensao = obterNomeExtensaoArquivo(original);
 		
 		// Limitar tamanho do nome do arquivo.
 		if(nomePrincipal.length() > 10) {
 			nomePrincipal = nomePrincipal.substring(0, 10);
 		}
 		
-		return nomePrincipal + "__" + UUID.randomUUID().toString() + nomeExtensao;
+		return sqMinistro != null? sqMinistro + nomeExtensao: nomePrincipal + "__" + UUID.randomUUID().toString() + nomeExtensao;
+	}
+	
+	// Obter somente a extensão do arquivo quando houver e com o ponto. Ex.: foto.jpg, retorna .jpg
+	private String obterNomeExtensaoArquivo(String nmArquivo) {
+		int pos = nmArquivo.lastIndexOf(".");
+		String nomeExtensao = "";
+		if(pos >= 1) {
+			nomeExtensao = nmArquivo.substring(pos);
+		} 
+		
+		return nomeExtensao;
+	}
+	
+	private String obterNomePrincipalArquivo(String nmArquivo) {
+		int pos = nmArquivo.lastIndexOf(".");
+		String nomePrincipal;
+		if(pos >= 1) {
+			nomePrincipal = nmArquivo.substring(0,pos);
+		} else {
+			nomePrincipal = nmArquivo;
+		}
+		
+		return nomePrincipal;
 	}
 }

@@ -89,6 +89,12 @@ public class MinistroBO extends GenericoBO {
 	public Ministro salvar(Ministro ministro) {
 		log.info("salvar(" + ministro.getSqMinistro() + ")");
 		try{
+			
+			// Verificar se Departamento foi preenchido.
+			if(ministro.getDepartamento() == null) {
+				throw new NegocioException("Faltou selecionar o Departamento.");
+			}
+			
 			//Identificar se é cadastro de novo ministro
 			boolean flCadastro = false;
 			Ministro ministroTemp = null;
@@ -155,18 +161,19 @@ public class MinistroBO extends GenericoBO {
 				}
 			}
 
-			try {
-				fotoBO.recuperarFotoTemporaria(ministro.getDsFoto(), ministro.getCdCodigo());
-			} catch (IOException e) {
-				throw new NegocioException("Problema ao tentar recuperar foto temporária.", e);
-			}
-
-
 			// Setar dados de auditoria
 			ministro.setAuditoriaData(Uteis.DataHoje());
 			ministro.setAuditoriaUsuario(Uteis.UsuarioLogado().getUsuario().getDsLogin());
 
-			return dao.salvar(ministro);
+			ministro = dao.salvar(ministro);
+			
+			try {
+				fotoBO.recuperarFotoTemporaria(ministro, ministro.getSqMinistro());
+			} catch (IOException e) {
+				throw new NegocioException("Problema ao tentar recuperar foto temporária.", e);
+			}
+			
+			return ministro;
 
 		} catch(Exception e){
 			throw new NegocioException("Erro ao tentar salvar Ministro: " + e.getMessage(), e);
@@ -390,6 +397,38 @@ public class MinistroBO extends GenericoBO {
 	public List<MinistroPorAnoTO> findMinistroPorAnoExcluidos(int anoInicio, int anoAtual) {
 		log.info("findMinistroPorAnoExcluidos(" + anoInicio + " - " + anoAtual + ")");
 		return dao.findMinistrosPOrAnoExcluidos(anoInicio, anoAtual);
+	}
+	
+	
+	@Transactional
+	public void salvarFotoNaAlteracao( Ministro ministro) {
+		try {
+			log.info("salvarFotoNaAlteracao(" + ministro.getSqMinistro() + ") foto nova: (" + ministro.getDsFoto() + ")");
+
+			// Obtem o ministro atual para que outras alterações já efetuadas não sejam atualizadas junto com a foto
+			Ministro ministroTemp = dao.find(Ministro.class, ministro.getSqMinistro());
+			String dsFotoAnterior = ministroTemp.getDsFoto();
+			log.info("salvarFotoNaAlteracao(" + ministro.getSqMinistro() + ") foto anterior: (" + dsFotoAnterior + ")");
+
+			ministroTemp.setDsFoto(ministro.getDsFoto());
+
+			fotoBO.recuperarFotoTemporaria(ministroTemp);
+
+			// Verificar se o nome da foto atual é igual ao nome da foto anterior. Se for diferente precisa gravar o novo nome e excluir a foto antiga
+			if(!ministro.getDsFoto().equalsIgnoreCase(dsFotoAnterior)) {
+
+				// Salvar o Ministro com o nome da nova foto
+				dao.salvar(ministroTemp);
+
+				// Remover foto anterior (Caso a foto anterior seja a foto default, então não remover)
+				if(StringUtils.isNotEmpty(dsFotoAnterior) && !dsFotoAnterior.equals(Uteis._FOTO_DEFAULT)) {
+					fotoBO.deletar(dsFotoAnterior);
+				}
+			}
+
+		} catch (Exception e) {
+			throw new NegocioException("Problemas ao tentar salvar foto: " + e.getMessage());
+		}
 	}
 
 	// Salvar anexo do ministro(MinistroBO) e Salvar anexo do protocolo(MinisgtroCandidato) ((Atualizar para realizar esta tarefa em um único lugar))
