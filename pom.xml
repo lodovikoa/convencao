@@ -204,10 +204,11 @@
 		<!-- 23/12/2018 - Atualizado de 5.1.1.RELEASE para 5.1.2.RELEASE -->
 		<!-- 03/05/2019 - Atualizado de 5.1.2.RELEASE para 5.1.5.RELEASE -->
 		<!-- 22/08/2020 - Atualizado de 5.1.5.RELEASE para 5.3.4.RELEASE -->
+		<!-- 21/10/2021 - Atualizado de 5.3.4.RELEASE para 5.5.3 -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-core</artifactId>
-		    <version>5.3.4.RELEASE</version>
+		    <version>5.5.3</version>
 		</dependency>
 				
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
@@ -215,10 +216,11 @@
 		<!-- 23/12/2018 - Atualizado de 5.1.1.RELEASE para 5.1.2.RELEASE -->
 		<!-- 03/05/2019 - Atualizado de 5.1.2.RELEASE para 5.1.5.RELEASE -->
 		<!-- 22/08/2020 - Atualizado de 5.1.5.RELEASE para 5.3.4.RELEASE -->
+		<!-- 21/10/2021 - Atualizado de 5.3.4.RELEASE para 5.5.3 -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-web</artifactId>
-		    <version>5.3.4.RELEASE</version>
+		    <version>5.5.3</version>
 		</dependency>
 				
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
