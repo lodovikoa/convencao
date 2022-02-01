@@ -87,6 +87,18 @@
 								</h:outputText>
 							</p:column>
 							
+							<p:column style="text-align: center; width: 4px;">	
+								<p:commandButton rendered="true"
+										style="width: 20px; margin-left: -5px; "
+										icon="reativar_imagem"
+										title="Exibir detalhes do Recibo"
+										oncomplete="PF('widgAgoReciboDetalheDialog').show();"
+										process="@this"
+										update=":frm_agoRecibo_detalhe:AgoReciboDetalheDialog" 
+										actionListener="#{agoReciboListBean.inicializarAgoReciboDetalhes(item)}" />
+		
+							</p:column>
+							
 							 <f:facet name="footer">
 						        #{agoReciboListBean.mensagemRodape}
 						    </f:facet>
@@ -97,5 +109,57 @@
 				</h:panelGroup>
 			</div>
 		</h:form>
+		
+		<!-- Dialogo para exibir pagamentos de um AgoRecibo -->
+		<h:form id="frm_agoRecibo_detalhe">
+			<p:dialog
+					widgetVar="widgAgoReciboDetalheDialog"
+					id="AgoReciboDetalheDialog"
+					header="Exibir detalhes do Recibo: #{agoReciboListBean.agoReciboSelecionado.sqRecibo} - Ministro: #{agoReciboListBean.agoReciboSelecionado.ministro.cdCodigo}-#{agoReciboListBean.agoReciboSelecionado.ministro.nmNome}"
+					resizable="false"
+					responsive="true"
+					width="70%" >
+					
+				<h:panelGroup id="agoReciboDetalhePanel" layout="block" styleClass="ui-fluid">
+					<p:dataTable var="itemDetalhe"
+									style="margin-top:0px; margin-bottom:20px"
+									value="#{agoReciboListBean.agoReciboDetalheList}"
+									id="dtListReciboDetalhe"
+									emptyMessage="Nenhum registro encontrado"
+									paginator="true"
+									rows="5"
+									rowsPerPageTemplate="5,10,20"
+									multiViewState="true"
+									paginatorPosition="top">
+							<p:column headerText="Rg" style="text-align: left; width:80px;" >
+								<h:outputText value="#{itemDetalhe.ministro.cdCodigo}" />
+							</p:column>		
+							
+							<p:column headerText="Nome" style="text-align: left;" >
+								<h:outputText value="#{itemDetalhe.ministro.nmNome}" />
+								<h:outputText value="#{itemDetalhe.nmOutrosInscrito}" />
+							</p:column>	
+							
+							<p:column headerText="Descricão" style="text-align: left; width:280px;">
+								<h:outputText value="#{itemDetalhe.dsDescricaoLancamento}" />
+							</p:column>	
+							
+							<p:column headerText="Valor" style="text-align: right; width:80px;">
+								<h:outputText value="#{itemDetalhe.vlInscricao}" styleClass="moeda" >
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</h:outputText>
+								
+								<f:facet name="footer">
+									<p:outputLabel style="font-size: large;"  value="#{agoReciboListBean.vlAgoTotalReciboDetalhe}" styleClass="moeda" >
+										<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+									</p:outputLabel>
+								</f:facet>
+							</p:column>
+						
+					</p:dataTable>
+				</h:panelGroup>
+			</p:dialog>
+		</h:form>
+		
 	</ui:define>
 </ui:composition>
