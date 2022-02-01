@@ -93,7 +93,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				"/pages/configuracao/ProfissaoPesquisa.xhtml",
 				"/pages/configuracao/ProfissaoCadastro.xhtml",
 				"/pages/configuracao/RegiaoPesquisa.xhtml",
-				"/pages/configuracao/RegiaoCadastro.xhtml")
+				"/pages/configuracao/RegiaoCadastro.xhtml",
+				"/pages/financeiro/autoRegistro/AgoReciboList.xhtml")
 				.hasAnyRole("guCftAdministrador", "guCftSecretarioConvencao")
 
 		// Permissões de:

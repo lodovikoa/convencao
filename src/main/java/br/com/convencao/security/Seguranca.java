@@ -49,6 +49,17 @@ public class Seguranca {
 		return FacesUtil.getExternalContext().isUserInRole("guCftAdministrador");
 	}
 	
+	// Menu Recebimentos Online
+	public boolean isMenuRecebimentosOnline() {
+		return FacesUtil.getExternalContext().isUserInRole("guCftAdministrador")
+				|| FacesUtil.getExternalContext().isUserInRole("guCftSecretarioConvencao")
+				|| FacesUtil.getExternalContext().isUserInRole("guCftFinanceiroLocal");
+	}
+	
+	public boolean isSubMenuFinanceiroOnlineAgoReciboList() {
+		return FacesUtil.getExternalContext().isUserInRole("guCftAdministrador");
+	}
+	
 	// Menu Cadastro
 	public boolean isMenuCadastro () {
 		return FacesUtil.getExternalContext().isUserInRole("guCftAdministrador")

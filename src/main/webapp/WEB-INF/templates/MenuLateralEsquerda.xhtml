@@ -18,6 +18,10 @@
 	        	<p:menuitem rendered="#{seguranca.subMenuLancamentosDeleteEmLote}" styleClass="ui-menuitem-icon-meu" value="Excluir em Lote" outcome="/pages/financeiro/entrada/LancamentoEntradaDeleteEmLote" icon="ui-icon-home"/>
 	        </p:submenu>
 	        
+	         <p:submenu rendered="#{seguranca.menuRecebimentosOnline}" label="Financeiro OnLine" >
+	         	<p:menuitem rendered="#{seguranca.subMenuFinanceiroOnlineAgoReciboList}" styleClass="ui-menuitem-icon-meu" value="Listar Recibos" outcome="/pages/financeiro/autoRegistro/AgoReciboList.xhtml" icon="ui-icon-home"/>
+	         </p:submenu>
+	        
 	        <p:submenu rendered="#{seguranca.menuCadastro}" label="Cadastro">
 	            <p:menuitem rendered="#{seguranca.subMenuIgrejas}" styleClass="ui-menuitem-icon-meu" value="Igrejas" outcome="/pages/cadastro/IgrejaPesquisa" icon="ui-icon-home"/>
 	            <p:menuitem rendered="#{seguranca.subMenuMinistros}" styleClass="ui-menuitem-icon-meu" value="Ministros" outcome="/pages/cadastro/MinistroPesquisa" icon="ui-icon-home"/>
