@@ -11,10 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotBlank;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "tb_esc_escolaridade")
+@EqualsAndHashCode
+@NoArgsConstructor
+@ToString
 public class Escolaridade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,8 +29,7 @@ public class Escolaridade implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long sqEscolaridade;
 	
-	@NotBlank
-	@Size(max = 40, message = "tamanho máximo de 40 caracteres")
+	@Size(min = 2,  max = 40, message = "tamanho minimo de 2 e máximo de 40 caracteres")
 	@Column(name = "esc_ds_descricao", nullable = false, length = 40)
 	private String dsDescricao;
 	
@@ -66,50 +70,4 @@ public class Escolaridade implements Serializable {
 	public void setAuditoriaUsuario(String auditoriaUsuario) {
 		this.auditoriaUsuario = auditoriaUsuario;
 	}
-
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((sqEscolaridade == null) ? 0 : sqEscolaridade.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Escolaridade other = (Escolaridade) obj;
-		if (sqEscolaridade == null) {
-			if (other.sqEscolaridade != null)
-				return false;
-		} else if (!sqEscolaridade.equals(other.sqEscolaridade))
-			return false;
-		return true;
-	}
-
-	// Método equals personalizado
-	public boolean equalsTO(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Escolaridade other = (Escolaridade) obj;
-		if (dsDescricao == null) {
-			if (other.dsDescricao != null)
-				return false;
-		} else if (!dsDescricao.equals(other.dsDescricao))
-			return false;
-		return true;
-	}
-
-
-	
 }

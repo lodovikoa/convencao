@@ -11,8 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 @Entity
 @Table(name = "tb_prf_profissao")
+@EqualsAndHashCode
+@NoArgsConstructor
+@ToString
 public class Profissao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -22,7 +29,7 @@ public class Profissao implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long sqProfissao;
 	
-	@Size(max = 40, message = "tamanho máxio de 40 caracteres")
+	@Size(min = 2, max = 40, message = "tamanho minimo de 2 e máximo de 40 caracteres")
 	@Column(name = "prf_ds_descricao", nullable = false, length = 40)
 	private String dsDescricao;
 	
@@ -63,48 +70,4 @@ public class Profissao implements Serializable {
 	public void setAuditoriaUsuario(String auditoriaUsuario) {
 		this.auditoriaUsuario = auditoriaUsuario;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((sqProfissao == null) ? 0 : sqProfissao.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Profissao other = (Profissao) obj;
-		if (sqProfissao == null) {
-			if (other.sqProfissao != null)
-				return false;
-		} else if (!sqProfissao.equals(other.sqProfissao))
-			return false;
-		return true;
-	}
-
-	// Método equals personalizado
-	public boolean equalsTO(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Profissao other = (Profissao) obj;
-		if (dsDescricao == null) {
-			if (other.dsDescricao != null)
-				return false;
-		} else if (!dsDescricao.equals(other.dsDescricao))
-			return false;
-		return true;
-	}
-
-
 }

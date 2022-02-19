@@ -11,10 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotBlank;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "tb_civ_estadocivel")
+@EqualsAndHashCode
+@NoArgsConstructor
+@ToString
 public class EstadoCivel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,8 +29,7 @@ public class EstadoCivel implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long sqEstadoCivel;
 	
-	@NotBlank
-	@Size(max = 30, message = "tamanho máximo de 30 caracteres")
+	@Size(min = 2, max = 30, message = "tamanho minimo de 2 e máximo de 30 caracteres")
 	@Column(name = "civ_ds_estadocivel", nullable = false, length = 30) 
 	private String dsEstadoCivel;
 	
@@ -66,49 +70,4 @@ public class EstadoCivel implements Serializable {
 	public void setAuditoriaUsuario(String auditoriaUsuario) {
 		this.auditoriaUsuario = auditoriaUsuario;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((sqEstadoCivel == null) ? 0 : sqEstadoCivel.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		EstadoCivel other = (EstadoCivel) obj;
-		if (sqEstadoCivel == null) {
-			if (other.sqEstadoCivel != null)
-				return false;
-		} else if (!sqEstadoCivel.equals(other.sqEstadoCivel))
-			return false;
-		return true;
-	}
-
-	// Método equals personalizado
-	public boolean equalsTO(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		EstadoCivel other = (EstadoCivel) obj;
-		if (dsEstadoCivel == null) {
-			if (other.dsEstadoCivel != null)
-				return false;
-		} else if (!dsEstadoCivel.equals(other.dsEstadoCivel))
-			return false;
-		return true;
-	}
-
-
-
 }

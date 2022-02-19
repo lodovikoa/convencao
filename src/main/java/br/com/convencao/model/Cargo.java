@@ -11,10 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotBlank;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "tb_cgo_cargo")
+@EqualsAndHashCode
+@NoArgsConstructor
+@ToString
 public class Cargo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,8 +29,8 @@ public class Cargo implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long sqCargo;
 	
-	@NotBlank
-	@Size(max = 50, message = "tamanho máximo de 50 caracteres")
+
+	@Size(min = 2, max = 50, message = "tamanho minimo de 2 e máximo de 50 caracteres")
 	@Column(name = "cgo_ds_cargo", nullable=false, length = 50)
 	private String dsCargo;
 	
@@ -77,47 +82,6 @@ public class Cargo implements Serializable {
 
 	public void setAuditoriaUsuario(String auditoriaUsuario) {
 		this.auditoriaUsuario = auditoriaUsuario;
-	}
-
-	@Override
-	public int hashCode() {
-		return (int) ((sqCargo == null)? 0: sqCargo);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if(this == obj) return true;
-		if (obj == null) return false;
-		if(getClass() != obj.getClass()) return false;
-		Cargo other = (Cargo) obj;
-		if(sqCargo == null) {
-			if(other.sqCargo != null)
-				return false;
-		} else if (!sqCargo.equals(other.sqCargo))
-			return false;
-		return true;
-	}
-
-	// Método equals personalizado
-	public boolean equalsTO(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Cargo other = (Cargo) obj;
-		if (dsCargo == null) {
-			if (other.dsCargo != null)
-				return false;
-		} else if (!dsCargo.equals(other.dsCargo))
-			return false;
-		if (dsTitulo == null) {
-			if (other.dsTitulo != null)
-				return false;
-		} else if (!dsTitulo.equals(other.dsTitulo))
-			return false;
-		return true;
 	}
 
 }

@@ -51,6 +51,9 @@ public class EscolaridadeBO implements Serializable{
 
 			// Retirar espaços de inicio e fim
 			escolaridade.setDsDescricao(escolaridade.getDsDescricao().trim());
+			
+			if(escolaridade.getDsDescricao().length() < 2)
+				throw new NegocioException("Escolaridade precisa ser preenchida corretamente!");
 
 
 			// Validar descrição única
@@ -62,7 +65,7 @@ public class EscolaridadeBO implements Serializable{
 			// Verificar se houve alteração
 			if(escolaridade.getSqEscolaridade() != null){
 				Escolaridade escolaridadeAtual = escolaridadeDAO.findByPrimaryKey(Escolaridade.class, escolaridade.getSqEscolaridade());
-				if(escolaridadeAtual.equalsTO(escolaridade)){
+				if(escolaridadeAtual.equals(escolaridade)){
 					throw new NegocioException("Não houve alteração!");
 				}
 			}

@@ -50,6 +50,9 @@ public class EstadoCivelBO implements Serializable {
 			log.info("salvar(" + estadoCivel.getSqEstadoCivel() + ")");
 			// Retirar espaços de inicio e fim
 			estadoCivel.setDsEstadoCivel(estadoCivel.getDsEstadoCivel().trim());
+			
+			if(estadoCivel.getDsEstadoCivel().length() < 2)
+				throw new NegocioException("Estado Civil precisa ser preenchido corretamente!");
 
 			// Validar descrição única
 			EstadoCivel estadoCivelExistente = estadoCivelDAO.findByPorAtributo(EstadoCivel.class, "dsEstadoCivel", estadoCivel.getDsEstadoCivel());
@@ -60,7 +63,7 @@ public class EstadoCivelBO implements Serializable {
 			// Verificar se houve alteração
 			if(estadoCivel.getSqEstadoCivel() != null){
 				EstadoCivel estadoCivelAtual = estadoCivelDAO.findByPrimaryKey(EstadoCivel.class, estadoCivel.getSqEstadoCivel());
-				if(estadoCivelAtual.equalsTO(estadoCivel)){
+				if(estadoCivelAtual.equals(estadoCivel)){
 					throw new NegocioException("Não houve alteração!");
 				}
 			}

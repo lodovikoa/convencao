@@ -52,6 +52,9 @@ public class ProfissaoBO implements Serializable{
 			log.info("salvar(" + profissao.getSqProfissao() + ")");
 			// Retirar espaços de inicio e fim
 			profissao.setDsDescricao(profissao.getDsDescricao().trim());
+			
+			if(profissao.getDsDescricao().length() < 2)
+				throw new NegocioException("Profissão precisa ser preenchida corretamente!");
 
 
 			// Validar descrição única
@@ -63,7 +66,7 @@ public class ProfissaoBO implements Serializable{
 			// Verificar se houve alteração
 			if(profissao.getSqProfissao() != null){
 				Profissao profissaoAtual = profissaoDAO.findByPrimaryKey(Profissao.class, profissao.getSqProfissao());
-				if(profissaoAtual.equalsTO(profissao)){
+				if(profissaoAtual.equals(profissao)){
 					throw new NegocioException("Não houve alteração!");
 				}
 			}

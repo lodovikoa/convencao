@@ -52,6 +52,10 @@ public class CargoBO implements Serializable{
 			log.info("salvar(" + cargo.getSqCargo() + ")");
 			// Retirar espaços de inicio e fim
 			cargo.setDsCargo(cargo.getDsCargo().trim());
+			
+			if(cargo.getDsCargo().length() < 2)
+				throw new NegocioException("Cargo precisa ser preenchido corretamente!");
+			
 			if(cargo.getDsTitulo() != null) cargo.setDsTitulo(cargo.getDsTitulo().trim());
 
 
@@ -64,7 +68,7 @@ public class CargoBO implements Serializable{
 			// Verificar se houve alteração
 			if(cargo.getSqCargo() != null){
 				Cargo cargoAtual = cargoDAO.findByPrimaryKey(Cargo.class, cargo.getSqCargo());
-				if(cargoAtual.equalsTO(cargo)){
+				if(cargoAtual.equals(cargo)){
 					throw new NegocioException("Não houve alteração!");
 				}
 			}
