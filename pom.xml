@@ -87,10 +87,11 @@
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
 		<!-- 15/06/2020 - Atualizado de 5.2.5.Final para 5.4.17.Final -->
 		<!-- 17/09/2020 - Atualizado de 5.4.17.Final para 5.4.21.Final -->
+		<!-- 19/02/2022 - Atualizado de 5.4.21.Final para 5.4.24.Final  Ajustado para 5.4.24 devido vulnerabilidade registrada-->
 		<dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-core</artifactId>
-		    <version>5.4.21.Final</version>
+		    <version>5.4.24.Final</version>
 		    <scope>compile</scope>
 		</dependency>
 		
@@ -98,10 +99,11 @@
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
 		<!-- 15/06/2020 - Atualizado de 5.2.5.Final para 5.4.17.Final -->
 		<!-- 17/09/2020 - Atualizado de 5.4.17.Final para 5.4.21.Final -->
+		<!-- 19/02/2022 - Atualizado de 5.4.21.Final para 5.4.24.Final  Ajustado para 5.4.24 devido vulnerabilidade registrada-->
 		<dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-entitymanager</artifactId>
-		    <version>5.4.21.Final</version>
+		    <version>5.4.24.Final</version>
 		    <scope>compile</scope>
 		</dependency>
 		
