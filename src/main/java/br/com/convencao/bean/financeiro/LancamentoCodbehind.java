@@ -30,7 +30,7 @@ public class LancamentoCodbehind extends Codebehind{
 	private MinistroRecebimentoCpl ministroRecebimento;
 	private String param_controle;
 	private boolean flImprimirRecibo;
-	private Integer cdReciboEmNome = 1; // 1 = Em nome da Igreja  -  2 = Em nome do Ministro
+	private Integer cdReciboEmNome = 2; // 1 = Em nome da Igreja  -  2 = Em nome do Ministro (padrão)
 	private String param_igrejaItensFiltro_sqIgreja;
 	private String param_departamentoItensFiltro_sqDepartamento;
 	private String param_cdRg;
