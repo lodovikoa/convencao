@@ -52,7 +52,7 @@ public class RelatorioFinanceiroReciboServlet extends HttpServlet {
 		Long sqReciboLancamento = 0L;
 
 		// Recibo para lançamento de Ministro
-		if(param_tpRecibo.equals("1")) {
+		if(param_tpRecibo.equals("101")) {
 			sqReciboLancamento = Long.parseLong(param_sqRecibo);
 			corpoRecibo.append("Recebemos da Igreja Evangélica ")
 					.append(reciboCpl.getDsIgreja())
@@ -62,6 +62,12 @@ public class RelatorioFinanceiroReciboServlet extends HttpServlet {
 					.append(reciboCpl.getDsTituloCargo())
 					.append(" ")
 					.append(reciboCpl.getDsNomeMin());
+		} else if(param_tpRecibo.equals("102")) {
+			sqReciboLancamento = Long.parseLong(param_sqRecibo);
+			corpoRecibo.append("Recebemos de ")
+					.append(reciboCpl.getDsTituloCargo())
+					.append(" ")
+					.append(reciboCpl.getDsNomeMin());			
 		} else	
 			// Recibo para lançamento de Igreja
 			if(param_tpRecibo.equals("2")) {

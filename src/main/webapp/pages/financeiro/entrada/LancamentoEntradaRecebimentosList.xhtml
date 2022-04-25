@@ -410,24 +410,38 @@
 									</p:column>
 											
 								</p:dataTable>
-										
+							</p:panelGrid>
+							<p:panelGrid style="margin-top:1px;" columns="3" layout="grid"	id="panelGrid_recebimentos02" columnClasses="ui-grid-col-2, ui-grid-col-6, ui-grid-col-4" styleClass="panelgrid-noborder" >	
 								<p:outputLabel value="" />
-								<p:outputPanel>
-									<p:selectBooleanCheckbox id="flImprimirRecibo" value="#{lancamentoEntradaRecebimentosListBean.flImprimirRecibo}" />
-									<p:outputLabel value="Imprimir recibo" styleClass="cv-dialogo-exibe-label" style="margin-left:10px;"/>
-								</p:outputPanel>
+								<p:panelGrid columns="2" layout="grid"	id="panelGrid_recebimentos03" columnClasses="ui-grid-col-4, ui-grid-col-8"  >
+									<p:outputPanel style="margin-top:9px;">
+										<p:selectBooleanCheckbox id="flImprimirRecibo" value="#{lancamentoEntradaRecebimentosListBean.flImprimirRecibo}"  >
+											<p:ajax update="frm:panelGrid_recebimentos03" process="@this" />
+										</p:selectBooleanCheckbox>
+										<p:outputLabel value="Imprimir recibo" styleClass="cv-dialogo-exibe-label" />
+									</p:outputPanel>
+									
+									<p:selectOneRadio rendered="#{lancamentoEntradaRecebimentosListBean.flExibirReciboEmNome}" id="cdFavorecidoRecibo" value="#{lancamentoEntradaRecebimentosListBean.cdReciboEmNome}"  styleClass="cv-dialogo-exibe-label">
+							            <f:selectItem itemLabel="Em nome da Igreja" itemValue="1"  />
+							            <f:selectItem itemLabel="Em nome do Ministro" itemValue="2" />
+							        </p:selectOneRadio>
+
+								</p:panelGrid>
+								<p:outputLabel value="" />
+								
 										
 								<p:outputLabel value="" />
 								<p:separator />
-										
 								<p:outputLabel value="" />
 										
+								<p:outputLabel value="" />	
 								<p:commandButton value="Confirmar pagamento" 
 				    					id="botaoSalvarPagamento" 
 				    					action="#{lancamentoEntradaRecebimentosListBean.salvarPagamentos}"
 				    					style="width: auto; margin-bottom:30px;"
 				    					process="@form"
 				    					update=":frm" />
+				    			<p:outputLabel value="" />
 										
 							</p:panelGrid>
 														

@@ -209,19 +209,29 @@
 											<p:outputLabel id="dsComplemento" rendered="#{itemRecebimento.flExibirComplemento}" value="#{itemRecebimento.dsComplemento}" />													
 										</p:column>
 									</p:dataTable>
-														
-									<p:outputLabel value="" />	
-									<p:commandButton value="Imprimir recibo" 
-						   					id="botaoImprimirRecibo" 
-						   					style="width: auto; margin-bottom:30px;"
-						   					action="#{lancamentoEntradaRecebimentoRetriveBean.imprimirRecibo}" />
-
 								</p:panelGrid>
-						
+								
 								<p:panelGrid columns="1" layout="grid" styleClass="panelgrid-noborder" >						
 										<p:graphicImage value="/ministro-foto?nome=#{lancamentoEntradaRecebimentoRetriveBean.ministroRecebimento.dsFoto}" rendered="#{lancamentoEntradaRecebimentoRetriveBean.ministroRecebimento.dsFoto ne null}" style="max-width:150px; width: auto; display: block; margin-left: auto; margin-right: auto; border: 1px solid black;  margin-top: 5px;margin-bottom: 5px;" />
 								</p:panelGrid>
-							
+								
+								<p:panelGrid columns="3" layout="grid"	id="panelGrid_recebimentos03" columnClasses="ui-grid-col-1, ui-grid-col-2, ui-grid-col-9" >					
+									<p:outputLabel value="" />	
+									
+									<p:commandButton value="Imprimir recibo" 
+							   				id="botaoImprimirRecibo" 
+							   				style="width: auto; "
+							   				action="#{lancamentoEntradaRecebimentoRetriveBean.imprimirRecibo}" />
+						   					
+						   			<p:selectOneRadio id="cdFavorecidoRecibo" value="#{lancamentoEntradaRecebimentoRetriveBean.cdReciboEmNome}"  styleClass="cv-dialogo-exibe-label">
+								           <f:selectItem itemLabel="Em nome da Igreja" itemValue="1"  />
+								           <f:selectItem itemLabel="Em nome do Ministro" itemValue="2" />
+								       </p:selectOneRadio>
+						   				
+								</p:panelGrid>
+								
+								<p:outputLabel value="" />
+								
 							</p:panelGrid>
 							
 						</div>

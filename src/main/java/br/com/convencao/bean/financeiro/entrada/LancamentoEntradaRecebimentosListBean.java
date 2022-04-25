@@ -53,6 +53,8 @@ public class LancamentoEntradaRecebimentosListBean extends LancamentoCodbehind {
 	private boolean flControleAtualizarDados;
 	private boolean flControleItemRecebimentoMarcado;
 	private String stBoletoRegistrado;
+	
+	private boolean flExibirReciboEmNome;
 
 	public void inicializar() {
 
@@ -96,6 +98,8 @@ public class LancamentoEntradaRecebimentosListBean extends LancamentoCodbehind {
 				this.recibo.setDtRecibo(Uteis.DataHoje().toLocalDate());
 			}
 		}
+		
+		this.flExibirReciboEmNome = this.isFlImprimirRecibo();
 	}
 
 	public void inicializarIncluirEntradaMinistro() {
@@ -235,8 +239,11 @@ public class LancamentoEntradaRecebimentosListBean extends LancamentoCodbehind {
 		// this.inicializarLancamentosMinistro();
 		
 		// Imprimir o recibo
-		if(this.isFlImprimirRecibo())
-			this.imprimirReciboGenerico(this.recibo.getSqRecibo(), 1); //Parametro 1 = Recibo de Ministro
+		if(this.isFlImprimirRecibo()) {
+			Integer cdNomeIgrejaMinistro = 101;
+			if(this.getCdReciboEmNome() == 2) cdNomeIgrejaMinistro = 102;
+			this.imprimirReciboGenerico(this.recibo.getSqRecibo(), cdNomeIgrejaMinistro); //cdNomeIgrejaMinistro = 101 Recibo em nome da Igreja - cdNomeIgrejaMinistro = 102 Recibo em nome do Ministro
+		}
 
 		FacesUtil.addInfoMessage("Registro concluído com sucesso.");
 
@@ -294,5 +301,13 @@ public class LancamentoEntradaRecebimentosListBean extends LancamentoCodbehind {
 			this.setFlLancamentosEmAberto(Boolean.parseBoolean(this.getParam_flLancamentosEmAberto()));
 			this.setFlLancamentosPagos(Boolean.parseBoolean(this.getParam_flLancamentosPagos()));
 		}
+	}
+	
+	public boolean isFlExibirReciboEmNome() {
+		return flExibirReciboEmNome;
+	}
+	
+	public void setFlExibirReciboEmNome(boolean flExibirReciboEmNome) {
+		this.flExibirReciboEmNome = flExibirReciboEmNome;
 	}
 }

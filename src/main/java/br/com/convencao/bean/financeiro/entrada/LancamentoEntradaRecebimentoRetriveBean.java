@@ -69,7 +69,9 @@ public class LancamentoEntradaRecebimentoRetriveBean extends LancamentoCodbehind
 	}
 	
 	public void imprimirRecibo() {
-		this.imprimirReciboGenerico(recibo.getSqRecibo(), 1); //Parametro 1 indica que trata-se de recibo de Ministro
+		Integer cdNomeIgrejaMinistro = 101;
+		if(this.getCdReciboEmNome() == 2) cdNomeIgrejaMinistro = 102;
+		this.imprimirReciboGenerico(recibo.getSqRecibo(), cdNomeIgrejaMinistro); //cdNomeIgrejaMinistro = 101 Recibo em nome da Igreja - cdNomeIgrejaMinistro = 102 Recibo em nome do Ministro
 	
 		this.flImprimindo = false;
 	}
