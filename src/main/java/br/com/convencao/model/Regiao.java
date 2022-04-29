@@ -13,11 +13,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
 
-import org.hibernate.validator.constraints.NotBlank;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name="tb_rgn_regiao")
+@NoArgsConstructor
+@ToString
 public class Regiao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -25,72 +31,24 @@ public class Regiao implements Serializable {
 	@Id
 	@Column(name="rgn_sq_regiao")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long sqRegiao;
+	@Getter @Setter  private Long sqRegiao;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="con_sq_convencao", nullable=false)
-	private Convencao convencao;
+	@Getter @Setter  private Convencao convencao;
 
-	@NotBlank
+	@NotEmpty
 	@Column(name="rgn_ds_regiao")
-	private String dsRegiao;
+	@Getter @Setter  private String dsRegiao;
 
 	@Column(name="auditoria_data")
-	private LocalDateTime auditoriaData;
+	@Getter @Setter  private LocalDateTime auditoriaData;
 
 	@Column(name="auditoria_usuario", length=50)
-	private String auditoriaUsuario;
+	@Getter @Setter  private String auditoriaUsuario;
 
 	@Transient
-	private boolean flSelecionado;
-
-	public Long getSqRegiao() {
-		return sqRegiao;
-	}
-
-	public void setSqRegiao(Long sqRegiao) {
-		this.sqRegiao = sqRegiao;
-	}
-
-	public Convencao getConvencao() {
-		return convencao;
-	}
-
-	public void setConvencao(Convencao convencao) {
-		this.convencao = convencao;
-	}
-
-	public String getDsRegiao() {
-		return dsRegiao;
-	}
-
-	public void setDsRegiao(String dsRegiao) {
-		this.dsRegiao = dsRegiao;
-	}
-
-	public LocalDateTime getAuditoriaData() {
-		return auditoriaData;
-	}
-
-	public void setAuditoriaData(LocalDateTime auditoriaData) {
-		this.auditoriaData = auditoriaData;
-	}
-
-	public String getAuditoriaUsuario() {
-		return auditoriaUsuario;
-	}
-
-	public void setAuditoriaUsuario(String auditoriaUsuario) {
-		this.auditoriaUsuario = auditoriaUsuario;
-	}
-
-	public boolean isFlSelecionado() {
-		return flSelecionado;
-	}
-
-	public void setFlSelecionado(boolean flSelecionado) {
-		this.flSelecionado = flSelecionado;
-	}
+	@Getter @Setter  private boolean flSelecionado;
 
 	@Override
 	public int hashCode() {
@@ -146,7 +104,5 @@ public class Regiao implements Serializable {
 			return false;
 		return true;
 	}
-
-
 
 }

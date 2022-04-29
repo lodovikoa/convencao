@@ -57,7 +57,9 @@ public class Seguranca {
 	}
 	
 	public boolean isSubMenuFinanceiroOnlineAgoReciboList() {
-		return FacesUtil.getExternalContext().isUserInRole("guCftAdministrador");
+		return FacesUtil.getExternalContext().isUserInRole("guCftAdministrador")
+				|| FacesUtil.getExternalContext().isUserInRole("guCftSecretarioConvencao")
+				|| FacesUtil.getExternalContext().isUserInRole("guCftFinanceiroLocal");
 	}
 	
 	// Menu Cadastro

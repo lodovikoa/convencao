@@ -67,6 +67,10 @@ public class RegiaoBO implements Serializable {
 			
 			log.info("salvar(" + registro.getSqRegiao() + ")");
 			
+			// Validar preenchimento da Convencao
+			if(null == registro.getConvencao())
+				throw new NegocioException("Convenção não foi selecionada.");
+			
 			// Retirar espaços em branco de inicio e fim de string
 			registro.setDsRegiao(registro.getDsRegiao().trim());
 			

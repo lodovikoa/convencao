@@ -93,8 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				"/pages/configuracao/ProfissaoPesquisa.xhtml",
 				"/pages/configuracao/ProfissaoCadastro.xhtml",
 				"/pages/configuracao/RegiaoPesquisa.xhtml",
-				"/pages/configuracao/RegiaoCadastro.xhtml",
-				"/pages/financeiro/autoRegistro/AgoReciboList.xhtml")
+				"/pages/configuracao/RegiaoCadastro.xhtml")
 				.hasAnyRole("guCftAdministrador", "guCftSecretarioConvencao")
 
 		// Permissões de:
@@ -133,7 +132,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				"/pages/relatorio/RptFinanceiroLancamentosEntradaRecibo.xhtml",
 				"/pages/relatorio/RptFinanceiroLancamentosSaidaPeriodo.xhtml",
 				"/pages/relatorio/RptFinanceiroResumo.xhtml",
-				"/pages/relatorio/RptFinanceiroLancamentosEntradaFormaRecebimento.xhtml")
+				"/pages/relatorio/RptFinanceiroLancamentosEntradaFormaRecebimento.xhtml",
+				"/pages/financeiro/autoRegistro/AgoReciboList.xhtml")
 				.hasAnyRole("guCftAdministrador", "guCftConsulta", "guCftFinanceiroLocal", "guCftFinanceiroRegiao")
 
 		.antMatchers("/pages/relatorio/MinistroRelatorioGeral.xhtml",
