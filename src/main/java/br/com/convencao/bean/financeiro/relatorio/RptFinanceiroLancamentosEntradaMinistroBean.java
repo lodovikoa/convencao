@@ -128,7 +128,7 @@ public class RptFinanceiroLancamentosEntradaMinistroBean extends Codebehind {
 
 	public void buscarIgrejas() {
 		if(getRelatorioFiltro().getRegiaoItensFiltro() != null)
-			this.inicializarIgrejas(getRelatorioFiltro().getRegiaoItensFiltro().getSqRegiao(), true);
+			this.inicializarIgrejas(getRelatorioFiltro().getRegiaoItensFiltro().getSqRegiao());
 		else
 			this.setIgrejas(null);
 	}

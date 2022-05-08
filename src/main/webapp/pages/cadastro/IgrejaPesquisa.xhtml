@@ -42,14 +42,14 @@
 				
 				<p:outputLabel value="Região:" for="dsRegiao"/>
 				<p:outputPanel>
-					<p:selectOneMenu id="dsRegiao" filter="true" value="#{igrejaPesquisaBean.igrejaFiltro.regiaoItens}" >
+					<p:selectOneMenu id="dsRegiao" filter="true" filterMatchMode="contains" value="#{igrejaPesquisaBean.igrejaFiltro.regiaoItens}" >
 						<f:selectItem itemLabel="Selecione uma região"/>
 						<f:selectItems value="#{igrejaPesquisaBean.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
 						<p:ajax listener="#{igrejaPesquisaBean.buscarPresidentes}"  update=":frm:dsPresidente"/>
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Presidente:" for="dsPresidente" style="margin-left: 50px; margin-right: 10px"/>
-					<p:selectOneMenu id="dsPresidente" value="#{igrejaPesquisaBean.igrejaFiltro.ministro}" filter="true" filterMatchMode="startsWith" >
+					<p:selectOneMenu id="dsPresidente" value="#{igrejaPesquisaBean.igrejaFiltro.ministro}" filter="true" filterMatchMode="contains" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione o presidente" />
 						<f:selectItems value="#{igrejaPesquisaBean.igrejaMinistrosPresidente}" var="item" itemValue="#{item}" itemLabel="#{item.nmNome}  (#{item.cdCodigo})" />
 					</p:selectOneMenu>											
@@ -74,7 +74,7 @@
 					<p:inputText id="dsCidade" value="#{igrejaPesquisaBean.igrejaFiltro.dsCidadeFiltro}" size="50"/>
 				
 					<p:outputLabel value="Estado:" for="dsEstado" style="margin-left: 10px; margin-right: 10px"/>
-					<p:selectOneMenu id="dsEstado" value="#{igrejaPesquisaBean.igrejaFiltro.estado}" filter="true" filterMatchMode="startsWith"  >
+					<p:selectOneMenu id="dsEstado" value="#{igrejaPesquisaBean.igrejaFiltro.estado}" filter="true" filterMatchMode="contains"  >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione o estado" />
 						<f:selectItems value="#{igrejaPesquisaBean.estados}" var="item" itemValue="#{item}" itemLabel="#{item.dsNome}" />
 					</p:selectOneMenu>

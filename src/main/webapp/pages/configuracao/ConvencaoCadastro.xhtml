@@ -68,7 +68,7 @@
 									<p:inputText id="dsCidade" value="#{convencaoCadastroBean.convencao.dsCidade}"/>
 									
 									<p:outputLabel value="Estado" for="dsEstado" />
-									<p:selectOneMenu id="dsEstado" value="#{convencaoCadastroBean.convencao.estado}" filter="true" filterMatchMode="startsWith" >
+									<p:selectOneMenu id="dsEstado" value="#{convencaoCadastroBean.convencao.estado}" filter="true" filterMatchMode="contains" >
 										<f:selectItem noSelectionOption="true" itemLabel="Selecione o estado" />
 										<f:selectItems value="#{convencaoCadastroBean.estados}" var="item" itemValue="#{item}" itemLabel="#{item.dsNome}"/>
 									</p:selectOneMenu>

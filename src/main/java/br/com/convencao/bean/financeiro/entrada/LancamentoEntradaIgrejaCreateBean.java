@@ -45,7 +45,7 @@ public class LancamentoEntradaIgrejaCreateBean extends LancamentoCodbehind {
 			this.flInicializar = false;
 			if(!this.isFlCalculandoTotalRecebido() && !this.isSalvandoRegistro) {
 				// Inicializar combo de igrejas e Plano de Contas do tipo Crédito
-				this.inicializarIgrejas(-1L, true);
+				this.inicializarIgrejas(-1L);
 				this.inicializarPlanoContasPorTipo("C");
 				this.inicializarRegioes("PAG");
 				if(this.getRegiaoItens().size() == 1) {

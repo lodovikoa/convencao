@@ -45,16 +45,16 @@
 			<div class="ui-fluid">
 				<p:panelGrid columns="4" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-7" >
 					<p:outputLabel value="Região:" for="dsRegiao" />
-					<p:selectOneMenu id="dsRegiao" filter="true" value="#{ministroPesquisaBean.filtro.regiaoItensFiltro}" >
+					<p:selectOneMenu id="dsRegiao" filter="true" filterMatchMode="contains" value="#{ministroPesquisaBean.filtro.regiaoItensFiltro}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma região"/>
 						<f:selectItems value="#{ministroPesquisaBean.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
 						<p:ajax listener="#{ministroPesquisaBean.buscarIgrejasAjax}"  update=":frm:dsIgreja"/>
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Igreja:" for="dsIgreja" />
-					<p:selectOneMenu id="dsIgreja" filter="true" value="#{ministroPesquisaBean.filtro.igrejaFiltro}" >
+					<p:selectOneMenu id="dsIgreja" filter="true" filterMatchMode="contains" value="#{ministroPesquisaBean.filtro.igrejaFiltro}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma igreja"/>
-						<f:selectItems value="#{ministroPesquisaBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})" />
+						<f:selectItems value="#{ministroPesquisaBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgreja} - (#{item.dsCidade}/#{item.estado.dsUf})" />
 					</p:selectOneMenu>
 					
 				</p:panelGrid>
@@ -78,13 +78,13 @@
 					<p:inputText id="dsCidade" value="#{ministroPesquisaBean.filtro.dsCidadeFiltro}" />
 					
 					<p:outputLabel value="Dpto:" for="dsDepartamentoReduzido"  />
-					<p:selectOneMenu id="dsDepartamentoReduzido" filter="true" value="#{ministroPesquisaBean.filtro.departamentoFiltro}" >
+					<p:selectOneMenu id="dsDepartamentoReduzido" filter="true" filterMatchMode="contains" value="#{ministroPesquisaBean.filtro.departamentoFiltro}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione um departamento"/>
 						<f:selectItems value="#{ministroPesquisaBean.departamentos}" var="item" itemValue="#{item}" itemLabel="#{item.dsReduzido}" />
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Cargo:" for="dsCargo" />
-					<p:selectOneMenu id="dsCargo" filter="true" value="#{ministroPesquisaBean.filtro.cargoFiltro}" >
+					<p:selectOneMenu id="dsCargo" filter="true" filterMatchMode="contains" value="#{ministroPesquisaBean.filtro.cargoFiltro}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione um cargo"/>
 						<f:selectItems value="#{ministroPesquisaBean.cargos}" var="item" itemValue="#{item}" itemLabel="#{item.dsCargo}" />
 					</p:selectOneMenu>

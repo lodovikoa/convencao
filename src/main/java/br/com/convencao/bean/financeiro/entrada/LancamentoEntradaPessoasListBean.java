@@ -39,14 +39,14 @@ public class LancamentoEntradaPessoasListBean extends LancamentoCodbehind {
 			this.getFiltro().setRegiaoItensFiltro(this.getRegiaoItens().get(0));
 		}
 
-		this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro() != null? this.getFiltro().getRegiaoItensFiltro().getSqRegiao(): null, true);
+		this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro() != null? this.getFiltro().getRegiaoItensFiltro().getSqRegiao(): null);
 		this.inicializarDepartamentos("consultasInternas");
 		this.inicializarCargos();
 		this.inicializarEstados();
 	}
 	
 	public void buscarIgrejasAjax(){		
-		this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro() != null? this.getFiltro().getRegiaoItensFiltro().getSqRegiao(): null  , true);
+		this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro() != null? this.getFiltro().getRegiaoItensFiltro().getSqRegiao(): null);
 	}
 	
 	public void pesquisar() {
@@ -156,7 +156,7 @@ public class LancamentoEntradaPessoasListBean extends LancamentoCodbehind {
 			this.getFiltro().setDtInicio2Filtro(dtInicio2);
 			this.getFiltro().setDtFim2Filtro(dtFim2);
 			
-			this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro().getSqRegiao(), true);
+			this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro().getSqRegiao());
 		
 			this.listarPessoas();
 		}

@@ -54,7 +54,7 @@
 					<p:outputLabel value="Igreja:" for="dsIgreja" />
 					<p:selectOneMenu id="dsIgreja" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaMinistroBean.relatorioFiltro.igreja}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione a Igreja"/>
-						<f:selectItems value="#{rptFinanceiroLancamentosEntradaMinistroBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida}" />
+						<f:selectItems value="#{rptFinanceiroLancamentosEntradaMinistroBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgreja}" />
 						<p:ajax listener="#{rptFinanceiroLancamentosEntradaMinistroBean.buscarMinistros}"  update=":frm:dsMinistro"/>
 					</p:selectOneMenu>
 					

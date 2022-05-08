@@ -46,7 +46,7 @@
 					    		</p:inputText>
 								
 								<p:outputLabel value="Conta associada:" for="dsConta" />
-								<p:selectOneMenu id="dsConta" value="#{tipoLancamentoCadastroBean.tipoLancamento.planoConta}">
+								<p:selectOneMenu id="dsConta" filter="true" filterMatchMode="contains" value="#{tipoLancamentoCadastroBean.tipoLancamento.planoConta}">
 									<f:selectItem  noSelectionOption="true" itemLabel="Selecione a conta" />
 									<f:selectItems value="#{tipoLancamentoCadastroBean.planoContas}" var="item" itemValue="#{item}" itemLabel="#{item.dsConta}"/>
 								</p:selectOneMenu>	

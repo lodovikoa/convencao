@@ -284,7 +284,7 @@ public class Codebehind implements java.io.Serializable {
 		this.formaPagamento = formaPagamentoBO.findAllOrdenado();
 	}
 
-	public void inicializarIgrejas(Long sqRegiao, Boolean flInverter){
+	public void inicializarIgrejas(Long sqRegiao){
 		if(sqRegiao != null){
 			Regiao regiao = new Regiao();
 			regiao.setSqRegiao(sqRegiao);
@@ -297,25 +297,25 @@ public class Codebehind implements java.io.Serializable {
 				this.igrejas = igrejaBO.findAllPorRegiao(regiao);
 			}			
 
-			if(flInverter){
-				for (int i = 0; i < this.igrejas.size(); i++ ) {
-					if(StringUtils.isNotBlank(this.igrejas.get(i).getDsIgreja())){
-						int nnTam = this.igrejas.get(i).getDsIgreja().toUpperCase().indexOf("ASSEMBLEIA DE DEUS");
-						if(nnTam == -1){
-							nnTam = this.igrejas.get(i).getDsIgreja().toUpperCase().indexOf("ASSEMBLÉIA DE DEUS");
-						}
-
-						if(nnTam == 0 && this.igrejas.get(i).getDsIgreja().length() > 18){
-							String dsParte1 = this.igrejas.get(i).getDsIgreja().substring(0, 18);
-							String dsParte2 = this.igrejas.get(i).getDsIgreja().substring(19);
-
-							this.igrejas.get(i).setDsIgrejaInvertida(dsParte2 + ", " + dsParte1);
-						}else{
-							this.igrejas.get(i).setDsIgrejaInvertida(this.igrejas.get(i).getDsIgreja());
-						}
-					}	
-				}
-			}
+//			if(flInverter){
+//				for (int i = 0; i < this.igrejas.size(); i++ ) {
+//					if(StringUtils.isNotBlank(this.igrejas.get(i).getDsIgreja())){
+//						int nnTam = this.igrejas.get(i).getDsIgreja().toUpperCase().indexOf("ASSEMBLEIA DE DEUS");
+//						if(nnTam == -1){
+//							nnTam = this.igrejas.get(i).getDsIgreja().toUpperCase().indexOf("ASSEMBLÉIA DE DEUS");
+//						}
+//
+//						if(nnTam == 0 && this.igrejas.get(i).getDsIgreja().length() > 18){
+//							String dsParte1 = this.igrejas.get(i).getDsIgreja().substring(0, 18);
+//							String dsParte2 = this.igrejas.get(i).getDsIgreja().substring(19);
+//
+//							this.igrejas.get(i).setDsIgrejaInvertida(dsParte2 + ", " + dsParte1);
+//						}else{
+//							this.igrejas.get(i).setDsIgrejaInvertida(this.igrejas.get(i).getDsIgreja());
+//						}
+//					}	
+//				}
+//			}
 			//Collections.sort(this.igrejas);
 
 		} else

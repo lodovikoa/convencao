@@ -32,41 +32,41 @@
 			
 				<p:panelGrid columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-3" >
 					<p:outputLabel value="Departamento:" for="dsDepartamento" />
-					<p:selectOneMenu id="dsDepartamento" filter="true" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.departamento}" >
+					<p:selectOneMenu id="dsDepartamento" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.departamento}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione o Departamento"/>
 						<f:selectItems value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.departamentos}" var="item" itemValue="#{item}" itemLabel="#{item.dsReduzido}" />
 						<p:ajax listener="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.buscarMinistros}"  update=":frm:dsMinistro"/>
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Região Financeiro" for="dsRegiaoRecebimento" />
-					<p:selectOneMenu id="dsRegiaoRecebimento" filter="true" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.regiaoRecebimentoItensFiltro}" >
+					<p:selectOneMenu id="dsRegiaoRecebimento" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.regiaoRecebimentoItensFiltro}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma região"/>
 						<f:selectItems value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.regiaoRecebimentoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Região Ministro:" for="dsRegiao" />
-					<p:selectOneMenu id="dsRegiao" filter="true" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.regiaoItensFiltro}" >
+					<p:selectOneMenu id="dsRegiao" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.regiaoItensFiltro}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma região"/>
 						<f:selectItems value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
 						<p:ajax listener="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.buscarIgrejasEministros}"  update=":frm:dsIgreja :frm:dsMinistro"/>
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Igreja:" for="dsIgreja" />
-					<p:selectOneMenu id="dsIgreja" filter="true" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.igreja}" style="width:100%;" >
+					<p:selectOneMenu id="dsIgreja" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.igreja}" style="width:100%;" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma igreja"/>
-						<f:selectItems value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})" />
+						<f:selectItems value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgreja} - (#{item.dsCidade}/#{item.estado.dsUf})" />
 						<p:ajax listener="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.buscarMinistros}"  update=":frm:dsMinistro"/>
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Cargo:" for="dsCargo" />
-					<p:selectOneMenu id="dsCargo" filter="true" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.cargo}" >
+					<p:selectOneMenu id="dsCargo" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.cargo}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione o Cargo"/>
 						<f:selectItems value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.cargos}" var="item" itemValue="#{item}" itemLabel="#{item.dsCargo}" />
 						<p:ajax listener="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.buscarMinistros}"  update=":frm:dsMinistro"/>
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Ministro:" for="dsMinistro" />
-					<p:selectOneMenu id="dsMinistro" filter="true" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.ministro}"  >
+					<p:selectOneMenu id="dsMinistro" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.ministro}"  >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione o Ministro"/>
 						<f:selectItems value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.ministros}" var="item" itemValue="#{item}" itemLabel="#{item.nmNome}" />
 					</p:selectOneMenu>
@@ -98,7 +98,7 @@
 					</p:outputPanel>
 					
 					<p:outputLabel value="Ordem:" for="cdOrdem" />
-					<p:selectOneMenu id="cdOrdem" filter="true" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.cdOrdem}"  >
+					<p:selectOneMenu id="cdOrdem" value="#{rptFinanceiroLancamentosEntradaFormaRecebimentoBean.relatorioFiltro.cdOrdem}"  >
 						<f:selectItem itemValue="1" itemLabel="Recibo"/>
 						<f:selectItem itemValue="2" itemLabel="Rg"/>
 						<f:selectItem itemValue="3" itemLabel="Contribuinte"/>

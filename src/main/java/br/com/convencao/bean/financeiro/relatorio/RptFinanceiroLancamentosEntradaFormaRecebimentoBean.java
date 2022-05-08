@@ -50,7 +50,7 @@ public class RptFinanceiroLancamentosEntradaFormaRecebimentoBean extends Codebeh
 	}
 	
 	public void buscarIgrejas(){		
-		this.inicializarIgrejas(this.getRelatorioFiltro().getRegiaoItensFiltro() != null? this.getRelatorioFiltro().getRegiaoItensFiltro().getSqRegiao(): null  , true);
+		this.inicializarIgrejas(this.getRelatorioFiltro().getRegiaoItensFiltro() != null? this.getRelatorioFiltro().getRegiaoItensFiltro().getSqRegiao(): null);
 	}
 	
 	public void buscarMinistros() {

@@ -284,13 +284,13 @@
 						<p:inputText id="incluirNsu" disabled="true" value="#{lancamentoSaidaList.lancamentoSaida.cdNsu}" />
 						
 						<p:outputLabel value="Departamento:" styleClass="cv-dialogo-exibe-label" for="incluirContaDepartamento" />
-						<p:selectOneMenu id="incluirContaDepartamento" filter="true" value="#{lancamentoSaidaList.lancamentoSaida.departamento}" >
+						<p:selectOneMenu id="incluirContaDepartamento" filter="true" filterMatchMode="contains" value="#{lancamentoSaidaList.lancamentoSaida.departamento}" >
 							<f:selectItem noSelectionOption="true" itemLabel="Selecione um departamento"/>
 							<f:selectItems value="#{lancamentoSaidaList.departamentos}" var="item" itemValue="#{item}" itemLabel="#{item.dsReduzido}" />
 						</p:selectOneMenu>
 						
 						<p:outputLabel value="Conta contábil:" styleClass="cv-dialogo-exibe-label" for="incluirContaContabil" />
-						<p:selectOneMenu id="incluirContaContabil" filter="true" value="#{lancamentoSaidaList.lancamentoSaida.planoConta}">
+						<p:selectOneMenu id="incluirContaContabil" filter="true" filterMatchMode="contains" value="#{lancamentoSaidaList.lancamentoSaida.planoConta}">
 							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma conta"/>
 							<f:selectItems value="#{lancamentoSaidaList.planoContaList}" var="item" itemValue="#{item}" itemLabel="#{item.dsConta}" />
 						</p:selectOneMenu>
@@ -325,7 +325,7 @@
 					
 					<p:panelGrid id="saidaIncluirGrid3" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-10">
 						<p:outputLabel value="Forma Pagamento:" styleClass="cv-dialogo-exibe-label" for="incluirFormaPgto" />
-						<p:selectOneMenu id="incluirFormaPgto" value="#{lancamentoSaidaList.cdFormaPagamento}" >
+						<p:selectOneMenu id="incluirFormaPgto" filter="true" filterMatchMode="contains" value="#{lancamentoSaidaList.cdFormaPagamento}" >
 							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma forma de pagamento"/>
 							<f:selectItems value="#{lancamentoSaidaList.tipoPagamentos}"  var="item" itemValue="#{item.label}" itemLabel="#{item}"/>
 						</p:selectOneMenu>
@@ -368,13 +368,13 @@
 						<p:outputLabel value="#{lancamentoSaidaList.selecionado.cdNsu}" />
 						
 						<p:outputLabel value="Departamento:" styleClass="cv-dialogo-exibe-label" for="alterarContaDepartamento" />
-						<p:selectOneMenu id="alterarContaDepartamento" filter="true" value="#{lancamentoSaidaList.selecionado.departamento}" >
+						<p:selectOneMenu id="alterarContaDepartamento" filter="true" filterMatchMode="contains" value="#{lancamentoSaidaList.selecionado.departamento}" >
 							<f:selectItem noSelectionOption="true" itemLabel="Selecione um departamento"/>
 							<f:selectItems value="#{lancamentoSaidaList.departamentos}" var="item" itemValue="#{item}" itemLabel="#{item.dsReduzido}" />
 						</p:selectOneMenu>
 						
 						<p:outputLabel value="Conta contábil:" styleClass="cv-dialogo-exibe-label" for="alterarContaContabil" />
-						<p:selectOneMenu id="alterarContaContabil" filter="true" value="#{lancamentoSaidaList.selecionado.planoConta}">
+						<p:selectOneMenu id="alterarContaContabil" filter="true" filterMatchMode="contains" value="#{lancamentoSaidaList.selecionado.planoConta}">
 							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma conta"/>
 							<f:selectItems value="#{lancamentoSaidaList.planoContaList}" var="item" itemValue="#{item}" itemLabel="#{item.dsConta}" />
 						</p:selectOneMenu>
@@ -409,7 +409,7 @@
 					
 					<p:panelGrid id="saidaIncluirGrid3" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-10">
 						<p:outputLabel value="Forma Pagamento:" styleClass="cv-dialogo-exibe-label" for="alterarFormaPgto" />
-						<p:selectOneMenu id="alterarFormaPgto" value="#{lancamentoSaidaList.cdFormaPagamento}" >
+						<p:selectOneMenu id="alterarFormaPgto" filter="true" filterMatchMode="contains" value="#{lancamentoSaidaList.cdFormaPagamento}" >
 							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma forma de pagamento"/>
 							<f:selectItems value="#{lancamentoSaidaList.tipoPagamentos}"  var="item" itemValue="#{item.label}" itemLabel="#{item}"/>
 						</p:selectOneMenu>

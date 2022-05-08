@@ -92,19 +92,19 @@
 						<p:panelGrid id="entradaIncluirGrid" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-6">
 							
 							<p:outputLabel value="Região de pagamento:" styleClass="cv-dialogo-exibe-label" for="dsRegiao" />
-							<p:selectOneMenu id="dsRegiao" filter="true" value="#{lancamentoEntradaIgrejaCreateBean.regiaoItemFiltro}" disabled="#{lancamentoEntradaIgrejaCreateBean.registroSalvo}" >
+							<p:selectOneMenu id="dsRegiao" filter="true" filterMatchMode="contains" value="#{lancamentoEntradaIgrejaCreateBean.regiaoItemFiltro}" disabled="#{lancamentoEntradaIgrejaCreateBean.registroSalvo}" >
 								<f:selectItem itemLabel="Selecione uma região"/>
 								<f:selectItems value="#{lancamentoEntradaIgrejaCreateBean.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
 							</p:selectOneMenu>
 								
 							<p:outputLabel value="Igreja:" styleClass="cv-dialogo-exibe-label" for="incluirDsIgreja" />
-							<p:selectOneMenu id="incluirDsIgreja" filter="true" value="#{lancamentoEntradaIgrejaCreateBean.lancamentoEntrada.igreja}" style="width:100%;" disabled="#{lancamentoEntradaIgrejaCreateBean.registroSalvo}" >
+							<p:selectOneMenu id="incluirDsIgreja" filter="true" filterMatchMode="contains" value="#{lancamentoEntradaIgrejaCreateBean.lancamentoEntrada.igreja}" style="width:100%;" disabled="#{lancamentoEntradaIgrejaCreateBean.registroSalvo}" >
 								<f:selectItem noSelectionOption="true" itemLabel="Selecione uma igreja"/>
-								<f:selectItems value="#{lancamentoEntradaIgrejaCreateBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})" />
+								<f:selectItems value="#{lancamentoEntradaIgrejaCreateBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgreja} - (#{item.dsCidade}/#{item.estado.dsUf})" />
 							</p:selectOneMenu>
 							
 							<p:outputLabel value="Conta contábil:" styleClass="cv-dialogo-exibe-label" for="incluirContaContabil" />
-							<p:selectOneMenu id="incluirContaContabil" filter="true" value="#{lancamentoEntradaIgrejaCreateBean.lancamentoEntrada.planoConta}" disabled="#{lancamentoEntradaIgrejaCreateBean.registroSalvo}" >
+							<p:selectOneMenu id="incluirContaContabil" filter="true" filterMatchMode="contains" value="#{lancamentoEntradaIgrejaCreateBean.lancamentoEntrada.planoConta}" disabled="#{lancamentoEntradaIgrejaCreateBean.registroSalvo}" >
 								<f:selectItem noSelectionOption="true" itemLabel="Selecione uma conta"/>
 								<f:selectItems value="#{lancamentoEntradaIgrejaCreateBean.planoContaList}" var="item" itemValue="#{item}" itemLabel="#{item.dsConta}" />
 							</p:selectOneMenu>

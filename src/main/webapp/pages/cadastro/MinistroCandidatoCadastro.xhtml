@@ -590,7 +590,7 @@
 							<p:outputLabel value="Igreja sede: " for="dsIgrejaSede" />
 							<p:selectOneMenu id="dsIgrejaSede" value="#{ministroCandidatoCadastroBean.protocolo.ministro.igreja}" filter="true" filterMatchMode="contains" style="width:80%;"  >
 								<f:selectItem noSelectionOption="true" itemLabel="Selecione a Igreja"/>
-								<f:selectItems value="#{ministroCandidatoCadastroBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})"/>
+								<f:selectItems value="#{ministroCandidatoCadastroBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgreja} - (#{item.dsCidade}/#{item.estado.dsUf})"/>
 							</p:selectOneMenu>
 							
 							<p:outputLabel value="Membro igreja sede?:" for="flIgrejaSede"/>
@@ -762,7 +762,7 @@
 						<p:outputLabel value="Igreja sede: " for="dsIgrejaSedeConjuge" />
 						<p:selectOneMenu id="dsIgrejaSedeConjuge" value="#{ministroCandidatoCadastroBean.ministroConjuge.igreja}" filter="true" filterMatchMode="contains" style="width:100%;"  >
 							<f:selectItem noSelectionOption="true" itemLabel="Selecione a Igreja"/>
-							<f:selectItems value="#{ministroCandidatoCadastroBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})"/>
+							<f:selectItems value="#{ministroCandidatoCadastroBean.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgreja} - (#{item.dsCidade}/#{item.estado.dsUf})"/>
 						</p:selectOneMenu>
 						
 					</p:panelGrid>

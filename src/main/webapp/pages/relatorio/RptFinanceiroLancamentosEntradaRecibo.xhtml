@@ -32,13 +32,13 @@
 			
 				<p:panelGrid columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-3" >
 					<p:outputLabel value="Departamento:" for="dsDepartamento" />
-					<p:selectOneMenu id="dsDepartamento" filter="true" value="#{rptFinanceiroLancamentosEntradaReciboBean.relatorioFiltro.departamento}" >
+					<p:selectOneMenu id="dsDepartamento" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaReciboBean.relatorioFiltro.departamento}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione o Departamento"/>
 						<f:selectItems value="#{rptFinanceiroLancamentosEntradaReciboBean.departamentos}" var="item" itemValue="#{item}" itemLabel="#{item.dsReduzido}" />
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Região Financeiro:" for="dsRegiao" />
-					<p:selectOneMenu id="dsRegiao" filter="true" value="#{rptFinanceiroLancamentosEntradaReciboBean.relatorioFiltro.regiaoItensFiltro}" >
+					<p:selectOneMenu id="dsRegiao" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaReciboBean.relatorioFiltro.regiaoItensFiltro}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma região"/>
 						<f:selectItems value="#{rptFinanceiroLancamentosEntradaReciboBean.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
 					</p:selectOneMenu>
@@ -70,7 +70,7 @@
 					</p:outputPanel>
 					
 					<p:outputLabel value="Ordem:" for="cdOrdem" />
-					<p:selectOneMenu id="cdOrdem" filter="true" value="#{rptFinanceiroLancamentosEntradaReciboBean.relatorioFiltro.cdOrdem}"  >
+					<p:selectOneMenu id="cdOrdem" value="#{rptFinanceiroLancamentosEntradaReciboBean.relatorioFiltro.cdOrdem}"  >
 						<f:selectItem itemValue="1" itemLabel="Recibo"/>
 						<f:selectItem itemValue="2" itemLabel="Data pagamento"/>
 						<f:selectItem itemValue="3" itemLabel="Contribuinte"/>

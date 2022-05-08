@@ -32,26 +32,26 @@
 			
 				<p:panelGrid columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-3" >
 					<p:outputLabel value="Região Financeiro:" for="dsRegiao" />
-					<p:selectOneMenu id="dsRegiao" filter="true" value="#{rptFinanceiroLancamentosEntradaPeriodoBean.relatorioFiltro.regiaoItensFiltro}" >
+					<p:selectOneMenu id="dsRegiao" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaPeriodoBean.relatorioFiltro.regiaoItensFiltro}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma região"/>
 						<f:selectItems value="#{rptFinanceiroLancamentosEntradaPeriodoBean.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
 						<p:ajax listener="#{rptFinanceiroLancamentosEntradaPeriodoBean.buscarLancamentosResumo}"  update=":frm:dsPeriodo"/>
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Período:" for="dsPeriodo" />
-					<p:selectOneMenu id="dsPeriodo" filter="true" value="#{rptFinanceiroLancamentosEntradaPeriodoBean.relatorioFiltro.lancamentoResumoFiltro}" >
+					<p:selectOneMenu id="dsPeriodo" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaPeriodoBean.relatorioFiltro.lancamentoResumoFiltro}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione um período"/>
 						<f:selectItems value="#{rptFinanceiroLancamentosEntradaPeriodoBean.lancamentoResumo}" var="item" itemValue="#{item}" itemLabel="#{item.dsPeriodo}" />
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Conta contábil:" for="dsContaContabil" />
-					<p:selectOneMenu id="dsContaContabil" filter="true" value="#{rptFinanceiroLancamentosEntradaPeriodoBean.relatorioFiltro.planoConta}"  >
+					<p:selectOneMenu id="dsContaContabil" filter="true" filterMatchMode="contains" value="#{rptFinanceiroLancamentosEntradaPeriodoBean.relatorioFiltro.planoConta}"  >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione a Conta"/>
 						<f:selectItems value="#{rptFinanceiroLancamentosEntradaPeriodoBean.planoContaList}" var="item" itemValue="#{item}" itemLabel="#{item.dsConta}" />
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Ordem:" for="cdOrdem" />
-					<p:selectOneMenu id="cdOrdem" filter="true" value="#{rptFinanceiroLancamentosEntradaPeriodoBean.relatorioFiltro.cdOrdem}"  >
+					<p:selectOneMenu id="cdOrdem" value="#{rptFinanceiroLancamentosEntradaPeriodoBean.relatorioFiltro.cdOrdem}"  >
 						<f:selectItem itemValue="1" itemLabel="Cadastro"/>
 						<f:selectItem itemValue="2" itemLabel="Data"/>
 						<f:selectItem itemValue="3" itemLabel="Recibo"/>

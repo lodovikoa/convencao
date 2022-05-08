@@ -75,7 +75,7 @@ public class MinistroCadastroBean extends MinistroCodbehind {
 			this.inicializarEsposasMinistro();
 			// parametro: -1L buscar todas as igrejas independente de região
 			// parametro: true colocar "ASSEMLBEIA DE DEUS" no final do nome da igreja Ex.: CAMPO GRANDE, ASSEMLBEIA DE DEUS
-			this.inicializarIgrejas(-1L, true);
+			this.inicializarIgrejas(-1L);
 
 			this.inicializarMinistroConjuge();
 

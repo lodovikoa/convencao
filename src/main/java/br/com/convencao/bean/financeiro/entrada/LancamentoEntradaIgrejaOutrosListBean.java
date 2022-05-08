@@ -103,7 +103,7 @@ public class LancamentoEntradaIgrejaOutrosListBean extends LancamentoCodbehind {
 
 	public void iniciarIncluirEntrada() {
 		// Inicializar combo de igrejas e Plano de Contas do tipo Crédito
-		this.inicializarIgrejas(-1L, true);
+		this.inicializarIgrejas(-1L);
 		this.inicializarPlanoContasPorTipo("C");
 
 		// Inicializar LancamentosEntrada
@@ -139,7 +139,7 @@ public class LancamentoEntradaIgrejaOutrosListBean extends LancamentoCodbehind {
 
 	public void inicializarAlterarEntrada(boolean flSoComValores) {
 		// Inicializar combo de igrejas e Plano de Contas do tipo Crédito
-		this.inicializarIgrejas(-1L, true);
+		this.inicializarIgrejas(-1L);
 		this.inicializarPlanoContasPorTipo("C");
 
 		// Buscar a entrada para alterar

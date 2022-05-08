@@ -70,7 +70,7 @@
 							<p:inputText id="dsNmIgreja" value="#{igrejaCadastroBean.igreja.dsIgreja}" />
 							
 							<p:outputLabel value="Pr. presidente:" for="dsPresidente"/>
-							<p:selectOneMenu id="dsPresidente" value="#{igrejaCadastroBean.igreja.ministro}" filter="true" filterMatchMode="startsWith"  autoWidth="false" style="width:100%;" >
+							<p:selectOneMenu id="dsPresidente" value="#{igrejaCadastroBean.igreja.ministro}" filter="true" filterMatchMode="contains"  autoWidth="false" style="width:100%;" >
 								<f:selectItem noSelectionOption="true" itemLabel="Selecione a pastor presidente" />		
 						 	 	<f:selectItems value="#{igrejaCadastroBean.prMinistroIgreja}" var="item" itemValue="#{item}" itemLabel="#{item.nmNome}" />
 							</p:selectOneMenu>	
@@ -84,7 +84,7 @@
 								
 							<p:outputLabel value="Região:" for="dsRegiao"/>
 										
-							<p:selectOneMenu id="dsRegiao" value="#{igrejaCadastroBean.igreja.regiao}" filter="true" filterMatchMode="startsWith" >
+							<p:selectOneMenu id="dsRegiao" value="#{igrejaCadastroBean.igreja.regiao}" filter="true" filterMatchMode="contains" >
 								<f:selectItem noSelectionOption="true" itemLabel="Selecione a região" />		
 								<f:selectItems value="#{igrejaCadastroBean.regioes}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
 							</p:selectOneMenu>	
@@ -149,7 +149,7 @@
 								columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-7">
 							
 							<p:outputLabel value="Estado:" for="dsEstado"/>
-							<p:selectOneMenu id="dsEstado" value="#{igrejaCadastroBean.igreja.estado}" filter="true" filterMatchMode="startsWith" >
+							<p:selectOneMenu id="dsEstado" value="#{igrejaCadastroBean.igreja.estado}" filter="true" filterMatchMode="contains" >
 								<f:selectItem noSelectionOption="true" itemLabel="Selecione o estado" />
 								<f:selectItems value="#{igrejaCadastroBean.estados}" var="item" itemValue="#{item}" itemLabel="#{item.dsNome}"/>
 							</p:selectOneMenu>

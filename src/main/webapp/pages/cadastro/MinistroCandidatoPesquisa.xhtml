@@ -55,7 +55,7 @@
 					<p:outputLabel value="Igreja:" for="dsIgreja" />
 					<p:selectOneMenu id="dsIgreja" filter="true" filterMatchMode="contains" value="#{ministroCandidatoPesquisaBeam.filtro.igrejaFiltro}"  style="width: 100%;" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma igreja"/>
-						<f:selectItems value="#{ministroCandidatoPesquisaBeam.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})" />
+						<f:selectItems value="#{ministroCandidatoPesquisaBeam.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgreja} - (#{item.dsCidade}/#{item.estado.dsUf})" />
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Situação:" for="dsSituacao" />

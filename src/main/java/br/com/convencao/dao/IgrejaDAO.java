@@ -70,6 +70,7 @@ public class IgrejaDAO extends GenericoDAO<Igreja> {
 			return  manager.createQuery("from Igreja c "
 					+ "left join fetch c.estado "
 					+ "left join fetch c.regiao "
+					+ "order by c.dsIgreja "
 					, Igreja.class).getResultList();
 			
 		}catch (NoResultException e) {
@@ -152,7 +153,7 @@ public class IgrejaDAO extends GenericoDAO<Igreja> {
 
 	public List<Igreja> findAllPorRegiaoLiberadasUsuario(List<Long> sqRegioesPermissoes) {
 		try {
-			List<Igreja> result =  manager.createQuery("from Igreja c left join fetch c.estado where c.regiao.sqRegiao in :sqRegioesPermissoes", Igreja.class)
+			List<Igreja> result =  manager.createQuery("from Igreja c left join fetch c.estado where c.regiao.sqRegiao in :sqRegioesPermissoes order by c.dsIgreja", Igreja.class)
 					.setParameter("sqRegioesPermissoes", sqRegioesPermissoes)
 					.getResultList();
 			

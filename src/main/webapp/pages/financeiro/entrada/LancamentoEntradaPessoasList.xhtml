@@ -68,20 +68,20 @@
 			
 			<p:panelGrid style="margin-top: 10px;" columns="6" layout="grid" columnClasses="ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3, ui-grid-col-1, ui-grid-col-3" >
 				<p:outputLabel value="Região:" for="dsRegiao" />
-				<p:selectOneMenu id="dsRegiao" filter="true" value="#{lancamentoEntradaPessoasList.filtro.regiaoItensFiltro}" >
+				<p:selectOneMenu id="dsRegiao" filter="true" filterMatchMode="contains" value="#{lancamentoEntradaPessoasList.filtro.regiaoItensFiltro}" >
 					<f:selectItem itemLabel="Selecione uma região"/>
 					<f:selectItems value="#{lancamentoEntradaPessoasList.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
 					<p:ajax listener="#{lancamentoEntradaPessoasList.buscarIgrejasAjax}"  update=":frm:dsIgreja"/>
 				</p:selectOneMenu>
 															
 				<p:outputLabel value="Igreja:" for="dsIgreja" />
-				<p:selectOneMenu id="dsIgreja" filter="true" value="#{lancamentoEntradaPessoasList.filtro.igrejaFiltro}" style="width:90%;" >
+				<p:selectOneMenu id="dsIgreja" filter="true" filterMatchMode="contains" value="#{lancamentoEntradaPessoasList.filtro.igrejaFiltro}" style="width:90%;" >
 					<f:selectItem noSelectionOption="true" itemLabel="Selecione uma igreja"/>
-					<f:selectItems value="#{lancamentoEntradaPessoasList.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})" />
+					<f:selectItems value="#{lancamentoEntradaPessoasList.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgreja} - (#{item.dsCidade}/#{item.estado.dsUf})" />
 				</p:selectOneMenu>
 				
 				<p:outputLabel value="Dpto:" for="dsDepartamentoReduzido"  />
-				<p:selectOneMenu id="dsDepartamentoReduzido" filter="true" value="#{lancamentoEntradaPessoasList.filtro.departamentoFiltro}" >
+				<p:selectOneMenu id="dsDepartamentoReduzido" filter="true" filterMatchMode="contains" value="#{lancamentoEntradaPessoasList.filtro.departamentoFiltro}" >
 					<f:selectItem noSelectionOption="true" itemLabel="Selecione um departamento"/>
 					<f:selectItems value="#{lancamentoEntradaPessoasList.departamentos}" var="item" itemValue="#{item}" itemLabel="#{item.dsReduzido}" />
 				</p:selectOneMenu>
@@ -93,7 +93,7 @@
 				<p:inputText id="dsMinistro" value="#{lancamentoEntradaPessoasList.filtro.nmMinistro}" style="width:90%;" />
 				
 				<p:outputLabel value="Cargo:" for="dsCargo" />
-				<p:selectOneMenu id="dsCargo" filter="true" value="#{lancamentoEntradaPessoasList.filtro.cargoFiltro}" >
+				<p:selectOneMenu id="dsCargo" filter="true" filterMatchMode="contains" value="#{lancamentoEntradaPessoasList.filtro.cargoFiltro}" >
 					<f:selectItem noSelectionOption="true" itemLabel="Selecione um cargo"/>
 					<f:selectItems value="#{lancamentoEntradaPessoasList.cargos}" var="item" itemValue="#{item}" itemLabel="#{item.dsCargo}" />
 				</p:selectOneMenu>
@@ -157,7 +157,7 @@
 				<p:inputText id="dsCidade" value="#{lancamentoEntradaPessoasList.filtro.dsCidadeFiltro}" style="width:90%;" />
 				
 				<p:outputLabel value="Estado:" for="dsEstado" style="margin-left: 10px; margin-right: 10px"/>
-				<p:selectOneMenu id="dsEstado" value="#{lancamentoEntradaPessoasList.filtro.estadoFiltro}" filter="true" filterMatchMode="startsWith"  >
+				<p:selectOneMenu id="dsEstado" value="#{lancamentoEntradaPessoasList.filtro.estadoFiltro}" filter="true" filterMatchMode="contains"  >
 					<f:selectItem noSelectionOption="true" itemLabel="Selecione o estado" />
 					<f:selectItems value="#{lancamentoEntradaPessoasList.estados}" var="item" itemValue="#{item}" itemLabel="#{item.dsNome}" />
 				</p:selectOneMenu>

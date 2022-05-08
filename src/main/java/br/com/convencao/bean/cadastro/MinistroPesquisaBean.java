@@ -52,7 +52,7 @@ public class MinistroPesquisaBean extends MinistroCodbehind {
 			this.inicializarDepartamentos(tipo);
 			this.inicializarCargos();
 			
-			this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro() != null? this.getFiltro().getRegiaoItensFiltro().getSqRegiao(): null, true);
+			this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro() != null? this.getFiltro().getRegiaoItensFiltro().getSqRegiao(): null);
 		}
 	}
 	
@@ -211,7 +211,7 @@ public class MinistroPesquisaBean extends MinistroCodbehind {
 			this.getFiltro().setDtInicio1Filtro(dtInicio);
 			this.getFiltro().setDtFim1Filtro(dtFim);
 			
-			this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro().getSqRegiao(), true);
+			this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro().getSqRegiao());
 
 			this.listarMinistros();
 

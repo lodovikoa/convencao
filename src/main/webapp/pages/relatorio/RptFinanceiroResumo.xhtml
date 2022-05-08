@@ -32,14 +32,14 @@
 			
 				<p:panelGrid columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-3" >
 					<p:outputLabel value="Região Financeiro:" for="dsRegiao" />
-					<p:selectOneMenu id="dsRegiao" filter="true" value="#{rptFinanceiroResumoBean.relatorioFiltro.regiaoItensFiltro}" >
+					<p:selectOneMenu id="dsRegiao" filter="true" filterMatchMode="contains" value="#{rptFinanceiroResumoBean.relatorioFiltro.regiaoItensFiltro}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma região"/>
 						<f:selectItems value="#{rptFinanceiroResumoBean.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
 						<p:ajax listener="#{rptFinanceiroResumoBean.buscarLancamentosResumo}"  update=":frm:dsPeriodo"/>
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Período:" for="dsPeriodo" />
-					<p:selectOneMenu id="dsPeriodo" filter="true" value="#{rptFinanceiroResumoBean.relatorioFiltro.lancamentoResumoFiltro}" >
+					<p:selectOneMenu id="dsPeriodo" filter="true" filterMatchMode="contains" value="#{rptFinanceiroResumoBean.relatorioFiltro.lancamentoResumoFiltro}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione um período"/>
 						<f:selectItems value="#{rptFinanceiroResumoBean.lancamentoResumo}" var="item" itemValue="#{item}" itemLabel="#{item.dsPeriodo}" />
 					</p:selectOneMenu>

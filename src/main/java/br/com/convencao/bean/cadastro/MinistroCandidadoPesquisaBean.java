@@ -47,7 +47,7 @@ public class MinistroCandidadoPesquisaBean extends MinistroCodbehind {
 			this.getFiltro().setRegiaoItensFiltro(this.getRegiaoItens().get(0));
 		}
 		
-		this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro() != null? this.getFiltro().getRegiaoItensFiltro().getSqRegiao(): null, true);
+		this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro() != null? this.getFiltro().getRegiaoItensFiltro().getSqRegiao(): null);
 		
 		// Busca os status do protocolo e para a primeira exibição atribui o valor de Cadastrando
 		this.protocolosStatus = this.protocoloStatusBO.findAllAtivos();
@@ -114,7 +114,7 @@ public class MinistroCandidadoPesquisaBean extends MinistroCodbehind {
 	
 	public void buscarIgrejasAjax(){
 		//this.flBuscarAjax = true;			
-		this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro() != null? this.getFiltro().getRegiaoItensFiltro().getSqRegiao(): null  , true);
+		this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro() != null? this.getFiltro().getRegiaoItensFiltro().getSqRegiao(): null);
 	}
 	
 	public List<ProtocoloStatus> getProtocolosStatus() {
@@ -200,7 +200,7 @@ public class MinistroCandidadoPesquisaBean extends MinistroCodbehind {
 			this.getFiltro().setDsCpf(this.getParam_dsCpf());
 			this.getFiltro().setCdProtocoloFiltro(cdProtocolo);
 			
-			this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro().getSqRegiao(), true);
+			this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro().getSqRegiao());
 
 			this.listarMinistrosCandidato();;
 

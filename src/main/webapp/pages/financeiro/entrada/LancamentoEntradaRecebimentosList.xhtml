@@ -336,7 +336,7 @@
 								<p:messages closable="true" style="font-size: large;" > <p:autoUpdate /> </p:messages>
 										
 								<p:outputLabel value="Região de pagamento:" styleClass="cv-dialogo-exibe-label" for="dsRegiao" />
-								<p:selectOneMenu id="dsRegiao" filter="true" value="#{lancamentoEntradaRecebimentosListBean.regiaoItensFiltro}" >
+								<p:selectOneMenu id="dsRegiao" filter="true" filterMatchMode="contains" value="#{lancamentoEntradaRecebimentosListBean.regiaoItensFiltro}" >
 									<f:selectItem itemLabel="Selecione uma região"/>
 									<f:selectItems value="#{lancamentoEntradaRecebimentosListBean.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
 								</p:selectOneMenu>
@@ -486,7 +486,7 @@
 					
 					<p:panelGrid id="entradaIncluirGrid2" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-2, ui-grid-col-2">	
 						<p:outputLabel value="Tipo lançamento:" styleClass="cv-dialogo-exibe-label" for="tpLancamento"/>
-						<p:selectOneMenu id="tpLancamento" filter="true" value="#{lancamentoEntradaRecebimentosListBean.regLancamento.tipoLancamento}" >
+						<p:selectOneMenu id="tpLancamento" filter="true" filterMatchMode="contains" value="#{lancamentoEntradaRecebimentosListBean.regLancamento.tipoLancamento}" >
 							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma conta"/>
 							<f:selectItems value="#{lancamentoEntradaRecebimentosListBean.tipoLancamentoList}" var="item" itemValue="#{item}" itemLabel="#{item.dsTipoLancamento}" />
 							<p:ajax listener="#{lancamentoEntradaRecebimentosListBean.atualizarValorLancamento}" update="frm_entradaIncluir:vlLancamento" />
@@ -562,7 +562,7 @@
  					
 					<p:panelGrid id="entradaAlterarGrid2" columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-3, ui-grid-col-4">	
 						<p:outputLabel value="Tipo lançamento:" styleClass="cv-dialogo-exibe-label" for="tpLancamentoAlterar"/>
-						<p:selectOneMenu id="tpLancamentoAlterar" filter="true" value="#{lancamentoEntradaRecebimentosListBean.regLancamento.tipoLancamento}" >
+						<p:selectOneMenu id="tpLancamentoAlterar" filter="true" filterMatchMode="contains" value="#{lancamentoEntradaRecebimentosListBean.regLancamento.tipoLancamento}" >
 							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma conta"/>
 							<f:selectItems value="#{lancamentoEntradaRecebimentosListBean.tipoLancamentoList}" var="item" itemValue="#{item}" itemLabel="#{item.dsTipoLancamento}" />
 							<p:ajax listener="#{lancamentoEntradaRecebimentosListBean.atualizarValorLancamento}" update="frm_entradaAlterar:vlLancamentoAlterar" />

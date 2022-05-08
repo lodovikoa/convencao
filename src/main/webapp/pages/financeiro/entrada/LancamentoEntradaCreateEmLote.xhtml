@@ -51,7 +51,7 @@
 								<p:outputLabel value="#{lancamentoEntradaCreateEmLoteBean.regLancamentoTemp.ministro.departamento.dsReduzido}" />
 								
 								<p:outputLabel styleClass="cv-dialogo-exibe-label" value="Tipo Lançamento:" />
-								<p:selectOneMenu id="tpLancamento" filter="true" style="width:50%" value="#{lancamentoEntradaCreateEmLoteBean.regLancamentoTemp.tipoLancamento}">
+								<p:selectOneMenu id="tpLancamento" filter="true" filterMatchMode="contains" style="width:50%" value="#{lancamentoEntradaCreateEmLoteBean.regLancamentoTemp.tipoLancamento}">
 									<f:selectItem noSelectionOption="true" itemLabel="Selecione uma conta"/>
 									<f:selectItems value="#{lancamentoEntradaCreateEmLoteBean.tipoLancamentoList}" var="item" itemValue="#{item}" itemLabel="#{item.dsTipoLancamento}" />
 									<p:ajax listener="#{lancamentoEntradaCreateEmLoteBean.atualizarValorLancamento}" update="frm:vlLancamento" />

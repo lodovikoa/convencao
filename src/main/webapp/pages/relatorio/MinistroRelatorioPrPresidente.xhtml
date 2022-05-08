@@ -32,7 +32,7 @@
 			
 				<p:panelGrid columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-1, ui-grid-col-3" >
 					<p:outputLabel value="Região:" for="dsRegiao" />
-					<p:selectOneMenu id="dsRegiao" filter="true" value="#{ministroRelatorioPrPresidente.filtro.regiaoItensFiltro}" >
+					<p:selectOneMenu id="dsRegiao" filter="true" filterMatchMode="contains" value="#{ministroRelatorioPrPresidente.filtro.regiaoItensFiltro}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma região"/>
 						<f:selectItems value="#{ministroRelatorioPrPresidente.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
 					</p:selectOneMenu>

@@ -32,26 +32,26 @@
 			
 				<p:panelGrid columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-1, ui-grid-col-4" >
 					<p:outputLabel value="Região:" for="dsRegiao" />
-					<p:selectOneMenu id="dsRegiao" filter="true" value="#{ministroRelatorioGeral.filtro.regiaoItensFiltro}" >
+					<p:selectOneMenu id="dsRegiao" filter="true" filterMatchMode="contains" value="#{ministroRelatorioGeral.filtro.regiaoItensFiltro}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma região"/>
 						<f:selectItems value="#{ministroRelatorioGeral.regiaoItens}" var="item" itemValue="#{item}" itemLabel="#{item.dsRegiao}" />
 						<p:ajax listener="#{ministroRelatorioGeral.buscarIgrejasAjax}"  update=":frm:dsIgreja"/>
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Igreja:" for="dsIgreja" />
-					<p:selectOneMenu id="dsIgreja" filter="true" value="#{ministroRelatorioGeral.filtro.igrejaFiltro}" >
+					<p:selectOneMenu id="dsIgreja" filter="true" filterMatchMode="contains" value="#{ministroRelatorioGeral.filtro.igrejaFiltro}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione uma igreja"/>
-						<f:selectItems value="#{ministroRelatorioGeral.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})" />
+						<f:selectItems value="#{ministroRelatorioGeral.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgreja} - (#{item.dsCidade}/#{item.estado.dsUf})" />
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Dpto:" for="dsDepartamentoReduzido"  />
-					<p:selectOneMenu id="dsDepartamentoReduzido" filter="true" value="#{ministroRelatorioGeral.filtro.departamentoFiltro}" >
+					<p:selectOneMenu id="dsDepartamentoReduzido" filter="true" filterMatchMode="contains" value="#{ministroRelatorioGeral.filtro.departamentoFiltro}" >
 						<f:selectItem noSelectionOption="true" itemLabel="Selecione um departamento"/>
 						<f:selectItems value="#{ministroRelatorioGeral.departamentos}" var="item" itemValue="#{item}" itemLabel="#{item.dsReduzido}" />
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Cargo:" for="dsCargo" />
-					<p:selectOneMenu id="dsCargo" filter="true" value="#{ministroRelatorioGeral.filtro.cargoFiltro}" >
+					<p:selectOneMenu id="dsCargo" filter="true" filterMatchMode="contains" value="#{ministroRelatorioGeral.filtro.cargoFiltro}" >
 						<f:selectItem noSelectionOption="false" itemLabel="Selecione um cargo"/>
 						<f:selectItems value="#{ministroRelatorioGeral.cargos}" var="item" itemValue="#{item}" itemLabel="#{item.dsCargo}" />
 					</p:selectOneMenu>
@@ -65,7 +65,7 @@
 					</p:outputPanel>
 					
 					<p:outputLabel value="Ordem:" for="nnOrdem" />
-					<p:selectOneMenu id="nnOrdem" filter="true" value="#{ministroRelatorioGeral.filtro.nnOrdemExibicao}" >
+					<p:selectOneMenu id="nnOrdem" value="#{ministroRelatorioGeral.filtro.nnOrdemExibicao}" >
 						<f:selectItem itemValue="1" itemLabel="Rg do Ministro"/>
 						<f:selectItem itemValue="2" itemLabel="Nome Ministro"/>
 						<f:selectItem itemValue="3" itemLabel="Região e Rg do Ministro"/>

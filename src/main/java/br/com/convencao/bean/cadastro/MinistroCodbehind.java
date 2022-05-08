@@ -171,7 +171,7 @@ public class MinistroCodbehind extends LancamentoCodbehind {
 
 	public void buscarIgrejasAjax(){
 		this.flBuscarAjax = true;			
-		this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro() != null? this.getFiltro().getRegiaoItensFiltro().getSqRegiao(): null  , true);
+		this.inicializarIgrejas(this.getFiltro().getRegiaoItensFiltro() != null? this.getFiltro().getRegiaoItensFiltro().getSqRegiao(): null);
 	}
 
 	// Fazer download de arquivos

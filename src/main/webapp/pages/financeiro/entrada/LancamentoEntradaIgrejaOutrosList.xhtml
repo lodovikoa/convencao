@@ -353,16 +353,16 @@
 						<p:inputText id="incluirNsu" disabled="true" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.recibo.cdNsu}" />
 							
 						<p:outputLabel value="Igreja:" styleClass="cv-dialogo-exibe-label" for="incluirDsIgreja" />
-						<p:selectOneMenu id="incluirDsIgreja" filter="true" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.igreja}" >
+						<p:selectOneMenu id="incluirDsIgreja" filter="true" filterMatchMode="contains" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.igreja}" >
 							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma igreja"/>
-							<f:selectItems value="#{lancamentoEntradaIgrejaOutrosList.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})" />
+							<f:selectItems value="#{lancamentoEntradaIgrejaOutrosList.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgreja} - (#{item.dsCidade}/#{item.estado.dsUf})" />
 						</p:selectOneMenu>
 						
 						<p:outputLabel value="Outros:" styleClass="cv-dialogo-exibe-label" for="incluirOutros"/>
 						<p:inputText id="incluirOutros" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.nmOutros}" />
 						
 						<p:outputLabel value="Conta contábil:" styleClass="cv-dialogo-exibe-label" for="incluirContaContabil" />
-						<p:selectOneMenu id="incluirContaContabil" filter="true" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.planoConta}" >
+						<p:selectOneMenu id="incluirContaContabil" filter="true" filterMatchMode="contains" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.planoConta}" >
 							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma conta"/>
 							<f:selectItems value="#{lancamentoEntradaIgrejaOutrosList.planoContaList}" var="item" itemValue="#{item}" itemLabel="#{item.dsConta}" />
 						</p:selectOneMenu>
@@ -464,16 +464,16 @@
 						<p:inputText id="alterarNsu" disabled="true" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.recibo.cdNsu}" />
 							
 						<p:outputLabel value="Igreja:" styleClass="cv-dialogo-exibe-label" for="alterarDsIgreja" />
-						<p:selectOneMenu id="alterarDsIgreja" filter="true" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.igreja}" style="width:100%;" >
+						<p:selectOneMenu id="alterarDsIgreja" filter="true" filterMatchMode="contains" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.igreja}" style="width:100%;" >
 							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma igreja"/>
-							<f:selectItems value="#{lancamentoEntradaIgrejaOutrosList.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgrejaInvertida} - (#{item.dsCidade}/#{item.estado.dsUf})" />
+							<f:selectItems value="#{lancamentoEntradaIgrejaOutrosList.igrejas}" var="item" itemValue="#{item}" itemLabel="#{item.dsIgreja} - (#{item.dsCidade}/#{item.estado.dsUf})" />
 						</p:selectOneMenu>
 						
 						<p:outputLabel value="Outros:" styleClass="cv-dialogo-exibe-label" for="alterarOutros"/>
 						<p:inputText id="alterarOutros" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.nmOutros}" />
 						
 						<p:outputLabel value="Conta contábil:" styleClass="cv-dialogo-exibe-label" for="alterarContaContabil" />
-						<p:selectOneMenu id="alterarContaContabil" filter="true" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.planoConta}" >
+						<p:selectOneMenu id="alterarContaContabil" filter="true" filterMatchMode="contains" value="#{lancamentoEntradaIgrejaOutrosList.lancamentoEntrada.planoConta}" >
 							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma conta"/>
 							<f:selectItems value="#{lancamentoEntradaIgrejaOutrosList.planoContaList}" var="item" itemValue="#{item}" itemLabel="#{item.dsConta}" />
 						</p:selectOneMenu>
