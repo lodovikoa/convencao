@@ -65,10 +65,11 @@
 		<!-- MySql -->
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<!-- 02/04/2020 - Atualizado de 5.1.34 para 8.0.19 -->
+		<!-- 10/09/2020 - Atualizado de 5.0.19 para 8.0.30 -->
 		<dependency>
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
-		    <version>8.0.19</version>
+		    <version>8.0.30</version>
 		    <scope>compile</scope>
 		</dependency>
 		
