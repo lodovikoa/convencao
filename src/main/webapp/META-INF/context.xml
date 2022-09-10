@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
-    <!-- disables storage of sessions across restarts --> 
-    <Manager pathname=""/>
-    <Resource name="BeanManager" auth="Container" 
-        type="javax.enterprise.inject.spi.BeanManager" 
-        factory="org.jboss.weld.resources.ManagerObjectFactory"/>
-	
+	<!-- disables storage of sessions across restarts -->
+	<Manager pathname=""/>
+	<Resource name="BeanManager" auth="Container"
+		type="javax.enterprise.inject.spi.BeanManager"
+		factory="org.jboss.weld.resources.ManagerObjectFactory" />
+
+   <!-- Colocar as informacões de conexão de banco abaixo: -->
+   <!-- Desenvolvimento no Eclipse, colocar em: Servers/Tomcat v9..../context.xml -->
+   <!-- HML ou PRD, colocar no servidor tomcat em:  \conf\context.xml-->
 	<Resource name="jdbc/confrateresDB" 
-		auth="Container"
+		auth="Container" 
 		factory="org.apache.naming.factory.BeanFactory" 
-		type="com.mchange.v2.c3p0.ComboPooledDataSource"
-		driverClass="com.mysql.cj.jdbc.Driver" 		 
-		jdbcUrl="jdbc:mysql://localhost:3306/confrater00"
-		user="confrater" 
+		type="com.mchange.v2.c3p0.ComboPooledDataSource" 
+    	driverClass="com.mysql.cj.jdbc.Driver" 
+    	jdbcUrl="jdbc:mysql://localhost:3306/confrater00?useTimezone=true&amp;serverTimezone=America/Sao_Paulo" 
+		user="confrater"
 		password="12345678" 
 		minPoolSize="10" 
-		maxPoolSize="20" />
-				
+    	maxPoolSize="20"  />
+
 </Context>
