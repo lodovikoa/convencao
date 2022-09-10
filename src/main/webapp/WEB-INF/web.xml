@@ -4,6 +4,11 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1">
 	
+	<absolute-ordering>
+	    <name>fragment_name_if_required</name>
+	    <others></others>
+	</absolute-ordering>
+	
 	<resource-ref>
 		<description>Conexao MySQL</description>
 		<res-ref-name>jdbc/confrateresDB</res-ref-name>
