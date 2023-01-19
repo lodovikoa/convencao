@@ -1,6 +1,7 @@
 package br.com.convencao.util;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Iterator;
    
@@ -49,14 +50,14 @@ public class Extenso {
    
     public void setNumber(BigDecimal dec) {  
        // Converte para inteiro arredondando os centavos  
-       num = dec.setScale(2, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal.valueOf(100)).toBigInteger(); 
+       num = dec.setScale(2, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100)).toBigInteger(); 
        // Adiciona valores  
        nro.clear();  
        if (num.equals(BigInteger.ZERO)) {  
           // Centavos  
-          nro.add(new Integer(0));  
+          nro.add(Integer.valueOf(0));  
           // Valor  
-          nro.add(new Integer(0));  
+          nro.add(Integer.valueOf(0));  
        }  
        else {  
           // Adiciona centavos  
@@ -126,7 +127,7 @@ public class Extenso {
        // Encontra newNum[0] = num modulo divisor, newNum[1] = num dividido divisor  
        BigInteger[] newNum = num.divideAndRemainder(BigInteger.valueOf(divisor));  
        // Adiciona modulo  
-       nro.add(new Integer(newNum[1].intValue()));  
+       nro.add(Integer.valueOf(newNum[1].intValue()));  
        // Altera numero  
        num = newNum[0];  
     }  

@@ -24,7 +24,7 @@ public class RegiaoConverter implements Converter<Regiao> {
 	public Regiao getAsObject(FacesContext context, UIComponent component, String value) {
 		Regiao retorno = null;
 		if(StringUtils.isNotBlank(value)) {
-			retorno = bo.findByPrimaryKey(new Long(value));
+			retorno = bo.findByPrimaryKey(Long.valueOf(value));
 		}
 		return retorno;
 	}

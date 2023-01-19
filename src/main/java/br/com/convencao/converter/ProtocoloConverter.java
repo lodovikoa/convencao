@@ -25,7 +25,7 @@ public class ProtocoloConverter implements Converter<Protocolo> {
 	public Protocolo getAsObject(FacesContext context, UIComponent component, String value) {
 		Protocolo retorno = null;
 		if(StringUtils.isNotBlank(value)) {
-			retorno = bo.find(new Long(value));
+			retorno = bo.find(Long.valueOf(value));
 		}
 		return retorno;
 	}

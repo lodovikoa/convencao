@@ -25,7 +25,7 @@ public class CargoConverter implements Converter<Cargo> {
 	public Cargo getAsObject(FacesContext context, UIComponent component, String value) {
 		Cargo retorno = null;
 		if(StringUtils.isNotBlank(value)) {
-			retorno = bo.find(new Long(value));
+			retorno = bo.find(Long.valueOf(value));
 		}
 		return retorno;
 	}

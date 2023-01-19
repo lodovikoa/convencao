@@ -25,7 +25,7 @@ public class DepartamentoConverter implements Converter<Departamento> {
 	public Departamento getAsObject(FacesContext context, UIComponent component, String value) {
 		Departamento retorno = null;
 		if(StringUtils.isNotBlank(value)) {
-			retorno = bo.find(new Long(value));
+			retorno = bo.find(Long.valueOf(value));
 		}
 		return retorno;
 	}

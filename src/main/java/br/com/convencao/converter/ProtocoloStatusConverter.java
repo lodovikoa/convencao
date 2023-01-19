@@ -25,7 +25,7 @@ public class ProtocoloStatusConverter implements Converter<ProtocoloStatus> {
 	public ProtocoloStatus getAsObject(FacesContext context, UIComponent component, String value) {
 		ProtocoloStatus retorno = null;
 		if(StringUtils.isNotBlank(value)) {
-			retorno = bo.find(new Long(value));
+			retorno = bo.find(Long.valueOf(value));
 		}
 		return retorno;
 	}

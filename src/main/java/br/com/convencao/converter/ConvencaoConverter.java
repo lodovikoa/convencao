@@ -26,7 +26,7 @@ public class ConvencaoConverter implements Converter<Convencao> {
 	public Convencao getAsObject(FacesContext context, UIComponent component, String value) {
 		Convencao retorno = null;
 		if(StringUtils.isNotBlank(value)) {
-			retorno = bo.findByPrimaryKey(new Long(value));
+			retorno = bo.findByPrimaryKey(Long.valueOf(value));
 		}
 		return retorno;
 	}

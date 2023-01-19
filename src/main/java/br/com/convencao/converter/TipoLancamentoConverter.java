@@ -25,7 +25,7 @@ public class TipoLancamentoConverter implements Converter<TipoLancamento> {
 	public TipoLancamento getAsObject(FacesContext context, UIComponent component, String value) {
 		TipoLancamento retorno = null;
 		if(StringUtils.isNotBlank(value)) {
-			retorno = bo.findByPrimaryKey(new Long(value));
+			retorno = bo.findByPrimaryKey(Long.valueOf(value));
 		}
 		return retorno;
 	}

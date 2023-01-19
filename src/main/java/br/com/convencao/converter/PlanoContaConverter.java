@@ -25,7 +25,7 @@ public class PlanoContaConverter implements Converter<PlanoConta> {
 	public PlanoConta getAsObject(FacesContext context, UIComponent component, String value) {
 		PlanoConta retorno = null;
 		if(StringUtils.isNotBlank(value)) {
-			retorno = bo.findByPrimaryKey(new Long(value));
+			retorno = bo.findByPrimaryKey(Long.valueOf(value));
 		}
 		return retorno;
 	}

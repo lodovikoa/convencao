@@ -25,7 +25,7 @@ public class EscolaridadeConverter implements Converter<Escolaridade> {
 	public Escolaridade getAsObject(FacesContext context, UIComponent component, String value) {
 		Escolaridade retorno = null;
 		if(StringUtils.isNotBlank(value)) {
-			retorno = bo.find(new Long(value));
+			retorno = bo.find(Long.valueOf(value));
 		}
 		return retorno;
 	}

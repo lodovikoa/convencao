@@ -25,7 +25,7 @@ public class ProfissaoConverter implements Converter<Profissao> {
 	public Profissao getAsObject(FacesContext context, UIComponent component, String value) {
 		Profissao retorno = null;
 		if(StringUtils.isNotBlank(value)) {
-			retorno = bo.find(new Long(value));
+			retorno = bo.find(Long.valueOf(value));
 		}
 		return retorno;
 	}

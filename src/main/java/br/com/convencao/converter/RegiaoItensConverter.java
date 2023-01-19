@@ -25,7 +25,7 @@ public class RegiaoItensConverter implements Converter<RegiaoItens> {
 	public RegiaoItens getAsObject(FacesContext context, UIComponent component, String value) {
 		RegiaoItens retorno = new RegiaoItens();
 		if(StringUtils.isNotBlank(value)) {
-			Regiao regiao = bo.findByPrimaryKey(new Long(value));
+			Regiao regiao = bo.findByPrimaryKey(Long.valueOf(value));
 			
 			retorno.setSqRegiao(regiao.getSqRegiao());
 			retorno.setDsRegiao(regiao.getDsRegiao());

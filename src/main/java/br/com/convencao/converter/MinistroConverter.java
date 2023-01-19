@@ -25,7 +25,7 @@ public class MinistroConverter implements Converter<Ministro> {
 	public Ministro getAsObject(FacesContext context, UIComponent component, String value) {
 		Ministro retorno = null;
 		if(StringUtils.isNotBlank(value)) {
-			retorno = bo.findByPrimaryKey(new Long(value));
+			retorno = bo.findByPrimaryKey(Long.valueOf(value));
 	
 			// Ordenar registros de pareceres por ordem inversa de data de registro
 			retorno.getMinistroParecer().sort((a,b) -> b.getDtRegistro().compareTo(a.getDtRegistro()));

@@ -25,7 +25,7 @@ public class EstadoCivelConverter implements Converter<EstadoCivel> {
 	public EstadoCivel getAsObject(FacesContext context, UIComponent component, String value) {
 		EstadoCivel retorno = null;
 		if(StringUtils.isNotBlank(value)) {
-			retorno = bo.find(new Long(value));
+			retorno = bo.find(Long.valueOf(value));
 		}
 		return retorno;
 	}

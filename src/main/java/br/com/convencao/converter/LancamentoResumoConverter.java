@@ -24,7 +24,7 @@ public class LancamentoResumoConverter implements Converter<LancamentoResumo> {
 	public LancamentoResumo getAsObject(FacesContext context, UIComponent component, String value) {
 		LancamentoResumo retorno = null;
 		if(StringUtils.isNotBlank(value)) {
-			retorno = bo.findByPrimaryKeyCompleto(new Long(value));
+			retorno = bo.findByPrimaryKeyCompleto(Long.valueOf(value));
 		}
 		return retorno;
 	}

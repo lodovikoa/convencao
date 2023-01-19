@@ -24,7 +24,7 @@ public class IgrejaConverter implements Converter<Igreja> {
 	public Igreja getAsObject(FacesContext context, UIComponent component, String value) {
 		Igreja retorno = null;
 		if(StringUtils.isNotBlank(value)) {
-			retorno = bo.findByPrimaryKey(new Long(value));
+			retorno = bo.findByPrimaryKey(Long.valueOf(value));
 		}
 		return retorno;
 	}
