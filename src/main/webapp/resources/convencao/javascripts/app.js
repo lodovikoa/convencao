@@ -78,6 +78,11 @@ function relatorioMinistroPrPresidente(nmRelatorio, tpRelatorio, sqRegiao, cdSit
 	url = nmRelatorio + "?tpRelatorio=" + tpRelatorio + "&sqRegiao=" + sqRegiao + "&cdSituacao=" + cdSituacao;
 	abrirRelatorio(url);
 }
+
+function relatorioMinistroAniversariantes(nmRelatorio, tpRelatorio, nnMesInicio, dsMesInicio, nnMesFim, dsMesFim) {
+	url = nmRelatorio + "?tpRelatorio=" + tpRelatorio + "&nnMesInicio=" + nnMesInicio + "&dsMesInicio=" + dsMesInicio + "&nnMesFim=" + nnMesFim + "&dsMesFim=" + dsMesFim;
+	abrirRelatorio(url);
+}
          
 function relatorioFinanceiroRecibo(nmRelatorio, tpRelatorio, sqRecibo, tpRecibo) {
 	url = nmRelatorio + "?tpRelatorio=" + tpRelatorio + "&sqRecibo=" + sqRecibo + "&tpRecibo=" + tpRecibo;

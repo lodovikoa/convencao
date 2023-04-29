@@ -2,31 +2,32 @@ package br.com.convencao.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+public class SecurityConfig {
 
 
 	@Bean
 	public AppUserDetailsService userDetailsService() {
 		return new AppUserDetailsService();
 	}
-
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService()).passwordEncoder(new BCryptPasswordEncoder());
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		JsfLoginUrlAuthenticationEntryPoint jsfLoginEntry = new JsfLoginUrlAuthenticationEntryPoint();
 		jsfLoginEntry.setLoginFormUrl("/Login.xhtml");
 		jsfLoginEntry.setRedirectStrategy(new JsfRedirectStrategy());
@@ -36,23 +37,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		jsfDeniedEntry.setContextRelative(true);
 
 		http
-		.csrf().disable()
-		.headers().frameOptions().sameOrigin()
+		.csrf()
+		.disable()
+		.headers()
+		.frameOptions()
+		.sameOrigin()
 		.and()
-
-		.authorizeRequests() 
-		.antMatchers("/Login.xhtml", "/Erro.xhtml", "/javax.faces.resource/**").permitAll()
-		.antMatchers("/Home.xhtml", 
+		
+		.authorizeHttpRequests()
+		.requestMatchers("/Login.xhtml", "/Erro.xhtml", "/javax.faces.resource/**").permitAll()
+		.requestMatchers("/Home.xhtml", 
 				"/AcessoNegado.xhtml", 
 				"/dialogos/**", 
 				"/resources/**",
 				"/pages/usuario/UsuarioTrocaSenha.xhtml"
 				).authenticated()
 
-		.antMatchers("/ministro-foto", 
+		.requestMatchers("/ministro-foto", 
 				"/relatorioFichaCadastral", 
 				"/relatorioMinistroGeral",
 				"/relatorioMinistroPrPresidente",
+				"/relatorioMinistroAniversariantes",
 				"/relatorioFinanceiroRecibo",
 				"/relatorioFinanceiroResumo",
 				"/relatorioFinanceiroEntradaPeriodo",
@@ -66,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.hasAnyRole("guCftAdministrador", "guCftConsulta", "guCftFinanceiroLocal", "guCftFinanceiroRegiao", "guCftSecretarioConvencao", "guCftSecretarioRegiao")
 
 		// Permissões de: 
-		.antMatchers("/pages/auditoria/**",
+		.requestMatchers("/pages/auditoria/**",
 				"/pages/usuario/**",
 				"/pages/configuracao/ConvencaoPesquisa.xhtml",
 				"/pages/configuracao/ConvencaoCadastro.xhtml",
@@ -80,7 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				"/pages/cadastro/MinistroCandidatoCadastro.xhtml")
 				.hasAnyRole("guCftAdministrador")
 
-		.antMatchers("/pages/configuracao/CargoPesquisa.xhtml",
+		.requestMatchers("/pages/configuracao/CargoPesquisa.xhtml",
 				"/pages/configuracao/CargoCadastro.xhtml",
 				"/pages/configuracao/DepartamentoPesquisa.xhtml",
 				"/pages/configuracao/DepartamentoCadastro.xhtml",
@@ -97,7 +102,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.hasAnyRole("guCftAdministrador", "guCftSecretarioConvencao")
 
 		// Permissões de:
-		.antMatchers("/pages/cadastro/IgrejaPesquisa.xhtml", 
+		.requestMatchers("/pages/cadastro/IgrejaPesquisa.xhtml", 
 				"/pages/cadastro/IgrejaRetrive.xhtml",
 				"/pages/cadastro/MinistroPesquisa.xhtml", 
 				"/pages/cadastro/MinistroRetrive.xhtml", 
@@ -106,14 +111,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.hasAnyRole("guCftAdministrador", "guCftConsulta", "guCftFinanceiroLocal", "guCftFinanceiroRegiao", "guCftSecretarioConvencao", "guCftSecretarioRegiao")
 
 		// Permissões de: 
-		.antMatchers("/pages/cadastro/MinistroCadastro.xhtml",
+		.requestMatchers("/pages/cadastro/MinistroCadastro.xhtml",
 				"/pages/cadastro/MinistroCandidatoCadastro.xhtml")
 				.hasAnyRole("guCftAdministrador", "guCftSecretarioConvencao", "guCftSecretarioRegiao")
 
-		.antMatchers("/pages/cadastro/IgrejaCadastro.xhtml")
+		.requestMatchers("/pages/cadastro/IgrejaCadastro.xhtml")
 				.hasAnyRole("guCftAdministrador", "guCftSecretarioConvencao")
 
-		.antMatchers("/pages/financeiro/entrada/LancamentoEntradaIgrejaCreate.xhtml",
+		.requestMatchers("/pages/financeiro/entrada/LancamentoEntradaIgrejaCreate.xhtml",
 				"/pages/financeiro/entrada/LancamentoEntradaIgrejaList.xhtml",
 				"/pages/financeiro/entrada/LancamentoEntradaIgrejaOutrosList.xhtml",
 				"/pages/financeiro/entrada/LancamentoEntradaPessoasList.xhtml",
@@ -123,10 +128,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.hasAnyRole("guCftAdministrador", "guCftFinanceiroLocal", "guCftFinanceiroRegiao")
 
 		// Permissões de: 
-		.antMatchers("/pages/financeiro/resumo/LancamentoResumoList.xhtml")
+		.requestMatchers("/pages/financeiro/resumo/LancamentoResumoList.xhtml")
 				.hasAnyRole("guCftAdministrador", "guCftFinanceiroRegiao")
 
-		.antMatchers("/pages/relatorio/RptFinanceiroLancamentosEntradaMinistro.xhtml",
+		.requestMatchers("/pages/relatorio/RptFinanceiroLancamentosEntradaMinistro.xhtml",
 				"/pages/relatorio/RptFinanceiroLancamentosEntradaPendente.xhtml",
 				"/pages/relatorio/RptFinanceiroLancamentosEntradaPeriodo.xhtml",
 				"/pages/relatorio/RptFinanceiroLancamentosEntradaRecibo.xhtml",
@@ -136,8 +141,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				"/pages/financeiro/autoRegistro/AgoReciboList.xhtml")
 				.hasAnyRole("guCftAdministrador", "guCftConsulta", "guCftFinanceiroLocal", "guCftFinanceiroRegiao")
 
-		.antMatchers("/pages/relatorio/MinistroRelatorioGeral.xhtml",
-				"/pages/relatorio/MinistroRelatorioPrPresidente.xhtml")
+		.requestMatchers("/pages/relatorio/MinistroRelatorioGeral.xhtml",
+				"/pages/relatorio/MinistroRelatorioPrPresidente.xhtml",
+				"/pages/relatorio/MinistroRelatorioAniversariantes.xhtml")
 				.hasAnyRole("guCftAdministrador", "guCftConsulta", "guCftFinanceiroLocal", "guCftFinanceiroRegiao", "guCftSecretarioConvencao", "guCftSecretarioRegiao")
 
 		.anyRequest().denyAll()
@@ -157,5 +163,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.authenticationEntryPoint(jsfLoginEntry)
 		.accessDeniedHandler(jsfDeniedEntry);	
 
+		return http.build();
+	}
+	
+	
+	// Coloquei esse método porque está no exemplo mas não consegui entender a finalidade -> https://www.youtube.com/watch?v=7HQ-x9aoZx8
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() throws Exception {
+		return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "webjars/**");
 	}
 }

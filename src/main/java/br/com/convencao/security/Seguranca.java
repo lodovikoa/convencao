@@ -183,6 +183,13 @@ public class Seguranca {
 				|| FacesUtil.getExternalContext().isUserInRole("guCftSecretarioRegiao");
 	}
 	
+	public boolean isSubMenuRelatorioMinistroAniversariantes() {
+		return FacesUtil.getExternalContext().isUserInRole("guCftAdministrador")
+				|| FacesUtil.getExternalContext().isUserInRole("guCftConsulta")
+				|| FacesUtil.getExternalContext().isUserInRole("guCftSecretarioConvencao")
+				|| FacesUtil.getExternalContext().isUserInRole("guCftSecretarioRegiao");
+	}
+	
 	// Menu Relatórios Financeiro
 	public boolean isMenuRelatorioFinanceiro() {
 		return FacesUtil.getExternalContext().isUserInRole("guCftAdministrador")
