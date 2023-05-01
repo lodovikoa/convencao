@@ -37,7 +37,12 @@ public class RelatorioFichaCadastralServlet extends HttpServlet {
 		String urlLogo = urlPrincipal.replace(urlServlet, "/javax.faces.resource/images/logo02.jpg.xhtml?ln=convencao");
 		
 		// Obter variável de ambiente para localizar onde encontra as fotos
-		String pathFoto = System.getenv("HOME") + "/.ministrofotos/fotos-ministro/";
+		String pathFoto = System.getenv("HOME");
+		if(pathFoto == null) {
+			pathFoto = System.getenv("HOMEPATH");
+		}
+	
+		pathFoto = pathFoto  + "/.ministrofotos/fotos-ministro/";
 	
 		Map<String, Object> parametros = new HashMap<>();
 		

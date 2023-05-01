@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subRetratoPageHeader" pageWidth="500" pageHeight="50" orientation="Landscape" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="86b2ee49-6ce4-48e3-a1bc-6fba39f5bf70">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="196"/>
@@ -13,7 +13,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Confrater00"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="confrater00"/>
 	<parameter name="sqConvencaoParam" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[1L]]></defaultValueExpression>
 	</parameter>
@@ -35,7 +35,7 @@ WHERE  confrater00.tb_con_convencao.con_sq_convencao =  $P{sqConvencaoParam}]]>
 			<textField>
 				<reportElement x="1" y="3" width="249" height="27" uuid="7044de06-aedf-4cb4-a8e3-0a135209b0f1"/>
 				<textElement>
-					<font size="22" isBold="true"/>
+					<font size="21" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dsReduzido}]]></textFieldExpression>
 			</textField>

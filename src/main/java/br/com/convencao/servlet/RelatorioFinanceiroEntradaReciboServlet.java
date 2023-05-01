@@ -90,6 +90,7 @@ public class RelatorioFinanceiroEntradaReciboServlet extends HttpServlet {
 			parametros.put("SUBREPORT_DIR", "/relatorios/");
 			parametros.put("nome-relatorio", nomeRelatorio.toString());
 			parametros.put("ds-parametros1", dsParametros1.toString());
+//			parametros.put(JRParameter.REPORT_LOCALE, new Locale("pt", "BR"));
 
 
 

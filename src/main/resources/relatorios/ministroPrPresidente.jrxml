@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ministroPrPresidente" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="bc000040-6ef2-4e88-9de9-fb7d9d04856d">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Confrater00"/>
 	<property name="net.sf.jasperreports.print.create.bookmarks" value="false"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="164"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="829"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="confrater00"/>
 	<parameter name="sqConvencao" class="java.lang.Long">
-		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[1L]]></defaultValueExpression>
 	</parameter>
 	<parameter name="urlLogo" class="java.lang.String">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
@@ -25,7 +25,7 @@
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String">
-		<defaultValueExpression><![CDATA["/home/lodoviko/JaspersoftWorkspace/confrateres/"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
 	<queryString language="SQL">
 		<![CDATA[SELECT rgn.rgn_ds_regiao  as dsRegiao
@@ -66,16 +66,17 @@ FROM tb_min_ministro min
 	<group name="porRegiao">
 		<groupExpression><![CDATA[$F{dsRegiao}]]></groupExpression>
 		<groupHeader>
-			<band height="13">
-				<textField>
-					<reportElement mode="Opaque" x="9" y="0" width="548" height="10" backcolor="#F5F5F5" uuid="de5a1d15-7c57-4772-8e47-af152df6dffc"/>
-					<textElement>
-						<font size="8" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA["Região: "
-+
-$F{dsRegiao}]]></textFieldExpression>
-				</textField>
+			<band height="20">
+				<frame>
+					<reportElement mode="Opaque" x="1" y="2" width="557" height="16" backcolor="#FAFAFA" uuid="ae603302-1eef-49ad-8ecc-2214276bd9fa"/>
+					<textField>
+						<reportElement x="0" y="2" width="250" height="14" uuid="ed39afb9-72e2-4d7d-92df-dc83d7ccf641"/>
+						<textElement>
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Região: " + $F{dsRegiao}]]></textFieldExpression>
+					</textField>
+				</frame>
 			</band>
 		</groupHeader>
 	</group>
@@ -96,13 +97,15 @@ $F{dsRegiao}]]></textFieldExpression>
 					<textField>
 						<reportElement x="0" y="1" width="190" height="12" uuid="6ef92292-3721-421b-afbf-586b1f41444e"/>
 						<textElement verticalAlignment="Middle">
-							<font size="10" isBold="true"/>
+							<font size="9" isBold="true"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$P{param_situacao}]]></textFieldExpression>
 					</textField>
 					<textField>
 						<reportElement x="190" y="1" width="281" height="12" uuid="1afe9506-68d8-4a20-a635-6fba1a3bda28"/>
-						<textElement textAlignment="Right" verticalAlignment="Middle"/>
+						<textElement textAlignment="Right" verticalAlignment="Middle">
+							<font size="9"/>
+						</textElement>
 						<textFieldExpression><![CDATA[$P{param_regiao}]]></textFieldExpression>
 					</textField>
 				</frame>
@@ -127,9 +130,7 @@ $F{dsRegiao}]]></textFieldExpression>
 					<subreportParameterExpression><![CDATA[$P{sqConvencao}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}
-+
-"subRetratoPageHeader.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subRetratoPageHeader.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</pageHeader>
@@ -213,9 +214,7 @@ $F{dsRegiao}]]></textFieldExpression>
 						<subreportParameterExpression><![CDATA[$P{sqConvencao}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression><![CDATA[$P{SUBREPORT_DIR}
-+
-"subRetratoPageFooter.jasper"]]></subreportExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subRetratoPageFooter.jasper"]]></subreportExpression>
 				</subreport>
 				<textField>
 					<reportElement x="450" y="0" width="66" height="14" uuid="8097c6b9-a173-41dd-b150-0da6d225b2a3"/>

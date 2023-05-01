@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="financeiroEntradaFormaPagamento" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8daa2b73-6b42-4c6f-94fa-0d483a2471f1">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="209"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="783"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Confrater00"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="confrater00"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="825"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="161"/>
 	<parameter name="sqConvencao" class="java.lang.Long">
@@ -258,37 +258,54 @@
 				<reportElement x="6" y="2" width="60" height="12" uuid="98524712-a075-4863-984e-d1fc6820747b">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e3576b7d-3e13-4e12-bb0d-8e866632e673"/>
 				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{cdNsu}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="81" y="2" width="39" height="12" uuid="2542f22c-0d21-4cd9-9e4c-08e9b151d17d">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ab38d27f-9bb8-4e9f-961b-2cf81a89968c"/>
 				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{cdMinistro}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="129" y="2" width="170" height="12" uuid="eae55aed-9ec2-4aac-8bce-f2350fe1b0d5">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="283eb19a-2816-444a-bcda-650fa770de96"/>
 				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nmContribuinte}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="310" y="2" width="80" height="12" uuid="7e06005a-54f3-4a66-a191-d51b20e43a82">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="74a57d66-bf83-4388-ac21-af23774a7ced"/>
 				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{dtPagamento}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="397" y="2" width="74" height="12" uuid="ef9ad037-a5ba-4ac0-bcb0-ac40cbdc7a09">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2ac3f7b6-d8f9-4a91-8947-1364ce716f14"/>
 				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{dsFormaPagamento}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,###0.00;-###0.00">
+			<textField pattern="¤ #,##0.00;¤ -#,##0.00">
 				<reportElement x="475" y="2" width="80" height="12" uuid="0c09eddc-5e4a-45e2-9cd1-3af43dbf60d4">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="caec5942-152c-407b-b5d8-af73714bbc24"/>
 				</reportElement>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{vlContabil}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -335,35 +352,35 @@
 			<textField pattern="¤ #,##0.00;¤ -#,##0.00">
 				<reportElement x="132" y="8" width="164" height="12" uuid="6c43b540-34b6-4427-932d-4c74aa51323f"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{vlTotalDinheiro}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00;¤ -#,##0.00">
 				<reportElement x="133" y="25" width="163" height="12" uuid="b55bc131-7f3c-450b-89c1-5e26814b2d22"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{vlTotalCheque}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00;¤ -#,##0.00">
 				<reportElement x="133" y="39" width="163" height="12" uuid="fc7afbe4-9348-4c12-b40a-4bb4f3f47ff7"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{vlTotalCartao}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00;¤ -#,##0.00">
 				<reportElement x="132" y="56" width="164" height="12" uuid="6a524a70-2134-4114-8b53-3e75bd98aede"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{vlTotalBanco}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00;¤ -#,##0.00">
 				<reportElement x="132" y="72" width="164" height="12" uuid="c4956efe-eb4d-43ea-9289-5820a54ed53c"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{vlTotalBoleto}]]></textFieldExpression>
 			</textField>
@@ -380,35 +397,35 @@
 			<textField>
 				<reportElement x="306" y="8" width="100" height="12" uuid="6346cac8-cc2c-4c97-aa34-a3d1d8cf904b"/>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{stDinheiro}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="306" y="25" width="100" height="12" uuid="443be31e-d963-44e7-93a3-c112d7868257"/>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{stCheque}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="306" y="39" width="100" height="12" uuid="06986ebf-7c91-4856-84ec-b6f93bbef588"/>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{stCartao}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="306" y="56" width="100" height="12" uuid="32a66bf6-271f-4db1-89f0-19316d632056"/>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{stBanco}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="306" y="72" width="100" height="12" uuid="b18f4bef-de7a-4872-8007-1fe59841dc7c"/>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{stBoleto}]]></textFieldExpression>
 			</textField>

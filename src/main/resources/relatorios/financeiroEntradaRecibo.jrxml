@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="financeiroEntradaRecibo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ec707aec-8c3c-4069-b06d-cb8305d7b994">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Confrater00"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="193"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="800"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="confrater00"/>
 	<parameter name="sqConvencao" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[1L]]></defaultValueExpression>
 	</parameter>
@@ -104,7 +104,7 @@ order by if( $P{cdOrdem} = 1, rcb.rcb_cd_nsu, 0=0),
 			<textField>
 				<reportElement mode="Transparent" x="79" y="44" width="475" height="20" backcolor="#F0EDED" uuid="80110e27-8487-4a7a-80fa-0b43618627f4"/>
 				<textElement>
-					<font size="16" isBold="true"/>
+					<font size="14" isBold="true"/>
 					<paragraph leftIndent="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{nome-relatorio}]]></textFieldExpression>
@@ -211,35 +211,45 @@ order by if( $P{cdOrdem} = 1, rcb.rcb_cd_nsu, 0=0),
 				<reportElement x="0" y="4" width="40" height="12" uuid="e9ea914e-2eea-4fd2-bc80-ac8ff51b4cad">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e48ceeca-b8d8-47bd-b37f-bede1596724d"/>
 				</reportElement>
-				<textElement verticalAlignment="Middle"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{cdNsuRecibo}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="50" y="4" width="70" height="12" uuid="667e534b-a1fe-4e9b-8666-abbaa458bb4f">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e014f90e-bd5b-4ae5-a07f-a194402f8276"/>
 				</reportElement>
-				<textElement verticalAlignment="Middle"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{dtPagamento}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00;¤ -#,##0.00">
 				<reportElement x="127" y="4" width="76" height="12" uuid="58a22354-7e51-4dd6-bcfa-43e185120005">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2bc710b5-36f2-47b3-92cf-75bac59951f5"/>
 				</reportElement>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{vlPagamento}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="216" y="4" width="244" height="12" uuid="a5c76291-6221-4b31-a1cc-0308fb39cc7f">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ea819ad0-3292-4203-b79b-cbc452b166c9"/>
 				</reportElement>
-				<textElement verticalAlignment="Middle"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{dsContribuinte}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="468" y="4" width="92" height="12" uuid="821cbbd3-79b4-4227-a69e-b797b89fa673">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ee997e34-6ac0-41fd-8fea-b10468ea3d57"/>
 				</reportElement>
-				<textElement verticalAlignment="Middle"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{dsDepartamento}]]></textFieldExpression>
 			</textField>
 		</band>
