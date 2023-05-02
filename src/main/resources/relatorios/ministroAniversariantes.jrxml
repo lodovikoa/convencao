@@ -245,7 +245,7 @@
 				</box>
 			</frame>
 			<staticText>
-				<reportElement x="309" y="2" width="243" height="20" uuid="c0eab785-27ae-415a-903b-3766dd286528">
+				<reportElement x="320" y="2" width="232" height="20" uuid="c0eab785-27ae-415a-903b-3766dd286528">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="210f69b3-e396-4330-a9e0-2ccb31a83b43"/>
 				</reportElement>
 				<box>
@@ -260,7 +260,7 @@
 				<text><![CDATA[Telefones]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="47" y="2" width="25" height="20" uuid="72dfea2b-1b9c-45bd-827d-f6fa14ba04de">
+				<reportElement x="54" y="2" width="25" height="20" uuid="72dfea2b-1b9c-45bd-827d-f6fa14ba04de">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cf46a1c7-739e-46ed-88f1-132f6bab6c2f"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -277,7 +277,7 @@
 				<text><![CDATA[Rg.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="75" y="2" width="237" height="20" uuid="72cf9d14-e943-4558-83e0-1d5cdd552240">
+				<reportElement x="83" y="2" width="237" height="20" uuid="72cf9d14-e943-4558-83e0-1d5cdd552240">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b4864653-de72-49c6-b260-ba821f1bed47"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -295,7 +295,7 @@
 				<text><![CDATA[Nome]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="2" width="25" height="20" uuid="cef7e9b0-b11a-4a72-98e7-6175a3e9f5ae">
+				<reportElement x="0" y="2" width="28" height="20" uuid="cef7e9b0-b11a-4a72-98e7-6175a3e9f5ae">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="408fe317-7c17-4a79-a0e7-c96f905b159e"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -311,9 +311,9 @@
 				<text><![CDATA[Aniv.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="25" y="2" width="22" height="20" uuid="0474b798-a596-4b4c-a551-e4c4addca97e">
+				<reportElement x="28" y="2" width="25" height="20" uuid="0474b798-a596-4b4c-a551-e4c4addca97e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dc4b1834-49bc-4adc-847b-7bb26b50b5eb"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -331,7 +331,7 @@
 	<detail>
 		<band height="34" splitType="Stretch">
 			<textField>
-				<reportElement x="47" y="2" width="25" height="15" uuid="cdb776e6-4c83-4ffd-baff-1ba0556d85d6">
+				<reportElement x="54" y="2" width="25" height="15" uuid="cdb776e6-4c83-4ffd-baff-1ba0556d85d6">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cf46a1c7-739e-46ed-88f1-132f6bab6c2f"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -348,7 +348,7 @@
 				<textFieldExpression><![CDATA[$F{cdCodigo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="75" y="2" width="237" height="15" uuid="e020a5fc-6584-45fc-869c-f95094808f23">
+				<reportElement x="83" y="2" width="237" height="15" uuid="e020a5fc-6584-45fc-869c-f95094808f23">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b4864653-de72-49c6-b260-ba821f1bed47"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -364,7 +364,7 @@
 				<textFieldExpression><![CDATA[$F{dsTitulo} + " " + $F{nmNome}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="2" width="25" height="15" uuid="d6b3647d-0558-457f-96d9-843943281b6a">
+				<reportElement x="0" y="2" width="28" height="15" uuid="d6b3647d-0558-457f-96d9-843943281b6a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="408fe317-7c17-4a79-a0e7-c96f905b159e"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -381,10 +381,11 @@
 				<textFieldExpression><![CDATA[($V{diaAnivUmDigito}?"0":"") + $F{diaAniv}   + "/" + ($V{mesAnivUmDigito}?"0":"") + $F{mesAniv}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="25" y="2" width="22" height="15" uuid="f42178f7-4aa3-4327-b925-50c51ae8615d">
+				<reportElement x="28" y="2" width="25" height="15" uuid="f42178f7-4aa3-4327-b925-50c51ae8615d">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dc4b1834-49bc-4adc-847b-7bb26b50b5eb"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9"/>
@@ -392,7 +393,7 @@
 				<textFieldExpression><![CDATA[$F{idadeHoje}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="309" y="2" width="243" height="15" uuid="d00f193d-0f8d-4cce-a6ef-d1d42d18106e">
+				<reportElement x="320" y="2" width="232" height="15" uuid="d00f193d-0f8d-4cce-a6ef-d1d42d18106e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="210f69b3-e396-4330-a9e0-2ccb31a83b43"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -406,7 +407,7 @@
 ($V{tel3}?$F{dsTel3}:"")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="75" y="19" width="480" height="15" uuid="e42366a3-c735-42cc-a340-cfd70bc17152">
+				<reportElement x="83" y="19" width="469" height="15" uuid="e42366a3-c735-42cc-a340-cfd70bc17152">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6cea4e27-d294-4622-a796-958565f98ae9"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
