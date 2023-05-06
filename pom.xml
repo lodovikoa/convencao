@@ -218,10 +218,11 @@
 		<!-- 21/10/2021 - Atualizado de 5.3.4.RELEASE para 5.5.3 -->
 		<!-- 10/09/2022 - Atualizado de 5.5.3 para 5.7.3 -->
 		<!-- 16/01/2023 - Atualizado de 5.7.3 para 5.8.1 -->
+		<!-- 05/06/2023 - Atualizado de 5.8.1 para 5.8.3 -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-core</artifactId>
-		    <version>5.8.1</version>
+		    <version>5.8.3</version>
 		</dependency>
 				
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
@@ -232,10 +233,11 @@
 		<!-- 21/10/2021 - Atualizado de 5.3.4.RELEASE para 5.5.3 -->
 		<!-- 10/09/2022 - Atualizado de 5.5.3 para 5.7.3 -->
 		<!-- 16/01/2023 - Atualizado de 5.7.3 para 5.8.1 -->
+		<!-- 05/06/2023 - Atualizado de 5.8.1 para 5.8.3 -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-web</artifactId>
-		    <version>5.8.1</version>
+		    <version>5.8.3</version>
 		</dependency>
 				
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
@@ -245,10 +247,11 @@
 		<!-- 22/08/2020 - Atualizado de 5.1.5.RELEASE para 5.3.4.RELEASE -->
 		<!-- 22/08/2020 - Atualizado de 5.3.4.RELEASE para 5.4.9 -->
 		<!-- 16/01/2023 - Atualizado de 5.4.9 para 5.8.1 -->
+		<!-- 05/06/2023 - Atualizado de 5.8.1 para 5.8.3 -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-config</artifactId>
-		    <version>5.8.1</version>
+		    <version>5.8.3</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
