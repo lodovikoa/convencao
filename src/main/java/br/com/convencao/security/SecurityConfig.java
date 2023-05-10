@@ -81,8 +81,7 @@ public class SecurityConfig {
 				"/pages/configuracao/TipoLancamentoCadastro.xhtml",
 				"/pages/financeiro/entrada/LancamentoEntradaCreateEmLote.xhtml",
 				"/pages/financeiro/entrada/LancamentoEntradaDeleteEmLote.xhtml",
-				"/pages/financeiro/entrada/LancamentoEntradaRecebimentoCancelar.xhtml",
-				"/pages/cadastro/MinistroCandidatoCadastro.xhtml")
+				"/pages/financeiro/entrada/LancamentoEntradaRecebimentoCancelar.xhtml")
 				.hasAnyRole("guCftAdministrador")
 
 		.requestMatchers("/pages/configuracao/CargoPesquisa.xhtml",
