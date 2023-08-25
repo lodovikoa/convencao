@@ -83,6 +83,11 @@ function relatorioMinistroAniversariantes(nmRelatorio, tpRelatorio, nnMesInicio,
 	url = nmRelatorio + "?tpRelatorio=" + tpRelatorio + "&nnMesInicio=" + nnMesInicio + "&dsMesInicio=" + dsMesInicio + "&nnMesFim=" + nnMesFim + "&dsMesFim=" + dsMesFim;
 	abrirRelatorio(url);
 }
+
+function relatorioMinistroPorIgreja(nmRelatorio, tpRelatorio, sqRegiao, sqIgreja, sqMinistro) {
+	url = nmRelatorio + "?tpRelatorio=" + tpRelatorio + "&sqRegiao=" + sqRegiao + "&sqIgreja=" + sqIgreja + "&sqMinistro=" + sqMinistro;
+	abrirRelatorio(url);
+}
          
 function relatorioFinanceiroRecibo(nmRelatorio, tpRelatorio, sqRecibo, tpRecibo) {
 	url = nmRelatorio + "?tpRelatorio=" + tpRelatorio + "&sqRecibo=" + sqRecibo + "&tpRecibo=" + tpRecibo;

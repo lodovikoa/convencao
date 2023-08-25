@@ -177,13 +177,13 @@ FROM tb_min_ministro min
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{dsCep}.substring( 00, 05 )
-+ "-"
-+ $F{dsCep}.substring( 05 )
-+ " - "
-+ $F{dsCidade}
-+ " - "
-+ $F{dsUf}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{dsCep}.isEmpty()? "0000": $F{dsCep}.substring( 00, 05 ))
++ "-" + 
+($F{dsCep}.isEmpty()? "00": $F{dsCep}.substring( 05 ))
++" - " + 
+($F{dsCidade}.isEmpty()? "": $F{dsCidade}  + " - " ) 
++
+($F{dsUf}.isEmpty()? "": $F{dsUf})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="30" y="50" width="528" height="12" uuid="da32e044-9824-402b-a009-c19aa8c522f3"/>

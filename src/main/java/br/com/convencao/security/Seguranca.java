@@ -172,6 +172,13 @@ public class Seguranca {
 				|| FacesUtil.getExternalContext().isUserInRole("guCftSecretarioRegiao");
 	}
 	
+	public boolean isSubMenuRelatorioMinistroPorIgreja() {
+		return FacesUtil.getExternalContext().isUserInRole("guCftAdministrador")
+				|| FacesUtil.getExternalContext().isUserInRole("guCftConsulta")
+				|| FacesUtil.getExternalContext().isUserInRole("guCftSecretarioConvencao")
+				|| FacesUtil.getExternalContext().isUserInRole("guCftSecretarioRegiao");
+	}
+	
 	public boolean isSubMenuRelatorioMinistroPrPresidente() {
 		return FacesUtil.getExternalContext().isUserInRole("guCftAdministrador")
 				|| FacesUtil.getExternalContext().isUserInRole("guCftConsulta")

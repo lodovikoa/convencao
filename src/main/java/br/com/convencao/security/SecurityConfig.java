@@ -58,6 +58,7 @@ public class SecurityConfig {
 				"/relatorioMinistroGeral",
 				"/relatorioMinistroPrPresidente",
 				"/relatorioMinistroAniversariantes",
+				"/relatorioMinistroPorIgreja",
 				"/relatorioFinanceiroRecibo",
 				"/relatorioFinanceiroResumo",
 				"/relatorioFinanceiroEntradaPeriodo",
@@ -141,6 +142,7 @@ public class SecurityConfig {
 				.hasAnyRole("guCftAdministrador", "guCftConsulta", "guCftFinanceiroLocal", "guCftFinanceiroRegiao")
 
 		.requestMatchers("/pages/relatorio/MinistroRelatorioGeral.xhtml",
+				"/pages/relatorio/MinistroRelatorioPorIgreja.xhtml",
 				"/pages/relatorio/MinistroRelatorioPrPresidente.xhtml",
 				"/pages/relatorio/MinistroRelatorioAniversariantes.xhtml")
 				.hasAnyRole("guCftAdministrador", "guCftConsulta", "guCftFinanceiroLocal", "guCftFinanceiroRegiao", "guCftSecretarioConvencao", "guCftSecretarioRegiao")
