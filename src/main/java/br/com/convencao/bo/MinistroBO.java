@@ -57,6 +57,13 @@ public class MinistroBO extends GenericoBO {
 		log.info("find(" + sq + ")");
 		return dao.find(Ministro.class, sq);
 	}
+	
+	// Buscar Ministro Ativo pela PrimaryKey
+	public Ministro findPrimaryKeyAtivo(Long sqMinistro) {
+		log.info("findPrimaryKeyAtivo(" + sqMinistro + ")" );
+		return dao.findByPrimaryKeyAtivo(sqMinistro);
+	}
+	
 
 	// Buscar todos os ministros de todos os departamentos de uma igreja
 	public List<Ministro> findMinistrosByIgreja(Long sqIgreja){
@@ -479,5 +486,4 @@ public class MinistroBO extends GenericoBO {
 			throw new NegocioException("Problemas ao tentar remover anexo (" + ministroAnexo.getDsAnexoOriginal() + "): " + e.getMessage());
 		}
 	}
-
 }

@@ -15,6 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 
+import br.com.convencao.bo.IgrejaBO;
+import br.com.convencao.bo.RegiaoBO;
+import br.com.convencao.model.Igreja;
+import br.com.convencao.model.Regiao;
 import br.com.convencao.util.report.ExecutorRelatorio;
 
 @WebServlet("/relatorioMinistroPorIgreja")
@@ -24,6 +28,15 @@ public class RelatorioMinistroPorIgrejaServlet extends HttpServlet {
 	
 	@Inject
 	private EntityManager manager;
+	
+	@Inject
+	private RegiaoBO regiaoBO;
+	
+	@Inject
+	private IgrejaBO igrejaBO;
+	
+	private Igreja igreja;
+	private Regiao regiao;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -41,21 +54,49 @@ public class RelatorioMinistroPorIgrejaServlet extends HttpServlet {
 		String param_sqRegiao = request.getParameter("sqRegiao");
 		String param_sqIgreja = request.getParameter("sqIgreja");
 		String param_sqMinistro = request.getParameter("sqMinistro");
-		String param_relatorio = ""; 
+		
+		 
 		
 		Long sqConvencao = 1L;
 		Long sqRegiao = StringUtils.isNotBlank(param_sqRegiao)? Long.parseLong(param_sqRegiao):  0L;
+		Long sqIgreja = StringUtils.isNotBlank(param_sqIgreja)? Long.parseLong(param_sqIgreja):  0L;
 		Long sqMinistro = StringUtils.isNotBlank(param_sqMinistro)? Long.parseLong(param_sqMinistro):  0L;
 		
 		StringBuilder sqlComplemento1 = new StringBuilder();
-		sqlComplemento1.append("");
+		StringBuilder param_relatorio = new StringBuilder();
+		
+		param_relatorio.append("Parametros: ");
+		if(sqRegiao > 0) {
+			this.regiao = this.regiaoBO.findByPrimaryKey(sqRegiao);
+			sqConvencao = this.regiao.getConvencao().getSqConvencao();
+			
+			sqlComplemento1.append(" and igr.rgn_sq_regiao = " + sqRegiao);
+			param_relatorio.append(" Região:  " + this.regiao.getDsRegiao());
+		} else {
+			param_relatorio.append(" Região: Todas ");
+		}
+		
+		if(sqIgreja > 0) {
+			this.igreja = igrejaBO.findByPrimaryKey(sqIgreja);
+			sqlComplemento1.append(" and igr.igr_sq_igreja =  " + sqIgreja);
+			param_relatorio.append(" - Igreja: " + igreja.getDsIgreja());
+		} 
+		
+		if(sqMinistro > 0) {
+			sqlComplemento1.append(" and presidente.sqPres = " + sqMinistro);
+			if(sqIgreja <= 0) {
+				igreja = igrejaBO.findByPorAtributo("ministro.sqMinistro"  , sqMinistro);
+				param_relatorio.append(" - Igreja: " + igreja.getDsIgreja());
+			}	
+		} else if(sqIgreja <= 0){
+			param_relatorio.append(" - Igreja: Todas");
+		}
 		
 		Map<String, Object> parametros = new HashMap<>();
-		
 		parametros.put("urlLogo", urlLogo);
 		parametros.put("sqConvencao", sqConvencao);
 		parametros.put("param_sqlComplemento1", sqlComplemento1.toString());
-		parametros.put("param_relatorio", param_relatorio);
+		parametros.put("param_relatorio", param_relatorio.toString());
 		parametros.put("SUBREPORT_DIR", "/relatorios/");
 		
 		ExecutorRelatorio executor = new ExecutorRelatorio("/relatorios/ministroPorIgreja.jasper", response, request, parametros, "ministroPorIgreja", request.getParameter("tpRelatorio"));

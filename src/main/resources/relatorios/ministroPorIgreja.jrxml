@@ -135,7 +135,7 @@
 				<frame>
 					<reportElement mode="Opaque" x="82" y="51" width="466" height="22" backcolor="#F2F0F0" uuid="23a084e1-3c50-4dd7-a4bf-a67358ecd9b8"/>
 					<textField>
-						<reportElement x="2" y="5" width="100" height="15" uuid="fea90181-07bc-45c6-93c1-ab123d93215d"/>
+						<reportElement x="2" y="5" width="464" height="15" uuid="fea90181-07bc-45c6-93c1-ab123d93215d"/>
 						<textFieldExpression><![CDATA[$P{param_relatorio}]]></textFieldExpression>
 					</textField>
 				</frame>

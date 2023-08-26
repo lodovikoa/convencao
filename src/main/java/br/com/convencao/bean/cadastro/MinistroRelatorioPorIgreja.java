@@ -78,7 +78,7 @@ public class MinistroRelatorioPorIgreja extends MinistroCodbehind {
 		if(this.sqMinistroIgreja != null) {
 			this.presidentes = new ArrayList<>();
 			if(this.sqMinistroIgreja != -10) {
-				this.presidente = this.ministroBO.find(this.sqMinistroIgreja);
+				this.presidente = this.ministroBO.findPrimaryKeyAtivo(this.sqMinistroIgreja);
 				if(this.presidente != null)
 					this.presidentes.add(presidente);
 			}

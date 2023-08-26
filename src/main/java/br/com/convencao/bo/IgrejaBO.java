@@ -152,5 +152,10 @@ public class IgrejaBO extends GenericoBO{
 		
 		return dao.findAllPorRegiaoLiberadasUsuario(sqRegioesPermissoes);
 	}
-
+	
+	// Buscar Igreja por um atributo do tipo Long
+	public Igreja findByPorAtributo(String dsAtributo, Long sqMinistro) {
+		Igreja igreja = dao.findByPorAtributo(Igreja.class, dsAtributo, sqMinistro);
+		return igreja;
+	}
 }

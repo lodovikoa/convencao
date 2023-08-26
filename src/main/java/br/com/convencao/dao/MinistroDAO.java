@@ -55,12 +55,25 @@ public class MinistroDAO extends GenericoDAO<Ministro> {
 		}
 	}
 
+	public Ministro findByPrimaryKeyAtivo(Long sqMinistro) {
+		try {
+			
+			Ministro result = manager.createQuery("select m from Ministro m where m.dtExcluido is null and m.sqMinistro = :sqMinistro", Ministro.class)
+					.setParameter("sqMinistro", sqMinistro)
+					.getSingleResult();
+			
+			return result;
+		}catch(NoResultException e){
+			return null;
+		}
+		
+	}
 
 	// Buscar ministros presidentes de igrejas de uma região
 	public List<Ministro> findPresidenteByRegiao(Long sqRegiao){
 		try{
 
-			List<Ministro> result = manager.createQuery("select  m from Ministro m, Igreja i where m.sqMinistro = i.ministro.sqMinistro and i.regiao.sqRegiao = :sqRegiao  order by m.nmNome", Ministro.class)
+			List<Ministro> result = manager.createQuery("select  m from Ministro m, Igreja i where m.sqMinistro = i.ministro.sqMinistro and m.dtExcluido is null and i.regiao.sqRegiao = :sqRegiao  order by m.nmNome", Ministro.class)
 					.setParameter("sqRegiao", sqRegiao)
 					.getResultList();
 
@@ -76,7 +89,7 @@ public class MinistroDAO extends GenericoDAO<Ministro> {
 	public List<Ministro> findPresidentes(){
 		try{
 
-			List<Ministro> result = manager.createQuery("select  m from Ministro m, Igreja i where m.sqMinistro = i.ministro.sqMinistro order by m.nmNome", Ministro.class)
+			List<Ministro> result = manager.createQuery("select  m from Ministro m, Igreja i where m.sqMinistro = i.ministro.sqMinistro and m.dtExcluido is null  order by m.nmNome", Ministro.class)
 					.getResultList();
 
 			return result;
@@ -663,4 +676,5 @@ public class MinistroDAO extends GenericoDAO<Ministro> {
 		}
 		
 	}
+
 }
