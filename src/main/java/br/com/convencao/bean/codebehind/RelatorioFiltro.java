@@ -38,6 +38,7 @@ public class RelatorioFiltro implements Serializable {
 	private LocalDate dtInicio;
 	private LocalDate dtFim;
 	private String tpRelatorio = "pdf";
+	private boolean flConsiderarAnuidadeCorrente;
 	
 	public RegiaoItens getRegiaoItensFiltro() {
 		return regiaoItensFiltro;
@@ -117,6 +118,14 @@ public class RelatorioFiltro implements Serializable {
 	
 	public void setFlBuscarAjax(boolean flBuscarAjax) {
 		this.flBuscarAjax = flBuscarAjax;
+	}
+	
+	public boolean isFlConsiderarAnuidadeCorrente() {
+		return flConsiderarAnuidadeCorrente;
+	}
+
+	public void setFlConsiderarAnuidadeCorrente(boolean flConsiderarAnuidadeCorrente) {
+		this.flConsiderarAnuidadeCorrente = flConsiderarAnuidadeCorrente;
 	}
 
 	public int getCdOrdem() {

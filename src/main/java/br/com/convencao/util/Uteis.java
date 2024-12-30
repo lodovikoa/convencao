@@ -248,12 +248,15 @@ public class Uteis {
 	}
 
 	// Converter LocalDate em uma data por extenso: Sexta, 02 de Fevereiro de 2018
-	public static String dataExtenso(LocalDate data) {	
+	public static String dataExtenso(LocalDate data, Boolean diaSemana) {	
 		StringBuilder dt = new StringBuilder();
 
-		dt.append(data.getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("pt","BR")))
-		.append(", ")
-		.append(data.getDayOfMonth())
+		if(diaSemana) {
+			dt.append(data.getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("pt","BR")))
+			.append(", ");
+		}
+		
+		dt.append(data.getDayOfMonth())
 		.append(" de ")
 		.append(data.getMonth().getDisplayName(TextStyle.FULL, new Locale("pt","BR")))
 		.append(" de ")

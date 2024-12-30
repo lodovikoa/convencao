@@ -195,7 +195,7 @@
 	
 		<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
 		<!-- 30/12/2019 - Atualizado versão de 6.4.1 para 6.11.0 - Motivo: jacson-core com versão superior à 2.6.7 para atender aws-java-sdk-s3 -->
-		<!-- 28/04/2023 - Atualizado versão 6.11.0 para 6.20.1 em 28/04/2023 -->
+		<!-- 28/04/2023 - Atualizado versão 6.11.0 para 6.20.1 -->
 		<dependency>
 		    <groupId>net.sf.jasperreports</groupId>
 		    <artifactId>jasperreports</artifactId>
@@ -203,7 +203,7 @@
 		</dependency>
 	
 		<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-fonts -->
-		<!-- Atualizado versão 6.0.0 para 6.20.1 em 28/04/2023 -->
+		<!-- 28/04/2023 - Atualizado versão 6.0.0 para 6.20.1 -->
 		<dependency>
 		    <groupId>net.sf.jasperreports</groupId>
 		    <artifactId>jasperreports-fonts</artifactId>

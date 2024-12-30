@@ -129,6 +129,12 @@ function relatorioFinanceiroEntradaFormaRecebimento(nmRelatorio,tpRelatorio, sqD
 	abrirRelatorio(url);
 }
 
+//Relatorio de Cartas de Cobranca
+function relatorioFinanceiroCartaCobranca(nmRelatorio, sqRegiao, sqIgreja, flConsiderarAnuidadeCorrente, nmTesoureiro, cargoTesoureiro) {
+	url = nmRelatorio + "?sqRegiao=" + sqRegiao + "&sqIgreja=" + sqIgreja + "&flConsiderarAnuidadeCorrente=" + flConsiderarAnuidadeCorrente + "&nmTesoureiro=" + nmTesoureiro + "&cargoTesoureiro=" + cargoTesoureiro;
+	abrirRelatorio(url);
+}
+
 //Relatorio Saidas
 function relatorioFinanceiroSaidaPeriodo(nmRelatorio, tpRelatorio, sqRegiao, dsRegiao, sqResumo, dsPeriodo, dsDtFechado, sqPlanoConta, dsConta, cdOrdem) {
 	url = nmRelatorio + "?tpRelatorio=" + tpRelatorio + "&sqRegiao=" + sqRegiao + "&dsRegiao=" + dsRegiao + "&sqResumo=" + sqResumo + "&dsPeriodo=" + dsPeriodo + "&dsDtFechado=" + dsDtFechado + "&sqPlanoConta=" + sqPlanoConta + "&dsConta=" + dsConta + "&cdOrdem=" + cdOrdem;

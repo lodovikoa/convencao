@@ -116,7 +116,7 @@ public class RelatorioFinanceiroReciboServlet extends HttpServlet {
 		parametros.put("sqReciboFormaPagamento", Long.parseLong(param_sqRecibo));
 		parametros.put("nsu-recibo", nsuRecibo.toString());
 		parametros.put("vlr-recibo", vlrRecibo.toString());
-		parametros.put("data-recibo", Uteis.dataExtenso(reciboCpl.getDtRecibo()));
+		parametros.put("data-recibo", Uteis.dataExtenso(reciboCpl.getDtRecibo(), true));
 		parametros.put("SUBREPORT_DIR", "/relatorios/");
 
 		ExecutorRelatorio executor = new ExecutorRelatorio("/relatorios/financeiroRecibo.jasper", response, request, parametros, "financeiroRecibo", request.getParameter("tpRelatorio"));

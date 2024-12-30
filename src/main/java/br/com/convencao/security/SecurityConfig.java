@@ -67,6 +67,7 @@ public class SecurityConfig {
 				"/relatorioFinanceiroEntradaFormaRecebimento",
 				"/relatorioFinanceiroEntradaPendente",
 				"/relatorioFinanceiroSaidaPeriodo",
+				"/relatorioFinanceiroCartaCobranca",
 				"/subRetratoPageFooter",
 				"/subRetratoPageHeader")
 				.hasAnyRole("guCftAdministrador", "guCftConsulta", "guCftFinanceiroLocal", "guCftFinanceiroRegiao", "guCftSecretarioConvencao", "guCftSecretarioRegiao")
@@ -138,6 +139,7 @@ public class SecurityConfig {
 				"/pages/relatorio/RptFinanceiroLancamentosSaidaPeriodo.xhtml",
 				"/pages/relatorio/RptFinanceiroResumo.xhtml",
 				"/pages/relatorio/RptFinanceiroLancamentosEntradaFormaRecebimento.xhtml",
+				"/pages/relatorio/RptFinanceiroCartaCobranca.xhtml",
 				"/pages/financeiro/autoRegistro/AgoReciboList.xhtml")
 				.hasAnyRole("guCftAdministrador", "guCftConsulta", "guCftFinanceiroLocal", "guCftFinanceiroRegiao")
 

@@ -236,6 +236,12 @@ public class Seguranca {
 				|| FacesUtil.getExternalContext().isUserInRole("guCftFinanceiroRegiao");
 	}
 	
+	public boolean isSubMenuRelatorioCartaCobranca() {
+		return FacesUtil.getExternalContext().isUserInRole("guCftAdministrador")
+				|| FacesUtil.getExternalContext().isUserInRole("guCftConsulta")
+				|| FacesUtil.getExternalContext().isUserInRole("guCftFinanceiroRegiao");
+	}
+	
 	public boolean isSubMenuRelatorioFinanceiroLancamentosSaidaPeriodo() {
 		return FacesUtil.getExternalContext().isUserInRole("guCftAdministrador")
 				|| FacesUtil.getExternalContext().isUserInRole("guCftConsulta")
